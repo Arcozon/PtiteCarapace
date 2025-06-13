@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"arcoms.h": "c",
+		"exec_btree.h": "c",
+		"types.h": "c",
+		"compare": "cpp"
+	}
+}

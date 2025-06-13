@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:20:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/12 15:59:14 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:09:33 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ struct s_redir
 struct s_heredoc
 {
 	char	*delim;
-	t_hdoc	next;
+	t_hdoc	*next;
 };
 
 
@@ -58,28 +58,17 @@ struct s_cmd
 	char		*path_cmd;
 	char		*argv_cmd;
 
-	int			fd_0;
-	int			fd_1;
+	int			fd_int;
+	int			fd_out;
 
-	t_redir		*redirs;
 	t_hdoc		*heredoc;
+	t_redir		*redirs;
 
 
-	int			in_fd;
+	int			in_pipe;
 	int			out_pipe;
 
 	pid_t		pid;
-};
-
-struct s_ppline
-{
-	t_cmd	*cmds;
-	size_t	nb_cmds;
-
-	int		pipe[2];
-	int		last_pipe;
-
-	uint8_t	exit_value;
 };
 
 #endif

@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arcoms.h                                           :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:41:14 by gaeudes          ###   ########.fr       */
+/*   Created: 2025/06/13 14:59:47 by gaeudes           #+#    #+#             */
+/*   Updated: 2025/06/13 17:40:00 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARCOMS_H
-# define ARCOMS_H
+#ifndef ENV_H
+# define ENV_H
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# include "utils.h"
 # include "types.h"
-# include "errors.h"
 
-# include "env.h"
+# define BASE_ENV_SIZE	512
 
-# include "exec_cmds.h"
-# include "exec_btree.h"
+struct s_env
+{
+	char **env;
 
-# define PIPE_READ	0
-# define PIPE_WRITE	1
+	uint64_t	last_mty;
+	uint64_t	ttsize;
+};
 
-int	bi_env(int ac, char **av, t_env *env, int fds[2], const char *pname);
-int	bi_export(int ac, char **av, t_env *env, int fds[2], char *pname);
+uint64_t	init_env(t_env *env, char *envp[]);
+uint64_t	add_var_env(t_env *env, char *to_add);
+void		remove_var_env(t_env *env, size_t to_remove);
 
 #endif

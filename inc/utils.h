@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arcoms.h                                           :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:41:14 by gaeudes          ###   ########.fr       */
+/*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
+/*   Updated: 2025/06/13 17:43:01 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARCOMS_H
-# define ARCOMS_H
+#ifndef UTILS_H
+# define UTILS_H
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# include "utils.h"
 # include "types.h"
-# include "errors.h"
 
-# include "env.h"
-
-# include "exec_cmds.h"
-# include "exec_btree.h"
-
-# define PIPE_READ	0
-# define PIPE_WRITE	1
-
-int	bi_env(int ac, char **av, t_env *env, int fds[2], const char *pname);
-int	bi_export(int ac, char **av, t_env *env, int fds[2], char *pname);
+void		*ft_calloc(size_t size);
+void		*ft_memcpy(void *dst, const void *src, int64_t len);
+uint64_t	ft_strlen(const char *str);
+char		*ft_strdup(const char *str);
+inline void	ft_bzero(char *ptr, size_t size);
+int			ft_strncmp_weq(char *name, char *env_var, size_t n);
+int			ft_isdigit(char c);
+int			ft_isalpha(char c);
 
 #endif

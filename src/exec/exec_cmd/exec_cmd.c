@@ -1,52 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_btree.h                                       :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:36:24 by gaeudes          ###   ########.fr       */
+/*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
+/*   Updated: 2025/06/13 17:37:10 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_BTREE_H
-# define EXEC_BTREE_H
+#include "arcoms.h"
 
-# include "types.h"
+// void	exec(t_exec *exec)
+// {
+	
+// }
 
-struct s_opp_node
-{
-	enum
-	{
-		AND,
-		OR
-	}			opp;
-
-	t_ppline	*left;
-	t_ppline	*right;
-
-	int			in_pipe;
-	int			out_pipe;
-};
-
-struct s_ppline
-{
-	t_opp_node	*opp;
-	t_cmd		*cmd;
-
-	t_ppline	*next;
-	size_t		len;
-};
-
-struct s_exec
-{
-	t_cmd		*simple_cmd;
-	t_ppline	*pipe_line;
-
-	// t_env	env;
-	size_t	errors;
-};
-
-
-#endif
+// int	main(int ac, char *av[], char *env[])
+// {
+// 	t_exec	exec;
+	
+// 	return (0);
+// }

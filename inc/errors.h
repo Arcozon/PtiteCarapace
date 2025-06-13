@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arcoms.h                                           :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:41:14 by gaeudes          ###   ########.fr       */
+/*   Created: 2025/06/13 15:12:25 by gaeudes           #+#    #+#             */
+/*   Updated: 2025/06/13 15:58:45 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARCOMS_H
-# define ARCOMS_H
+#ifndef ERRORS_H
+# define ERRORS_H
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# include "utils.h"
-# include "types.h"
-# include "errors.h"
-
-# include "env.h"
-
-# include "exec_cmds.h"
-# include "exec_btree.h"
-
-# define PIPE_READ	0
-# define PIPE_WRITE	1
-
-int	bi_env(int ac, char **av, t_env *env, int fds[2], const char *pname);
-int	bi_export(int ac, char **av, t_env *env, int fds[2], char *pname);
+# define NO_ERR		0b0
+# define E_MLC		0b1
+# define E_OPEN		0b10
+# define E_READ		0b100
+# define E_WRITE	0b1000
+# define E_FORK		0b10000
+# define E_PIPE		0b100000
+# define E_DUP		0b1000000
 
 #endif
