@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:20:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 11:09:33 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 17:48:21 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ struct s_exe_heredoc
 
 struct s_cmd
 {
-	int			(*builtin)(int, char *[], char *[]);
+	int			(*builtin)(int, char *[], char *[]); //proply ll change
 	char		*path_cmd;
 	char		*argv_cmd;
 
@@ -69,6 +69,8 @@ struct s_cmd
 	int			out_pipe;
 
 	pid_t		pid;
+
+	//lexer;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:36:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 19:41:33 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,63 @@
 
 # include "types.h"
 
-struct s_opp_node
+struct s_exec
+{
+	t_base	*base;
+
+	int		pipes[2];
+	int		next_fd_in;
+
+	char	**env;
+
+	uint64_t	errors;
+};
+
+
+
+struct s_base
 {
 	enum
 	{
+		SCOL,
 		AND,
-		OR
-	}			opp;
+		OR,
+		PPL,
+		CMD,
+		SUB
+	}	e_type;
+	
+	t_base	*left;
+	t_base	*right;
 
-	t_ppline	*left;
-	t_ppline	*right;
+	t_cmd	*cmd;
 
-	int			in_pipe;
-	int			out_pipe;
+	int		fd_in;
+	int		fd_out;
+
+	uint8_t	subshell:1;
 };
 
-struct s_ppline
-{
-	t_opp_node	*opp;
-	t_cmd		*cmd;
+// 	Syntaxe:
+//		semi[S](left, right);
+// 		and[S](left, right);
+// 		or[S](left, right);
+// 		ppl[S](cmd, next);
 
-	t_ppline	*next;
-	size_t		len;
-};
+// a --> ppl(a, 0)
 
-struct s_exec
-{
-	t_cmd		*simple_cmd;
-	t_ppline	*pipe_line;
+// a | b --> pplS(a, pplS(b, 0))
 
-	// t_env	env;
-	size_t	errors;
-};
+// a && b	--> and(a, b)
 
+// (a && b) --> andS(a, b)
+
+// (a && b) | c && d --> and( pplS( andS(a, b), pplS(c, 0) ), d)
+
+// a && b || c  -->  or( and(ppl(a, 0), ppl(b, 0)), ppl(c, 0) )
+
+// (a) && b  -->  and(pplS(a, 0), b)
+
+// a | (b ; c) --> pplS(a, )
 
 #endif

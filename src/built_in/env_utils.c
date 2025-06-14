@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 11:02:04 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 17:27:00 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,33 @@
 
 uint64_t	realloc_env(t_env *env)
 {
-	char **new_env;
+	char	**new_env;
 
 	new_env = ft_calloc(sizeof(char *) * (env->ttsize * 2 + 1));
 	if (!new_env)
 		return (E_MLC);
-	ft_memcpy(new_env, env->env, env->ttsize);
-	free(env->env);
-	env->env = new_env;
+	ft_memcpy(new_env, env->tab, env->ttsize);
+	free(env->tab);
+	env->tab = new_env;
 	env->ttsize *= 2;
-	return (NO_ERR); 
+	return (NO_ERR);
 }
 
 void	remove_var_env(t_env *env, size_t to_remove)
 {
 	if (to_remove >= env->last_mty)
 		return ;
-	free(env->env[to_remove]);
+	free(env->tab[to_remove]);
 	if (env->last_mty)
-		env->env[to_remove] = env->env[env->last_mty - 1];
-	env->env[env->last_mty] = 0;
+		env->tab[to_remove] = env->tab[env->last_mty - 1];
+	env->tab[env->last_mty - 1] = 0;
 	--env->last_mty;
 }
 
 static inline char	__attribute__((always_inline))	*dup_var(char *var)
 {
 	uint64_t	i;
-	char 		*new;
+	char		*new;
 
 	i = 0;
 	while (var[i])
@@ -58,15 +58,30 @@ static inline char	__attribute__((always_inline))	*dup_var(char *var)
 
 uint64_t	add_var_env(t_env *env, char *to_add)
 {
+	uint64_t	i;
+	uint64_t	len_var;
+
 	if (env->last_mty >= env->ttsize && realloc_env(env))
 		return (E_MLC);
-	//cjeck dup
 	to_add = dup_var(to_add);
 	if (!to_add)
 		return (E_MLC);
-	DEBUG("%s", to_add)
-	env->env[env->last_mty] = to_add;
-	++env->last_mty;
+	len_var = 0;
+	while (to_add[len_var] != '=')
+		++len_var;
+	i = 0;
+	while (env->tab[i] && ft_strncmp_weq(to_add, env->tab[i], len_var))
+		++i;
+	if (i != env->last_mty)
+	{
+		free(env->tab[i]);
+		env->tab[i] = to_add;
+	}
+	else
+	{
+		env->tab[env->last_mty] = to_add;
+		++env->last_mty;
+	}
 	return (NO_ERR);
 }
 
@@ -74,8 +89,8 @@ uint64_t	init_env(t_env *env, char *envp[])
 {
 	env->last_mty = 0;
 	env->ttsize = BASE_ENV_SIZE;
-	env->env = ft_calloc(sizeof(char *) * (BASE_ENV_SIZE + 1));
-	if (!env->env)
+	env->tab = ft_calloc(sizeof(char *) * (BASE_ENV_SIZE + 1));
+	if (!env->tab)
 		return (E_MLC);
 	while (*envp)
 	{
@@ -91,9 +106,9 @@ void	free_env(t_env *env)
 	uint64_t	i;
 
 	i = 0;
-	if (env->env)
-		while (env->env[i])
-			free(env->env[i++]);
-	free(env->env);
-	env->env = 0;
+	if (env->tab)
+		while (env->tab[i])
+			free(env->tab[i++]);
+	free(env->tab);
+	env->tab = 0;
 }

@@ -6,20 +6,8 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:37:10 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 14:43:45 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-// void	exec(t_exec *exec)
-// {
-	
-// }
-
-// int	main(int ac, char *av[], char *env[])
-// {
-// 	t_exec	exec;
-	
-// 	return (0);
-// }

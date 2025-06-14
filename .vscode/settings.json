@@ -3,6 +3,7 @@
 		"arcoms.h": "c",
 		"exec_btree.h": "c",
 		"types.h": "c",
-		"compare": "cpp"
+		"compare": "cpp",
+		"ranges": "c"
 	}
 }

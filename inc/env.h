@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:47 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 11:02:21 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 15:39:54 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 struct s_env
 {
-	char **env;
+	char		**tab;
 
 	uint64_t	last_mty;
 	uint64_t	ttsize;

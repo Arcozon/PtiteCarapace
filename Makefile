@@ -1,6 +1,6 @@
 NAME =  miniexec
 
-S_SRC_BUILTIN =  bi_env.c  bi_export.c  env_utils.c
+S_SRC_BUILTIN =  bi_env.c  bi_export.c  bi_unset.c  env_utils.c
 D_SRC_BUILTIN =  built_in/
 SRC_BUILTIN =  $(addprefix $(D_SRC_BUILTIN), $(S_SRC_BUILTIN))
 
@@ -51,6 +51,9 @@ fclean: clean
 
 re: fclean
 	make all
+
+tree:	src/exec/make_base.c src/utils/utils.c
+	$(CC) $(FLAGS) src/exec/make_base.c src/utils/utils.c -I$(D_INC) -o tree
 
 DEPS = $(addprefix $(D_BUILD), $(SRC:.c=.d))
 -include $(DEPS)

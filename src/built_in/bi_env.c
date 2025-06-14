@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:40:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:40:58 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 13:17:26 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	bi_env(int ac, char **av, t_env *env, int fds[2], const char *pname)
 
 	(void)ac, (void)av;
 	i = 0;
-	while (env->env[i])
+	while (env->tab[i])
 	{
-		len = ft_strlen(env->env[i]);
-		if (write(fds[PIPE_WRITE], env->env[i], len) != (int)len
+		len = ft_strlen(env->tab[i]);
+		if (write(fds[PIPE_WRITE], env->tab[i], len) != (int)len
 			|| write(fds[PIPE_WRITE], "\n", 1) != 1)
 			return (err_no_space(pname), E_NOSPACE);
 		++i;
