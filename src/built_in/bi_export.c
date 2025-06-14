@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:56:02 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:44:20 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 11:19:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ static inline int	check_identifier(char *arg)
 {
 	size_t	i;
 
-	if (!ft_isalpha(arg[0]) || arg[0] != '_')
-		return (0);
+	if (!ft_isalpha(arg[0]) && arg[0] != '_')
+		return (E_NOVALID);
 	i = 1;
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!ft_isdigit(arg[i]) || !ft_isalpha(arg[i]) || arg[i] != '_')
-			return (0);
+		if (!ft_isdigit(arg[i]) && !ft_isalpha(arg[i]) && arg[i] != '_')
+			return (E_NOVALID);
 		++i;
 	}
-	return (1);
+	return (NO_ERR);
 }
 
 int	bi_export(int ac, char **av, t_env *env, int fds[2], char *pname)
@@ -93,7 +93,7 @@ int	bi_export(int ac, char **av, t_env *env, int fds[2], char *pname)
 		i = 1;
 		while (av[i])
 		{
-			if (!check_identifier(av[i]))
+			if (check_identifier(av[i]) == E_NOVALID)
 				r_value = errors_export(pname, E_NOVALID, av[i]);
 			else if (add_var_env(env, av[i]) == E_MLC)
 				return (errors_export(pname, E_MLLCENV, 0));

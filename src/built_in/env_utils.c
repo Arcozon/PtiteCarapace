@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/13 17:23:26 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/14 11:02:04 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	remove_var_env(t_env *env, size_t to_remove)
 	if (to_remove >= env->last_mty)
 		return ;
 	free(env->env[to_remove]);
-	env->env[to_remove] = env->env[env->last_mty - 1];
+	if (env->last_mty)
+		env->env[to_remove] = env->env[env->last_mty - 1];
 	env->env[env->last_mty] = 0;
 	--env->last_mty;
 }
@@ -43,7 +44,7 @@ static inline char	__attribute__((always_inline))	*dup_var(char *var)
 
 	i = 0;
 	while (var[i])
-		if (var[i] == '=')
+		if (var[i++] == '=')
 			return (ft_strdup(var));
 	new = malloc(sizeof(char) * (i + 2));
 	if (!new)
@@ -57,12 +58,13 @@ static inline char	__attribute__((always_inline))	*dup_var(char *var)
 
 uint64_t	add_var_env(t_env *env, char *to_add)
 {
-	if (env->last_mty > env->ttsize && realloc_env(env))
+	if (env->last_mty >= env->ttsize && realloc_env(env))
 		return (E_MLC);
 	//cjeck dup
 	to_add = dup_var(to_add);
 	if (!to_add)
 		return (E_MLC);
+	DEBUG("%s", to_add)
 	env->env[env->last_mty] = to_add;
 	++env->last_mty;
 	return (NO_ERR);
@@ -72,8 +74,8 @@ uint64_t	init_env(t_env *env, char *envp[])
 {
 	env->last_mty = 0;
 	env->ttsize = BASE_ENV_SIZE;
-	env->env = ft_calloc(BASE_ENV_SIZE);
-	if (env->env)
+	env->env = ft_calloc(sizeof(char *) * (BASE_ENV_SIZE + 1));
+	if (!env->env)
 		return (E_MLC);
 	while (*envp)
 	{
@@ -84,3 +86,14 @@ uint64_t	init_env(t_env *env, char *envp[])
 	return (NO_ERR);
 }
 
+void	free_env(t_env *env)
+{
+	uint64_t	i;
+
+	i = 0;
+	if (env->env)
+		while (env->env[i])
+			free(env->env[i++]);
+	free(env->env);
+	env->env = 0;
+}

@@ -30,7 +30,7 @@ OBJ =  $(addprefix $(D_BUILD), $(SRC:.c=.o))
 
 
 CC =  cc
-FLAGS = -Wall -Wextra -Werror -MMD
+FLAGS = -Wall -Wextra -Werror -MMD -g
 
 RM =  rm -rf
 
