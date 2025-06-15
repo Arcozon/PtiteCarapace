@@ -6,14 +6,15 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 17:32:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 23:53:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/15 18:47:09 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "arcoms.h"
 
-char g[1];
-# define WAIT {fprintf(stderr,"---WAIT");read(0, g, 1);}
+static char *trad[] = (char*[]){"DONE", "word", "<", ">","<<",
+		">>", "|", "||", "&&", ";", "(", ")"};
 
 enum e_token
 {
@@ -31,6 +32,7 @@ enum e_token
     closing_par
 };
 
+// typedef enum e_token t_lexer;
 typedef int t_lexer;
 
 typedef struct s_plexer
@@ -39,9 +41,13 @@ typedef struct s_plexer
 	uint64_t	len;
 }	t_plexer;
 
+void	debug_lexer(t_lexer *lexer);
+void	debug_tree(t_base *node);
+
 t_lexer	**goto_next(t_lexer **lexer)
 {
-	*lexer += 1;
+	// free useless token { ( ) || && | ;}
+	++(*lexer);
 	return lexer;
 }
 
@@ -65,63 +71,84 @@ t_base	*in_scol(t_lexer **lexer, t_base *left);	// ( cmd
 t_base	*in_pipe(t_lexer **lexer, t_base *left);	// ( cmd
 
 
+int	is_heredoc(t_lexer	**lexer)
+{
+	return (**lexer == here_doc);
+}
+
+int	is_simple_redir(t_lexer **lexer)
+{
+	return (**lexer == redir_out || **lexer == redir_in || **lexer == append);
+}
+
+int	is_redir(t_lexer **lexer)
+{
+	return (is_heredoc(lexer) || is_simple_redir(lexer));
+}
+
+int	is_cmd(t_lexer **lexer)
+{
+	return (**lexer == word || is_redir(lexer));
+}
+
 t_base	*in_cmd(t_lexer **lexer, t_base *parent)
 {
 	t_base	*node;
 
-	printf("CMD\n");
 	if (!**lexer)
 		return (0);
 	node = mlc_base(CMD);
 	if (!parent)
 		parent = node;
-	while (**lexer != closing_par && **lexer != or && **lexer != and && **lexer != semicolon && **lexer != pipe_delim && **lexer != DONE)
+	while (is_cmd(lexer))
+	{
+		// READ
 		goto_next(lexer);
+	}
 	if (**lexer == closing_par)
 		return (node);
 	if (**lexer == DONE)
 		return (node);
-	if (**lexer == and)
-		return (in_and(goto_next(lexer), parent));
-	if (**lexer == or)
-		return (in_or(goto_next(lexer), parent));
-	if (**lexer == semicolon)
-		return (in_scol(goto_next(lexer), parent));
 	if (**lexer == pipe_delim)
-		return (in_pipe(goto_next(lexer), parent));
+		return (in_pipe(goto_next(lexer), node));
 	return (node);
 }
 
 t_base	*in_subshell(t_lexer **lexer, t_base *parent) 
 {
-	t_base	*node;
+	t_base	*node;(void)parent;
 
-	printf("SUBSHELL\n");
 	if (!**lexer)
 		return (0);
 	node = mlc_base(SUB);
-	if (!parent)
-		parent = node;
-	if (**lexer == open_par)
-		node->left = in_subshell(goto_next(lexer), 0);
-	else	
-		node->left = in_cmd(goto_next(lexer), 0);
+	while (**lexer != closing_par && **lexer)
+	{
+		if (**lexer == open_par)
+			node->left = in_subshell(goto_next(lexer), node->left);
+		else if (is_cmd(lexer))
+			node->left = in_cmd(lexer, node->left);
+		else if (**lexer == and)
+			node->left = in_and(goto_next(lexer), node->left);
+		else if (**lexer == or)
+			node->left = in_or(goto_next(lexer), node->left);
+		else if (**lexer == semicolon)
+			node->left = in_scol(goto_next(lexer), node->left);
+		else if (**lexer == pipe_delim)
+			node->left = in_pipe(goto_next(lexer), node->left);
+		else
+			DEBUG("ERROR")
+	}
 	if (**lexer == closing_par)
 	{
-		printf("END SUBSHELL\n");
 		goto_next(lexer);
-		if (**lexer == and)
-			node = in_and(goto_next(lexer), node);
-		else if (**lexer == or)
-			node = in_or(goto_next(lexer), node);
-		else if (**lexer == semicolon)
-			node = in_scol(goto_next(lexer), node);
-		else if (**lexer == pipe_delim)
-			node = in_pipe(goto_next(lexer), node);
+		while (is_cmd(lexer))
+		{
+			DEBUG("SUBSHEL: %s", trad[**lexer])
+			goto_next(lexer);
+		}
 	}
 	else
-		printf("jksdhvafdjkasfvjkasvdfjkvahsdfjkhdsvaf\n");
-	// exit(1);
+		DEBUG("ERROR")
 	return (node);
 }
 
@@ -129,30 +156,29 @@ t_base	*in_pipe(t_lexer **lexer, t_base *left)
 {
 	t_base	*node;
 
-	printf("PIPE\n");
 	if (!**lexer)
 		return (0);
 	node = mlc_base(PPL);
 	node->left = left;
 	if (**lexer == open_par)
 		node->right = in_subshell(goto_next(lexer), 0);
-	else
+	else if (is_cmd(lexer))
 		node->right = in_cmd(lexer, 0);
+	else
+		DEBUG("ERROR")
 	return (node);
 }
 
 t_base	*in_and(t_lexer **lexer, t_base *left)
 {
 	t_base	*node;
-
-	printf("AND\n");
 	if (!**lexer)
 		return (0);
 	node = mlc_base(AND);
 	node->left = left;
 	if (**lexer == open_par)
 		node->right = in_subshell(goto_next(lexer), 0);
-	else
+	else if (is_cmd(lexer))
 		node->right = in_cmd(lexer, 0);
 	return (node);
 }
@@ -161,14 +187,13 @@ t_base	*in_or(t_lexer **lexer, t_base *left)
 {
 	t_base	*node;
 
-	printf("OR\n");
 	if (!**lexer)
 		return (0);
 	node = mlc_base(OR);
 	node->left = left;
 	if (**lexer == open_par)
 		node->right = in_subshell(goto_next(lexer), 0);
-	else
+	else if (is_cmd(lexer))
 		node->right = in_cmd(lexer, 0);
 	return (node);
 }
@@ -177,15 +202,13 @@ t_base	*in_scol(t_lexer **lexer, t_base *left)
 {
 	t_base	*node;
 
-	printf("SEMI\n");
 	node = mlc_base(SCOL);
 	node->left = left;
 	if (!**lexer || **lexer == closing_par)
 		return (node);
-	// WAIT
 	if (**lexer == open_par)		
 		node->right = in_subshell(goto_next(lexer), 0);
-	else
+	else if (is_cmd(lexer))
 		node->right = in_cmd(lexer, 0);
 	return (node);
 }
@@ -199,9 +222,9 @@ t_base	*make_base(t_lexer **lexer)
 	{
 		if (**lexer == open_par)
 			base = in_subshell(goto_next(lexer), base);
-		else
+		else if (is_cmd(lexer))
 			base = in_cmd(lexer, base);
-		if (**lexer == and)
+		else if (**lexer == and)
 			base = in_and(goto_next(lexer), base);
 		else if (**lexer == or)
 			base = in_or(goto_next(lexer), base);
@@ -209,6 +232,8 @@ t_base	*make_base(t_lexer **lexer)
 			base = in_scol(goto_next(lexer), base);
 		else if (**lexer == pipe_delim)
 			base = in_pipe(goto_next(lexer), base);
+		else
+			WAIT
 	}
 	return (base);
 }
@@ -216,10 +241,10 @@ t_base	*make_base(t_lexer **lexer)
 void	pipicaca(t_base *node)
 {
 	return ;
-	static char *trad[] = (char*[]){"SCOL", "AND", "OR", "PPL","CMD",
+	static char *btrad[] = (char*[]){"SCOL", "AND", "OR", "PPL","CMD",
 		"SUB"};
 	
-	fprintf(stderr, "%4s		%p\n", trad[node->e_type], node);
+	fprintf(stderr, "%4s		%p\n", btrad[node->e_type], node);
 	fprintf(stderr, "%p | %p\n", node->left, node->right);
 	WAIT
 }
@@ -244,6 +269,10 @@ void	debug_tree_rec(t_base *node)
 		printf(")");
 		return ;
 	}
+	if (node->e_type != PPL)
+		printf("{");
+	else
+		printf("[");
 	debug_tree_rec(node->left);
 	if (node->e_type == AND)
 		printf(" && ");
@@ -254,21 +283,24 @@ void	debug_tree_rec(t_base *node)
 	else if (node->e_type == PPL)
 		printf(" | ");
 	debug_tree_rec(node->right);
+	if (node->e_type != PPL)
+		printf("}");
+	else
+		printf("]");
 }
 
 void	debug_tree(t_base *node)
 {
-	printf("TREE: ");
+	printf("--TREE: ");
 	debug_tree_rec(node);
 	printf("\n\n\n");
 }
 
 void	debug_lexer(t_lexer *lexer)
 {
-	static char *trad[] = (char*[]){"DONE", "word", "<", ">","<<",
-		">>", "|", "||", "&&", ";", "(", ")"};
+
 	
-	printf("LEXER: ");
+	printf("--LEXER: ");
 	for (int i = 0; lexer[i]; ++i)
 		printf("%s ", trad[lexer[i]]);
 	printf("\n");
@@ -279,36 +311,39 @@ int main(void)
 	t_lexer	*lexer;
 	t_base *node;
 
-	lexer = (int[]){word,semicolon,open_par,word,semicolon,closing_par ,semicolon,DONE};
+	lexer = (t_lexer[]){open_par, word,and,word,closing_par,redir_in, word,semicolon, word, DONE};
 	debug_lexer(lexer);
 	node = make_base(&lexer);
 	debug_tree(node);
 
-	lexer = (int[]){open_par,open_par,word,closing_par,and, word, closing_par,semicolon,open_par,word, semicolon,closing_par ,DONE};
+	lexer = (t_lexer[]){open_par,open_par,word,closing_par,and, word, closing_par,semicolon,open_par,word, semicolon,closing_par ,DONE};
 	debug_lexer(lexer);
 	node = make_base(&lexer);
 	debug_tree(node);
 
-	lexer = (int[]){open_par, word,or, word, and, open_par,word, and, word,  closing_par,  closing_par, DONE};
+	lexer = (t_lexer[]){open_par, word,or, word, and, open_par,word, and, word,  closing_par,  closing_par, DONE};
 	debug_lexer(lexer);
 	node = make_base(&lexer);
 	debug_tree(node);
 
-	lexer = (int[]){word, pipe_delim, word, DONE};
+	lexer = (t_lexer[]){word, pipe_delim, word, pipe_delim, word, DONE};
 	debug_lexer(lexer);
 	node = make_base(&lexer);
 	debug_tree(node);
 	
-	lexer = (int[]){word, and, word, and, word, DONE};
+	lexer = (t_lexer[]){word, and, word, pipe_delim, word, DONE};
 	debug_lexer(lexer);
 	node = make_base(&lexer);
 	debug_tree(node);
 	
-	lexer = (int[]){open_par,open_par, word, semicolon, word,closing_par, pipe_delim, word, closing_par,DONE};
+	lexer = (t_lexer[]){open_par,open_par, word, semicolon, word,closing_par, pipe_delim, word, closing_par,DONE};
+	debug_lexer(lexer);
+	node = make_base(&lexer);
+	debug_tree(node);
+
+	lexer = (t_lexer[]){open_par,open_par,  word, pipe_delim, word, closing_par, redir_in, word, pipe_delim, redir_out, word, redir_out, word, pipe_delim, word, closing_par,DONE};
 	debug_lexer(lexer);
 	node = make_base(&lexer);
 	debug_tree(node);
 }
 
-
-// cmd && a || (b && c)

@@ -4,6 +4,9 @@
 		"exec_btree.h": "c",
 		"types.h": "c",
 		"compare": "cpp",
-		"ranges": "c"
+		"ranges": "c",
+		"stdio.h": "c",
+		"string": "c",
+		"debug.h": "c"
 	}
 }

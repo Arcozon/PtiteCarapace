@@ -52,11 +52,13 @@ fclean: clean
 re: fclean
 	make all
 
-tree:	src/exec/make_base.c src/utils/utils.c
-	$(CC) $(FLAGS) src/exec/make_base.c src/utils/utils.c -I$(D_INC) -o tree
+TREE_SRC = src/exec/make_base.c src/utils/utils.c
+
+tree:	
+	$(CC) $(FLAGS) $(TREE_SRC) -I$(D_INC) -o tree
 
 DEPS = $(addprefix $(D_BUILD), $(SRC:.c=.d))
 -include $(DEPS)
 
-.PHONY: re fclean clean all $(CC) $(FLAGS) $(RM)
+.PHONY: re fclean clean all $(CC) $(FLAGS) $(RM) tree
 
