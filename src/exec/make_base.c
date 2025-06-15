@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 17:32:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/15 18:47:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/15 18:51:19 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ enum e_token
     open_par,
     closing_par
 };
+
+typedef struct s_node
+{
+    enum e_token    token;
+    char            *ptr;
+    struct s_node    *next;
+}    t_snippet;
 
 // typedef enum e_token t_lexer;
 typedef int t_lexer;
