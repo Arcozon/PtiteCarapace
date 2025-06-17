@@ -52,8 +52,8 @@ fclean: clean
 re: fclean
 	make all
 
-S_TREE_SRC = make_base.c  test_exec.c  make_utils.c  debug_base.c
-TREE_SRC = $(addprefix src/exec/, $(S_TREE_SRC))  src/utils/utils.c
+S_TREE_SRC = make_base.c  test_exec.c  make_utils.c  debug_base.c  free_base.c  in_logic_opp.c  make_utils2.c
+TREE_SRC = $(addprefix src/exec/make_tree/, $(S_TREE_SRC))  src/utils/utils.c
 
 tree:	
 	$(CC) $(FLAGS) $(TREE_SRC) -I$(D_INC) -o tree

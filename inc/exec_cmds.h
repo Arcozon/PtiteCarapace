@@ -6,12 +6,12 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:20:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 11:59:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:13:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXE_CMDS_H
-# define EXE_CMDS_H
+#ifndef EXEC_CMDS_H
+# define EXEC_CMDS_H
 
 # include "types.h"
 
@@ -19,7 +19,7 @@ struct s_exe_heredoc
 {
 	char		*delimiter;
 	uint8_t		to_expand:1;
-	char		**env;			//can change the type
+	char		**env;
 
 	int			hdoc_fd;
 	int			pipe[2];
@@ -38,7 +38,7 @@ struct s_cmd
 	int			(*builtin)(int, char *[], char *[]); //proply ll change
 	uint8_t		in_fork:1;
 	char		*path_cmd;
-	char		*argv_cmd;
+	char		**argv_cmd;
 
 	int			fd_in;
 	int			fd_out;

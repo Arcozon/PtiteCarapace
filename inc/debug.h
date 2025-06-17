@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:09:09 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/15 18:23:32 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:54:46 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@
 # ifdef DEBUG_OFF
 #  define WAIT\
 	{\
-		char	g;\
+		char	g = 0;\
 		fprintf(stderr, WAIT_PROMPT, WAIT_PROMPT_ARGS);\
-		read(0, &g, 1);\
+		while (read(0, &g, 1) == 1 && g != '\n') ;\
 	}
 #  define DEBUG(s, ...)\
 	{\

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:31:42 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 12:55:55 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:14:01 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,39 @@ void	pipicaca(t_base *node)
 
 void	debug_tree_rec(t_base *node)
 {
+	t_snippet	*l;
+
 	if (!node)
-	{
-		printf("(nil)");
 		return ;
-	}
 	pipicaca(node);
 	if (node->e_type == CMD)
 	{
-		printf("cmd");
+		l = node->cmd.sn_argv;
+		for (;l;l = l->next)
+			printf("%s", l->ptr);
+		printf("'");
+		l = node->cmd.heredoc;
+		for (;l;l = l->next)
+			printf("%s",l->ptr);
+		printf("'");
+		l = node->cmd.redirs;
+		for (;l;l = l->next)
+			printf("%s",l->ptr);
+		printf(">");
 		return ;
 	}
 	else if (node->e_type == SUB)
 	{
 		printf("(");
 		debug_tree_rec(node->left);
+		l = node->cmd.heredoc;
+		for (;l;l = l->next)
+			printf("%s",l->ptr);
+		printf("'");
+		l = node->cmd.redirs;
+		for (;l;l = l->next)
+			printf("%s",l->ptr);
+		printf(">");
 		printf(")");
 		return ;
 	}

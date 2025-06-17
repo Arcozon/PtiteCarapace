@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:51:38 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 12:52:36 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:35:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	lexer_add_back(t_snippet **lexer, enum e_token token)
 		(*lexer)->ptr = ft_strdup("out");
 	if (token == here_doc)
 		(*lexer)->ptr = ft_strdup("here");
+	if (token == append)
+		(*lexer)->ptr = ft_strdup("app");
 }
 
 t_snippet	*mk_lexer(char *lst)
@@ -66,38 +68,42 @@ int main(void)
 	t_snippet	*lexer;
 	t_base *node;
 
-	lexer = mk_lexer("(W&W)<;W");
+	lexer = mk_lexer("<HA>|HA<A>H");
 	debug_lexer(lexer);
-	node = make_base(&lexer);
-	debug_tree(node);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
+
+	debug_lexer(lexer);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
 
 	lexer = mk_lexer("((W)&W);(W;);");
 	debug_lexer(lexer);
-	node = make_base(&lexer);
-	debug_tree(node);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
 
 	lexer = mk_lexer("(WOW&(W&W))");
 	debug_lexer(lexer);
-	node = make_base(&lexer);
-	debug_tree(node);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
 
-	lexer = mk_lexer("W|W|W");
+	lexer = mk_lexer("W|W");
 	debug_lexer(lexer);
-	node = make_base(&lexer);
-	debug_tree(node);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
 	
 	lexer = mk_lexer("W&W|W");
 	debug_lexer(lexer);
-	node = make_base(&lexer);
-	debug_tree(node);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
 	
 	lexer = mk_lexer("((W;W)|W)");
 	debug_lexer(lexer);
-	node = make_base(&lexer);
-	debug_tree(node);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
 
 	lexer = mk_lexer("((WH|WOW)<>HH);WOW&(<|>)");
 	debug_lexer(lexer);
-	node = make_base(&lexer);
-	debug_tree(node);
+	make_base(&lexer, &node);
+	debug_tree(node);free_node(&node);
 }
