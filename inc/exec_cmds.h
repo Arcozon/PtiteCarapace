@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:20:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 16:13:43 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 19:40:58 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,23 @@
 
 # include "types.h"
 
-struct s_exe_heredoc
+struct s_exe_hdoc
 {
-	char		*delimiter;
+	char		*limiter;
 	uint8_t		to_expand:1;
 	char		**env;
-
+	
 	int			hdoc_fd;
-	int			pipe[2];
-
+	int			pipes[2][2];
+	pid_t		pid;
+	
+	char		*vname;
+	size_t		i_name;
 	size_t		mlen_env;
 	size_t		mlen_hdoc;
 	size_t		mlen_var;
-	char		*vname;
-	size_t		i_name;
+
+	char		*pname;
 
 	uint64_t	errors;
 };

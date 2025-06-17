@@ -8,6 +8,11 @@
 		"stdio.h": "c",
 		"string": "c",
 		"debug.h": "c",
-		"exec_cmds.h": "c"
+		"exec_cmds.h": "c",
+		"errors.h": "c",
+		"wait.h": "c",
+		"built_in.h": "c",
+		"make_tree.h": "c",
+		"utils.h": "c"
 	}
 }
