@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/15 15:16:48 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:34:08 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "env.h"
 # include "built_in.h"
 
+# include "make_tree.h"
 # include "exec_cmds.h"
 # include "exec_btree.h"
 

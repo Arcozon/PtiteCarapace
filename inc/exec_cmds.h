@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:20:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 17:48:21 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:59:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,6 @@
 # define EXE_CMDS_H
 
 # include "types.h"
-
-struct s_redir
-{
-	char *f_name;
-	enum
-	{
-		OUT,
-		APPEND_OUT,
-		IN
-	}	type;
-};
-
-
-struct s_heredoc
-{
-	char	*delim;
-	t_hdoc	*next;
-};
-
 
 struct s_exe_heredoc
 {
@@ -55,22 +36,23 @@ struct s_exe_heredoc
 struct s_cmd
 {
 	int			(*builtin)(int, char *[], char *[]); //proply ll change
+	uint8_t		in_fork:1;
 	char		*path_cmd;
 	char		*argv_cmd;
 
-	int			fd_int;
+	int			fd_in;
 	int			fd_out;
 
-	t_hdoc		*heredoc;
-	t_redir		*redirs;
-
+	t_snippet	*heredoc;
+	t_snippet	*redirs;
+	t_snippet	*sn_argv;
 
 	int			in_pipe;
 	int			out_pipe;
 
 	pid_t		pid;
 
-	//lexer;
+	uint64_t	errors;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:21:12 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 17:01:52 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:34:49 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,8 @@ typedef struct s_base		t_base;
 typedef struct s_exec		t_exec;
 
 typedef struct s_env		t_env;
+
+enum 						e_token;
+typedef struct s_node		t_snippet;
 
 #endif
