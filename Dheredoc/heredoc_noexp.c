@@ -6,13 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 19:59:21 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/18 11:30:10 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-void	heredoc_handle_dollar(char c, int *mlv);
 
 void	expected_limiter(t_x_hdoc *hdoc)
 {
@@ -38,66 +36,66 @@ int	read_start_line(int fd, t_x_hdoc *hdoc, char *c, int *br)
 			return (expected_limiter(hdoc), 0);
 		else if (!*br)
 			continue ;
-		heredoc_handle_dollar()
+		heredoc_handle_dollar(*c, hdoc);
 		if (!hdoc->limiter[i_l] && *c == '\n')
 			return (0);
 		if (*c != hdoc->limiter[i_l])
 			break ;
 		++i_l;
 	}
-	if (write(fd, hdoc->limiter, i_l) != i_l)
+	if (write(fd, hdoc->limiter, i_l) != (ssize_t)i_l)
 		hdoc->errors |= E_WRITE;
 	return (1);
 }
 
 // act_len is the len of the var name we are in
-void	heredoc_handle_dollar(char c, int *mlv)
+void	heredoc_handle_dollar(char c, t_x_hdoc *hdoc)
 {
-	static int	act_len = -1;
-	int			out;
-
-	out = 0;
-	if (c == '$' && act_len == -1)
-		act_len = 0;
-	else if (act_len != -1)
+	if (c == '$' && hdoc->act_len == -1)
+		 hdoc->act_len = 0;
+	else if (hdoc->act_len != -1)
 	{
-		if (act_len == 0 && (c >= '0' && c <= '9'))
-			out = (++act_len, 1);
-		else if (is_var_name(c))
-			++act_len;
+		if (hdoc->act_len == 0 && (ft_isalpha(c) || c == '_' || c == '?'))
+			++hdoc->act_len;
+		else if ((ft_isalpha(c) || c == '_' || ft_isdigit(c)))
+			++hdoc->act_len;
 		else
-			out = 1;
+			hdoc->act_len = -1;
+		if (hdoc->mlen_hdoc < (size_t)hdoc->act_len)
+			hdoc->mlen_hdoc = hdoc->act_len;
+		if (hdoc->act_len == 1 && c == '?')
+		{
+			if (hdoc->mlen_hdoc < 1)
+				hdoc->mlen_env = 1;
+			hdoc->act_len = -1;
+		}
 	}
-	if (out)
-	{
-		if (*mlv < act_len)
-			*mlv = act_len;
-		act_len = -1;
-	}
+
 }
 
-int	read_stdin(t_x_hdoc *hdoc, int fdin)
+int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdin)
 {
-	char	c;
-	int		br;
-
-	c = '\n';
-	br = 1;
 	while (1)
 	{
-		if (br < 0)
-			return (-1);
-		if (c == '\n')
+		if (hdoc->br < 0)
+			return (hdoc->errors |= E_READ, -1);
+		if (hdoc->c == '\n')
 		{
 			write(2, "> ", 2);
-			br = read_start_line(fdin, hdoc, &c, &br);
-			if (br <= 0)
-				return (br);
+			hdoc->br = read_start_line(fdin, hdoc, &hdoc->c, &hdoc->br);
+			if (hdoc->br < 0)
+				return (hdoc->errors |= E_READ, -1);
+			if (!hdoc->br)
+				return (0);
 		}
 		else
-			br = read(STDIN_FILENO, &c, 1);
-		if (br == 1)
-			(write(fdin, &c, 1), heredoc_handle_dollar(c, &(hdoc->mlen_hdoc)));
+			hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
+		if (hdoc->br == 1)
+		{
+			if (write(fdin,  &hdoc->c, 1) != 1)
+				return (hdoc->errors |= E_WRITE, -1);
+			heredoc_handle_dollar(hdoc->c, hdoc);
+		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:20:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 19:40:58 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/18 11:28:53 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,19 @@ struct s_exe_hdoc
 	size_t		i_name;
 	size_t		mlen_env;
 	size_t		mlen_hdoc;
-	size_t		mlen_var;
+	int			act_len;
+
+	char		c;
+	int			br;
 
 	char		*pname;
 
 	uint64_t	errors;
 };
+
+void	heredoc_handle_dollar(char c, t_x_hdoc *hdoc);
+int		launch_heredocs(t_snippet *delims, char **env, t_ms minishell, char *pname);
+int		read_stdin_no_exp(t_x_hdoc *hdoc, int fdin);
 
 struct s_cmd
 {

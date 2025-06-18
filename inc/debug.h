@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:09:09 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 16:54:46 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/18 12:09:29 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define DEBUG_PROMPT_ARGS	LEN_BNAMEEXT(__FILE__), BASENAME(__FILE__), __LINE__ 
 
 # define WAIT_PROMPT		B_MAJENTA "WAIT" B_LYELLOW "[" RESET BLUE "%.*s" GREY "(" GREEN "%d" GREY ")"  B_LYELLOW "]" RESET " "
-# define WAIT_PROMPT_ARGS	LEN_BNAMEEXT(__FILE__), BASENAME(__FILE__), __LINE__ 
+# define WAIT_PROMPT_ARGS	LEN_BNAMEEXT(__FILE__), BASENAME(__FILE__), __LINE__
 
 # define DEBUG_OFF
 

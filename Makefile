@@ -52,7 +52,7 @@ fclean: clean
 re: fclean
 	make all
 
-S_HERE_SRC =  child_heredoc.c  expand_heredoc.c  main.c
+S_HERE_SRC =  child_heredoc.c  expand_heredoc.c  heredoc_noexp.c  main.c
 HERE_SRC = $(addprefix "Dheredoc/", $(S_HERE_SRC))	src/utils/utils.c
 
 heredoc:
@@ -67,5 +67,5 @@ tree:
 DEPS = $(addprefix $(D_BUILD), $(SRC:.c=.d))
 -include $(DEPS)
 
-.PHONY: re fclean clean all $(CC) $(FLAGS) $(RM) tree
+.PHONY: re fclean clean all $(CC) $(FLAGS) $(RM) tree  heredoc
 

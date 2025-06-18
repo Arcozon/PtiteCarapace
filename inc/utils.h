@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 15:42:01 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/18 13:55:04 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define UTILS_H
 
 # include "types.h"
+
+void	close_fd(int *fd);
 
 inline void		ft_bzero(char *ptr, size_t size);
 void		*ft_calloc(size_t size);
