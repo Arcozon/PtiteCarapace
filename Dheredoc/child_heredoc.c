@@ -6,29 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:40 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/19 10:54:56 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:40:47 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-uint64_t	get_mlen_env(char **env)
-{
-	size_t	len;
-	size_t	m_len;
-
-	m_len = 0;
-	while (*env)
-	{
-		len = 0;
-		while ((*env)[len] && (*env)[len] != '=')
-			++len;
-		if (m_len < len)
-			m_len = len;
-		++env;
-	}
-	return (m_len);
-}
 
 void	init_x_hdoc(t_x_hdoc *hdoc, char **env, char *pname)
 {
@@ -40,14 +22,14 @@ void	init_x_hdoc(t_x_hdoc *hdoc, char **env, char *pname)
 	hdoc->pipes[1][1] = -1;
 	hdoc->hdoc_fd = -1;
 	hdoc->pid = -1;
-	hdoc->mlen_env = get_mlen_env(env);
 	hdoc->mlen_hdoc = 0;
 	hdoc->act_len = -1;
 	hdoc->vname = 0;
-	hdoc->i_name = 0;
+	hdoc->i_vname = 0;
 	hdoc->c = '\n';
 	hdoc->br = 0;
 	hdoc->pname = pname;
+	hdoc->qmark_value = 0;
 }
 
 int	rm_quotes_limiter(char *limiter)
@@ -91,21 +73,21 @@ void	quit_heredoc(uint64_t errors, t_x_hdoc hdoc, t_ms minishell)
 
 void	child_hdoc(t_x_hdoc hdoc, t_ms minishell)
 {
-	close(hdoc.pipes[0][PIPE_READ]);
+	close_fd(&hdoc.pipes[0][PIPE_READ]);
 	hdoc.to_expand = rm_quotes_limiter(hdoc.limiter);
 	if (hdoc.to_expand && pipe(hdoc.pipes[1]) < 0)
 		quit_heredoc(hdoc.errors | E_PIPE, hdoc, minishell);
 	read_stdin_no_exp(&hdoc, hdoc.pipes[hdoc.to_expand][PIPE_WRITE]);
 	if (hdoc.to_expand)
 	{
-		if (hdoc.mlen_env < hdoc.mlen_hdoc)
-			hdoc.mlen_hdoc = hdoc.mlen_env;
+		close_fd(&hdoc.pipes[hdoc.to_expand][PIPE_WRITE]);
 		hdoc.vname = malloc(hdoc.mlen_hdoc);
-		if (!hdoc.vname)
-			quit_heredoc(hdoc.errors | E_MLC, hdoc, minishell);
-		read_fd_exp(hdoc.pipes[1][PIPE_READ], hdoc.pipes[0][PIPE_WRITE], &hdoc);
+		if (hdoc.vname)
+			read_fd_exp(hdoc.pipes[1][PIPE_READ], hdoc.pipes[0][PIPE_WRITE], &hdoc);
+		else
+			hdoc.errors |= E_MLC;
 	}
-	exit(0);
+	quit_heredoc(hdoc.errors, hdoc, minishell);
 }
 
 int	launch_heredocs(t_snippet *delims, char **env, t_ms minishell, char *pname)

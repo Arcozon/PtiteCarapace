@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/19 10:48:57 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:42:21 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,26 +57,26 @@ void	heredoc_handle_dollar(char c, t_x_hdoc *hdoc)
 	{
 		if (hdoc->act_len == 0 && (ft_isalpha(c) || c == '_' || c == '?'))
 			++hdoc->act_len;
-		else if ((ft_isalpha(c) || c == '_' || ft_isdigit(c)))
+		else if (hdoc->act_len >= 1 && (ft_isalpha(c) || c == '_' || ft_isdigit(c)))
 			++hdoc->act_len;
 		else
 			hdoc->act_len = -1;
 		if ((int)hdoc->mlen_hdoc < hdoc->act_len)
 		{
 			hdoc->mlen_hdoc = hdoc->act_len;
-			DEBUG("New:[%lu]", hdoc->mlen_hdoc)
+			// DEBUG("New:[%lu]", hdoc->mlen_hdoc)
 		}
 		if (hdoc->act_len == 1 && c == '?')
 		{
 			if (hdoc->mlen_hdoc < 1)
-				hdoc->mlen_env = 1;
+				hdoc->mlen_hdoc = 1;
 			hdoc->act_len = -1;
 		}
 	}
 
 }
 
-int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdin)
+int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdout)
 {
 	while (1)
 	{
@@ -85,7 +85,7 @@ int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdin)
 		if (hdoc->c == '\n')
 		{
 			write(2, "> ", 2);
-			hdoc->br = read_start_line(fdin, hdoc, &hdoc->c, &hdoc->br);
+			hdoc->br = read_start_line(fdout, hdoc, &hdoc->c, &hdoc->br);
 			if (hdoc->br < 0)
 				return (hdoc->errors |= E_READ, -1);
 			if (!hdoc->br)
@@ -95,7 +95,7 @@ int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdin)
 			hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
 		if (hdoc->br == 1)
 		{
-			if (write(fdin,  &hdoc->c, 1) != 1)
+			if (write(fdout,  &hdoc->c, 1) != 1)
 				return (hdoc->errors |= E_WRITE, -1);
 			heredoc_handle_dollar(hdoc->c, hdoc);
 		}
