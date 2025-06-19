@@ -6,18 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:19:18 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 16:07:52 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:35:32 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-void	close_fd(int *fd)
-{
-	if (*fd >= 0)
-		close(*fd);
-	*fd = -1;
-}
 
 void	free_lexer(t_snippet **lexer)
 {

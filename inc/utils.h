@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/18 13:55:04 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:37:16 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "types.h"
 
+void	swap_fds(int *fd1, int fd2);
 void	close_fd(int *fd);
 
 inline void		ft_bzero(char *ptr, size_t size);

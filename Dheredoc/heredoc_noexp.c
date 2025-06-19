@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/18 11:30:10 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:48:57 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	read_start_line(int fd, t_x_hdoc *hdoc, char *c, int *br)
 // act_len is the len of the var name we are in
 void	heredoc_handle_dollar(char c, t_x_hdoc *hdoc)
 {
-	if (c == '$' && hdoc->act_len == -1)
-		 hdoc->act_len = 0;
+	if (c == '$')
+		hdoc->act_len = 0;
 	else if (hdoc->act_len != -1)
 	{
 		if (hdoc->act_len == 0 && (ft_isalpha(c) || c == '_' || c == '?'))
@@ -61,8 +61,11 @@ void	heredoc_handle_dollar(char c, t_x_hdoc *hdoc)
 			++hdoc->act_len;
 		else
 			hdoc->act_len = -1;
-		if (hdoc->mlen_hdoc < (size_t)hdoc->act_len)
+		if ((int)hdoc->mlen_hdoc < hdoc->act_len)
+		{
 			hdoc->mlen_hdoc = hdoc->act_len;
+			DEBUG("New:[%lu]", hdoc->mlen_hdoc)
+		}
 		if (hdoc->act_len == 1 && c == '?')
 		{
 			if (hdoc->mlen_hdoc < 1)

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:09:00 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/18 11:47:18 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:52:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int main(int ac, char **av, char **env)
 {
 	t_snippet	limiters = {.next = 0, .token = here_doc};
-
+	char	Blim[] = "EOF''";
 	if (ac >= 2)
 		limiters.ptr = av[1];
 	else
-		limiters.ptr = ft_strdup("Bonjour");
+		limiters.ptr = Blim;
 	int fd = launch_heredocs(&limiters, env, 0, av[0]); 
 	WAIT
 	char c;

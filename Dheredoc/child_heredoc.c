@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:40 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/18 13:56:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:54:56 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ void	quit_heredoc(uint64_t errors, t_x_hdoc hdoc, t_ms minishell)
 	close_fd(&(hdoc.pipes[0][1]));
 	close_fd(&(hdoc.pipes[1][0]));
 	close_fd(&(hdoc.pipes[1][1]));
+	(void)minishell;
 	exit(errors);
 }
 
 void	child_hdoc(t_x_hdoc hdoc, t_ms minishell)
 {
-	(void)minishell;
 	close(hdoc.pipes[0][PIPE_READ]);
 	hdoc.to_expand = rm_quotes_limiter(hdoc.limiter);
 	if (hdoc.to_expand && pipe(hdoc.pipes[1]) < 0)
@@ -100,12 +100,11 @@ void	child_hdoc(t_x_hdoc hdoc, t_ms minishell)
 	{
 		if (hdoc.mlen_env < hdoc.mlen_hdoc)
 			hdoc.mlen_hdoc = hdoc.mlen_env;
-		hdoc.vname = malloc(hdoc.vname);
+		hdoc.vname = malloc(hdoc.mlen_hdoc);
 		if (!hdoc.vname)
 			quit_heredoc(hdoc.errors | E_MLC, hdoc, minishell);
 		read_fd_exp(hdoc.pipes[1][PIPE_READ], hdoc.pipes[0][PIPE_WRITE], &hdoc);
 	}
-	// free_ms
 	exit(0);
 }
 
