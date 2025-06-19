@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/19 10:36:55 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 15:29:02 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,6 @@ void	close_fd(int *fd)
 
 void	swap_fds(int *fd1, int fd2)
 {
-	if (fd2 >= 0)
-	{
-		close_fd(fd1);
-		*fd1 = fd2;
-	}
+	close_fd(fd1);
+	*fd1 = fd2;
 }

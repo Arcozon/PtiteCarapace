@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:20:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/19 12:40:16 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/19 16:26:37 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ struct s_exe_hdoc
 	char		**env;
 	uint8_t		qmark_value;
 
-	int			hdoc_fd;
 	int			pipes[2][2];
-	pid_t		pid;
 	
 	char		*vname;
 	uint64_t	i_vname;
@@ -42,7 +40,7 @@ struct s_exe_hdoc
 
 int		read_fd_exp(int fdin, int fdout, t_x_hdoc *hdoc);
 void	heredoc_handle_dollar(char c, t_x_hdoc *hdoc);
-int		launch_heredocs(t_snippet *delims, char **env, t_ms minishell, char *pname);
+int	launch_heredocs(t_snippet *delims, char **env, t_ms minishell);
 int		read_stdin_no_exp(t_x_hdoc *hdoc, int fdin);
 
 struct s_cmd

@@ -8,11 +8,15 @@ S_SRC_ECMD =  exec_cmd.c
 D_SRC_ECMD =  exec_cmd/
 SRC_ECMD =  $(addprefix $(D_SRC_ECMD), $(S_SRC_ECMD))
 
-S_SRC_ERDIR =  exec_redir.c
-D_SRC_ERDIR =  exec_redir/
-SRC_ERDIR =  $(addprefix $(D_SRC_ERDIR), $(S_SRC_ERDIR))
+S_SRC_HDOC=  child_heredoc.c  expand_heredoc.c  heredoc_noexp.c
+D_SRC_HDOC =  heredoc/
+SRC_HDOC =  $(addprefix $(D_SRC_HDOC), $(S_SRC_HDOC))
 
-S_SRC_EXEC =  $(SRC_ERDIR)  $(SRC_ECMD)  exec.c
+S_SRC_MKTREE=  
+D_SRC_MKTREE =  make_tree/
+SRC_MKTREE =  $(addprefix $(D_SRC_MKTREE), $(S_SRC_MKTREE))
+
+S_SRC_EXEC =  $(SRC_HDOC)  $(SRC_ECMD)  exec.c
 D_SRC_EXEC =  exec/
 SRC_EXEC =  $(addprefix $(D_SRC_EXEC), $(S_SRC_EXEC))
 
