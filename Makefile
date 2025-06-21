@@ -1,4 +1,4 @@
-NAME =  miniexec
+NAME =  minishell
 
 S_SRC_BUILTIN =  bi_env.c  bi_export.c  bi_unset.c  env_utils.c  pipi.c
 D_SRC_BUILTIN =  built_in/
