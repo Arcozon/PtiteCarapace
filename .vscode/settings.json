@@ -1,5 +1,9 @@
 {
 	"files.associations": {
-		"random": "c"
+		"random": "c",
+		"cmath": "c",
+		"types.h": "c",
+		"arcoms.h": "c",
+		"errors.h": "c"
 	}
 }

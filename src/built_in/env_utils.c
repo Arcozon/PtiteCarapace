@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 17:27:00 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:53:15 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,4 @@ uint64_t	init_env(t_env *env, char *envp[])
 		++envp;
 	}
 	return (NO_ERR);
-}
-
-void	free_env(t_env *env)
-{
-	uint64_t	i;
-
-	i = 0;
-	if (env->tab)
-		while (env->tab[i])
-			free(env->tab[i++]);
-	free(env->tab);
-	env->tab = 0;
 }

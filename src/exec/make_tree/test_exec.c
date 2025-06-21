@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:51:38 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 16:35:13 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/21 15:05:03 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	lexer_add_back(t_snippet **lexer, enum e_token token)
 {
+	const char *tab[] = {"cmd1", "cmd2", "cmd3", "cmd4", "cmd5"};
+	static int i = 0;
 	while (*lexer)
 		lexer = &((*lexer)->next);
 	*lexer = ft_calloc(sizeof(t_snippet));
 	(*lexer)->token = token;
 	if (token == word)
-		(*lexer)->ptr = ft_strdup("cmd");
+		(*lexer)->ptr = ft_strdup(tab[i++  % 5]);
 	if (token == redir_in)
 		(*lexer)->ptr = ft_strdup("in");
 	if (token == redir_out)
@@ -73,6 +75,7 @@ int main(void)
 	make_base(&lexer, &node);
 	debug_tree(node);free_node(&node);
 
+	lexer = mk_lexer("W|(W|W|W)|W");
 	debug_lexer(lexer);
 	make_base(&lexer, &node);
 	debug_tree(node);free_node(&node);

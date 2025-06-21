@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:56:02 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/14 17:26:27 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:54:14 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,60 +39,6 @@ static inline int	errors_export(char *pname, int error, char *identifier)
 	return (error != 0);
 }
 
-static inline int	print_export(char *env[], int fds[2])
-{
-	uint64_t	i;
-	int			len;
-	int			len_content;
-
-	i = 0;
-	while (env[i])
-	{
-		len = 0;
-		while (env[i][len] && env[i][len] != '=')
-			++len;
-		++len;
-		len_content = ft_strlen(env[i] + len);
-		if (7 != write(fds[PIPE_WRITE], "export ", 7)
-			|| len != write(fds[PIPE_WRITE], env[i], len)
-			|| 1 != write(fds[PIPE_WRITE], "\"", 1)
-			|| len_content != write(fds[PIPE_WRITE], env[i] + len,
-				len_content) || 2 != write(fds[PIPE_WRITE], "\"\n", 2))
-			return (E_NOSPACE);
-		++i;
-	}
-	return (EXIT_SUCCESS);
-}
-
-static inline int	print_sort_export(char *benv[], size_t size, int fds[2])
-{
-	char	**senv;
-	char	*tmp;
-	int		i;
-	int		j;
-
-	senv = malloc(sizeof(char *) * (size + 1));
-	if (!senv)
-		return (E_MLLCENV);
-	ft_memcpy(senv, benv, sizeof(char *) * (size + 1));
-	i = -1;
-	while (senv[++i])
-	{
-		j = i;
-		while (senv[++j])
-		{
-			if (ft_strcmp(senv[i], senv[j]) > 0)
-			{
-				tmp = senv[j];
-				senv[j] = senv[i];
-				senv[i] = tmp;
-			}
-		}
-	}
-	i = print_export(senv, fds);
-	return (free(senv), i);
-}
-
 static inline int	check_identifier(char *arg)
 {
 	size_t	i;
@@ -109,26 +55,20 @@ static inline int	check_identifier(char *arg)
 	return (NO_ERR);
 }
 
-int	bi_export(int ac, char **av, t_env *env, int fds[2], char *pname)
+int	bi_export(int ac, char **av, int fds[2], t_ms *ms)
 {
-	int		r_value;
-	size_t	i;
+	int	r_value;
+	int	i;
 
-	r_value = 0;
-	if (ac <= 1)
-		return (errors_export(pname,
-				print_sort_export(env->tab, env->last_mty, fds), 0));
-	else
+	i = 1;
+	while (i < ac)
 	{
-		i = 1;
-		while (av[i])
-		{
-			if (check_identifier(av[i]) == E_NOVALID)
-				r_value = errors_export(pname, E_NOVALID, av[i]);
-			else if (add_var_env(env, av[i]) == E_MLC)
-				return (errors_export(pname, E_MLLCENV, 0));
-			++i;
-		}
+		if (check_identifier(av[i]) == E_NOVALID)
+			r_value = errors_export(ms->pname, E_NOVALID, av[i]);
+		else if (add_var_env(&ms->env, av[i]) == E_MLC)
+			return (errors_export(ms->pname, E_MLLCENV, 0));
+		++i;
 	}
 	return (r_value);
+	(void)fds;
 }

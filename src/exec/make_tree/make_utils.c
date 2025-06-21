@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:43:09 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 16:19:12 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:23:55 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ t_base	*mlc_base(int type)
 	new = ft_calloc(sizeof(t_base));
 	if (!new)
 		return (0);
-	new->fd_in = -1;
-	new->fd_out = -1;
 	new->e_type = type;
 	new->cmd.fd_in = -1;
 	new->cmd.fd_out = -1;

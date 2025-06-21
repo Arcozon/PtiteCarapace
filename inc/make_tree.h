@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:10:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 16:34:33 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:51:30 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MAKE_TREE_H
 
 # include "types.h"
-# include "exec_cmds.h"
+# include "exec_btree.h"
 
 # define F_USELESS	0b000
 # define F_S_REDIR	0b001
@@ -65,12 +65,9 @@ struct s_base
 	t_base	*right;
 
 	t_cmd	cmd;
-
-	int		fd_in;
-	int		fd_out;
 };
 
-t_base	*mlc_base(int type);
+t_base		*mlc_base(int type);
 
 uint64_t	make_base(t_snippet **lexer, t_base **to_store);
 
@@ -93,7 +90,5 @@ int			is_useless_token(t_snippet *lexer);
 
 void		debug_lexer(t_snippet *lexer);
 void		debug_tree(t_base *node);
-
-void		free_node(t_base **pnode);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:52 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/19 16:29:59 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/21 18:02:10 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ uint64_t	write_var_content(int fdout, t_x_hdoc *hdoc)
 			break ;
 		++i;
 	}
-	if (hdoc->env[i] &&	write(fdout, hdoc->env[i] + hdoc->i_vname+ 1,
-		ft_strlen(hdoc->env[i] + hdoc->i_vname+ 1))
-		!= (ssize_t)ft_strlen(hdoc->env[i] + hdoc->i_vname+ 1))
+	if (hdoc->env[i] && write(fdout, hdoc->env[i] + hdoc->i_vname + 1,
+			ft_strlen(hdoc->env[i] + hdoc->i_vname + 1))
+		!= (ssize_t)ft_strlen(hdoc->env[i] + hdoc->i_vname + 1))
 		return (E_WRITE);
 	return (0);
 }
@@ -61,10 +61,12 @@ void	read_var_name(int fdin, int fdout, t_x_hdoc *hdoc)
 		hdoc->br = read(fdin, &hdoc->c, 1);
 		if (hdoc->br <= 0)
 			break ;
-		if (hdoc->i_vname == 0 && !(ft_isalpha(hdoc->c) || hdoc->c == '_' || hdoc->c == '?'))
-			break;
-		else if (hdoc->i_vname >= 1 && !(ft_isalpha(hdoc->c) || hdoc->c == '_' || ft_isdigit(hdoc->c)))
-			break;
+		if (hdoc->i_vname == 0 && !(ft_isalpha(hdoc->c)
+				|| hdoc->c == '_' || hdoc->c == '?'))
+			break ;
+		else if (hdoc->i_vname >= 1 && !(ft_isalpha(hdoc->c)
+				|| hdoc->c == '_' || ft_isdigit(hdoc->c)))
+			break ;
 		hdoc->vname[hdoc->i_vname] = hdoc->c;
 		++hdoc->i_vname;
 		if (hdoc->i_vname == 1 && hdoc->c == '?')
@@ -77,7 +79,7 @@ void	read_var_name(int fdin, int fdout, t_x_hdoc *hdoc)
 		hdoc->errors |= write_var_content(fdout, hdoc);
 }
 
-int	read_fd_exp(int fdin, int fdout, t_x_hdoc *hdoc)
+int	hdoc_read_fd_exp(int fdin, int fdout, t_x_hdoc *hdoc)
 {
 	hdoc->br = read(fdin, &hdoc->c, 1);
 	while (hdoc->br == 1 && !hdoc->errors)
@@ -88,7 +90,7 @@ int	read_fd_exp(int fdin, int fdout, t_x_hdoc *hdoc)
 			continue ;
 		}
 		if (hdoc->c != '$' && hdoc->br == 1 && write(fdout, &hdoc->c, 1) != 1)
-				return (hdoc->errors |= E_WRITE, -1);
+			return (hdoc->errors |= E_WRITE, -1);
 		hdoc->br = read(fdin, &hdoc->c, 1);
 	}
 	if (hdoc->br < 0)

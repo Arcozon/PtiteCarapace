@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/19 15:29:02 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/21 15:13:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,83 @@ void	close_fd(int *fd)
 	*fd = -1;
 }
 
-void	swap_fds(int *fd1, int fd2)
+void	swap_fds(int *oldfd, int newfd)
 {
-	close_fd(fd1);
-	*fd1 = fd2;
+	close_fd(oldfd);
+	*oldfd = newfd;
+}
+
+char	*ft_strchr(char *str, char c)
+{
+	while (*str)
+	{
+		if (*str == c)
+			return (str);
+		++str;
+	}
+	if (c == 0)
+		return (str);
+	return (0);
+}
+
+char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
+{
+	char	*res;
+	size_t	i;
+	size_t	j;
+
+	j = ft_strlen(path);
+	if (len > j)
+		len = j;
+	res = malloc((ft_strlen(exe) + len + 1 + 1) * sizeof(char));
+	if (!res)
+		return (0);
+	i = 0;
+	while (i < len)
+	{
+		res[i] = path[i];
+		++i;
+	}
+	res[i++] = '/';
+	j = 0;
+	while (exe[j])
+	{
+		res[i + j] = exe[j];
+		++j;
+	}
+	res[i + j] = '\0';
+	return (res);
+}
+
+uint64_t	cmd_dup(t_cmd *cmd)
+{
+	if (cmd->fd_in >= 0 && dup2(cmd->fd_in, STDIN_FILENO) < 0)
+		cmd->errors |= E_DUP;
+	if (!cmd->errors && cmd->fd_out >= 0 && dup2(cmd->fd_out, STDIN_FILENO) < 0)
+		cmd->errors |= E_DUP;
+	close_fd(&cmd->fd_out);
+	close_fd(&cmd->fd_in);
+	return (cmd->errors);
+}
+
+uint64_t	ms_fork(int *pid, t_ms *ms)
+{
+	*pid = fork();
+	if (*pid < 0)
+		ms->errors |= E_FORK;
+	return (ms->errors);
+}
+
+uint64_t	cmd_open(int *oldfd, char *fname, int mode, char *pname)
+{
+	int	new_fd;
+
+	new_fd = open(fname, mode, 0644);
+	if (new_fd < 0)
+	{
+		ms_perror(pname, fname);
+		return (E_OPEN);
+	}
+	swap_fds(oldfd, new_fd);
+	return (NO_ERR);
 }

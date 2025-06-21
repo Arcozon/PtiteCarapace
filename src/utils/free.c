@@ -1,16 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_base.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 15:19:18 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/19 10:35:32 by gaeudes          ###   ########.fr       */
+/*   Created: 2025/06/21 11:35:29 by gaeudes           #+#    #+#             */
+/*   Updated: 2025/06/21 12:55:40 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+
+void	free_env(t_env *env)
+{
+	uint64_t	i;
+
+	i = 0;
+	if (env->tab)
+		while (env->tab[i])
+			free(env->tab[i++]);
+	free(env->tab);
+	env->tab = 0;
+}
 
 void	free_lexer(t_snippet **lexer)
 {
@@ -47,16 +59,17 @@ void	free_tabstr(char ***tab)
 
 void	free_cmd(t_cmd *cmd)
 {
+	if (cmd->argv_cmd && cmd->path_exe != cmd->argv_cmd[0])
+		free(cmd->path_exe);
+	cmd->path_exe = 0;
 	free_tabstr(&(cmd->argv_cmd));
-	free(cmd->path_cmd);
-	cmd->path_cmd = 0;
 	close_fd(&(cmd->fd_in));
 	close_fd(&(cmd->fd_out));
 	free_lexer(&(cmd->heredoc));
 	free_lexer(&(cmd->redirs));
 	free_lexer(&(cmd->sn_argv));
-	close_fd(&(cmd->in_pipe));
-	close_fd(&(cmd->out_pipe));
+	close_fd(&(cmd->fd_in));
+	close_fd(&(cmd->fd_out));
 	cmd->pid = 0;
 }
 
@@ -67,8 +80,6 @@ void	free_node(t_base **pnode)
 	node = *pnode;
 	if (!node)
 		return ;
-	close_fd(&(node->fd_in));
-	close_fd(&(node->fd_out));
 	free_cmd(&(node->cmd));
 	if (node->left)
 		free_node(&((*pnode)->left));
@@ -76,4 +87,12 @@ void	free_node(t_base **pnode)
 		free_node(&((*pnode)->right));
 	free(node);
 	*pnode = 0;
+}
+
+void	free_ms(t_ms *ms)
+{
+	free_node(&(ms->exec_tree));
+	free_env(&ms->env);
+	//free_alias
+	exit(ms->status);
 }
