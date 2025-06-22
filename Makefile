@@ -1,6 +1,6 @@
 NAME =  minishell
 
-S_SRC_BUILTIN =  bi_env.c  bi_export.c  bi_unset.c  bi_echo.c  env_utils.c  pipi.c
+S_SRC_BUILTIN =  bi_env.c  bi_export.c  bi_unset.c  bi_echo.c  bi_pwd.c  env_utils.c  pipi.c
 D_SRC_BUILTIN =  built_in/
 SRC_BUILTIN =  $(addprefix $(D_SRC_BUILTIN), $(S_SRC_BUILTIN))
 
