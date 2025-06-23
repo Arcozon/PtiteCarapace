@@ -1,6 +1,6 @@
 NAME =  minishell
 
-S_SRC_BUILTIN =  bi_env.c  bi_export.c  bi_unset.c  bi_echo.c  bi_pwd.c  env_utils.c  pipi.c
+S_SRC_BUILTIN =  bi_cd.c  bi_echo.c  bi_env.c  bi_export.c  bi_pwd.c  bi_unset.c  env_utils.c  pipi.c
 D_SRC_BUILTIN =  built_in/
 SRC_BUILTIN =  $(addprefix $(D_SRC_BUILTIN), $(S_SRC_BUILTIN))
 
@@ -12,7 +12,7 @@ S_SRC_MKTREE =  debug_base.c  in_logic_opp.c  make_base.c  make_utils2.c  make_u
 D_SRC_MKTREE =  make_tree/
 SRC_MKTREE =  $(addprefix $(D_SRC_MKTREE), $(S_SRC_MKTREE))
 
-S_SRC_EXEC =  $(SRC_HDOC)  $(SRC_MKTREE)  exec_simple_cmd.c  create_argv.c  exec.c  exec_simple_cmd.c  exec_pipe_cmd.c  exec_opp.c  exec_ppl.c  exec_redir.c  find_exe.c
+S_SRC_EXEC =  $(SRC_HDOC)  $(SRC_MKTREE)  create_argv.c  exec.c  exec_simple_cmd.c  exec_pipe_cmd.c  exec_opp.c  exec_ppl.c  exec_redir.c  find_exe.c
 D_SRC_EXEC =  exec/
 SRC_EXEC =  $(addprefix $(D_SRC_EXEC), $(S_SRC_EXEC))
 

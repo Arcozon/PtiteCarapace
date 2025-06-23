@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 15:11:07 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/22 15:22:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:58:29 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int	bi_pwd(int ac, char **av, int fds[2], t_ms *ms)
 {
-	const char	*cwd = getcwd(0, 0);
-	size_t		len;
+	ssize_t	len;
+	char	*cwd;
 
+	cwd = getcwd(0, 0);
 	if (!cwd)
 		return (ms_perror(ms->pname, "pwd"), 1);
 	len = ft_strlen(cwd);

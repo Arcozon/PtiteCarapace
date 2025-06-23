@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:33:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 14:48:27 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:53:27 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exec_and(t_base *node, t_ms *ms)
 {
 	if (!ms->errors && node->left)
 		exec_node(node->left, ms);
-	if (!ms->errors && node->right  && ms->status == 0 && g_sig != SIGINT)
+	if (!ms->errors && node->right && ms->status == 0 && g_sig != SIGINT)
 		exec_node(node->right, ms);
 }
 
@@ -32,7 +32,7 @@ void	exec_or(t_base *node, t_ms *ms)
 {
 	if (!ms->errors)
 		exec_node(node->left, ms);
-	if (!ms->errors && ms->status != 0  && g_sig != SIGINT)
+	if (!ms->errors && ms->status != 0 && g_sig != SIGINT)
 		exec_node(node->right, ms);
 }
 

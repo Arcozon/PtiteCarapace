@@ -6,13 +6,13 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 16:07:08 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:49:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
-int g_sig = 0;
+int	g_sig = 0;
 
 void	sig_routine(int sig)
 {
@@ -29,7 +29,7 @@ void	sig_exec(int sig)
 		g_sig = sig;
 }
 
-void	set_sig(enum e_sig	mode, t_ms *ms)
+void	set_sig(enum e_sig mode, t_ms *ms)
 {
 	struct sigaction	s_setsig;
 

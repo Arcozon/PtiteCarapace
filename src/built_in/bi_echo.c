@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:40:54 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/22 15:01:17 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:57:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	write_echo(char *str, int fd_out, char *pname)
 {
-	size_t	len;
+	ssize_t	len;
 
 	len = ft_strlen(str);
 	if (write(fd_out, str, len) != len)
@@ -48,7 +48,6 @@ char	**skip_dash_n(char **av, int *dash_n)
 int	bi_echo(int ac, char **av, int fds[2], t_ms *ms)
 {
 	int	dash_n;
-	int	i;
 
 	av = skip_dash_n(av, &dash_n);
 	while (*av)
@@ -56,11 +55,13 @@ int	bi_echo(int ac, char **av, int fds[2], t_ms *ms)
 		if (write_echo(*av, fds[PIPE_WRITE], ms->pname) == ECHO_WRITE_ERR)
 			return (ECHO_WRITE_ERR);
 		++av;
-		if (*av && write_echo(" ", fds[PIPE_WRITE], ms->pname) == ECHO_WRITE_ERR)
+		if (*av
+			&& write_echo(" ", fds[PIPE_WRITE], ms->pname) == ECHO_WRITE_ERR)
 			return (ECHO_WRITE_ERR);
 	}
-	if (!dash_n &&write_echo("\n", fds[PIPE_WRITE], ms->pname) == ECHO_WRITE_ERR)
+	if (!dash_n
+		&& write_echo("\n", fds[PIPE_WRITE], ms->pname) == ECHO_WRITE_ERR)
 		return (ECHO_WRITE_ERR);
 	return (0);
+	(void)ac;
 }
-

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 14:46:47 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:54:56 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 uint64_t	execve_cmd(t_cmd *cmd, t_ms *ms)
 {
-
 	if (!cmd_dup(cmd))
 	{
 		if (cmd->builtin)
-			cmd->rstatus = cmd->builtin(get_ac(cmd->argv_cmd), cmd->argv_cmd, (int[2]){0,1}, ms);
+			cmd->rstatus = cmd->builtin(get_ac(cmd->argv_cmd),
+					cmd->argv_cmd, (int [2]){0, 1}, ms);
 		else
 		{
 			execve(cmd->path_exe, cmd->argv_cmd, ms->env.tab);
@@ -35,7 +35,7 @@ void	setup_ppl_cmd(t_cmd *cmd, t_ms *ms)
 	if (!open_redir(cmd, ms->pname) && !create_argv(cmd, ms))
 	{
 		ms->errors |= find_exe(&cmd->path_exe, &cmd->builtin, cmd->argv_cmd[0],
-			find_path(ms->env.tab));
+				find_path(ms->env.tab));
 		if (ms->errors)
 			ms_exit(ms->errors, ms);
 		if (cmd->argv_cmd[0])

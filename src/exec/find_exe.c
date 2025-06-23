@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:31:40 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:56:30 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_builin_fct	is_a_builtin(char *av0)
 	static const t_builin_fct	fct_builtin[] = {bi_echo, bi_exit, bi_cd,
 		bi_pwd, bi_env, bi_export, bi_unset, bi_alias, 0};
 	static char					*str_builtin[] = {"echo", "exit", "cd", "pwd",
-				"env", "export", "unset", "alias", 0};
+		"env", "export", "unset", "alias", 0};
 	uint64_t					i;
 
 	if (!av0)
@@ -68,7 +68,8 @@ t_builin_fct	is_a_builtin(char *av0)
 	return (0);
 }
 
-uint64_t	find_exe(char **ptr_exe, t_builin_fct *fct_blti, char *av0, char *path)
+uint64_t	find_exe(char **ptr_exe, t_builin_fct *fct_blti,
+	char *av0, char *path)
 {
 	if (!av0)
 		return (NO_ERR);

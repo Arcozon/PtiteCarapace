@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:20:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:31:08 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:55:37 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ uint64_t	open_redir(t_cmd *cmd, char *pname)
 		// expand token check error
 		if (cmd->redirs->token == redir_in)
 			cmd->errors |= cmd_open(&(cmd->fd_in), cmd->redirs->ptr,
-				O_RDONLY, pname);
+					O_RDONLY, pname);
 		else if (cmd->redirs->token == redir_out)
 			cmd->errors |= cmd_open(&(cmd->fd_out), cmd->redirs->ptr,
-				O_WRONLY | O_CREAT | O_TRUNC, pname);
-		else if (cmd->redirs->token == append) 
+					O_WRONLY | O_CREAT | O_TRUNC, pname);
+		else if (cmd->redirs->token == append)
 			cmd->errors |= cmd_open(&(cmd->fd_out), cmd->redirs->ptr,
-				O_WRONLY | O_CREAT | O_APPEND, pname);
+					O_WRONLY | O_CREAT | O_APPEND, pname);
 		next_snippet(&(cmd->redirs));
 	}
 	if (cmd->errors & E_OPEN)

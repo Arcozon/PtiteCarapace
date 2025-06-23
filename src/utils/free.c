@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:35:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:23:06 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:57:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,4 @@ void	free_ms(t_ms *ms)
 	free_node(&(ms->exec_tree));
 	free_env(&ms->env);
 	//free_alias
-  }
+}
