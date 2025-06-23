@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:44:10 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:44:40 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:04:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@
 # define SIG_HDOC_SET	0
 # define SIG_HDOC_RESET	1
 
+enum e_sig
+{
+	ROUTINE,
+	EXEC,
+	HEREDOC
+};
+
 extern int	g_sig;
 
-void	sig_exec(int sig);
-void	set_sig_heredoc(void);
-void	set_sig_exec(void);
-void	capture_signal_hdoc(int status);
+void	capture_signal_hdoc(int status, t_ms *ms);
+void	set_sig(enum e_sig	mode, t_ms *ms);
 
 #endif

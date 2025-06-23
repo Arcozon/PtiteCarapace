@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:27:29 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:46:47 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,14 @@ uint64_t	execve_cmd(t_cmd *cmd, t_ms *ms)
 	if (!cmd_dup(cmd))
 	{
 		if (cmd->builtin)
-		{
 			cmd->rstatus = cmd->builtin(get_ac(cmd->argv_cmd), cmd->argv_cmd, (int[2]){0,1}, ms);
-			ms_exit(cmd->rstatus, ms);
-		}
 		else
 		{
 			execve(cmd->path_exe, cmd->argv_cmd, ms->env.tab);
 			cmd->rstatus = 126;
 			ms_perror(ms->pname, cmd->path_exe);
 		}
-		close(0);
-		close(1);
+		ms_exit(cmd->rstatus, ms);
 	}
 	return (cmd->errors);
 }
@@ -50,8 +46,7 @@ void	setup_ppl_cmd(t_cmd *cmd, t_ms *ms)
 				ms_perror(ms->pname, cmd->path_exe);
 				ms_exit(cmd->rstatus, ms);
 			}
-			if (execve_cmd(cmd, ms))
-				print_code_error(cmd->errors, ms->pname);
+			execve_cmd(cmd, ms);
 		}
 	}
 	if (cmd->errors & E_OPEN && !cmd->argv_cmd[0])

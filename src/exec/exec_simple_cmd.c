@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:25:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:44:31 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_simple_builtin(t_cmd *cmd, t_ms *ms)
 	fds[1] = 1;
 	if (cmd->fd_in >= 0)
 		fds[1] = cmd->fd_out;
-	cmd->builtin(get_ac(cmd->argv_cmd), cmd->argv_cmd, fds, ms);
+	cmd->rstatus = cmd->builtin(get_ac(cmd->argv_cmd), cmd->argv_cmd, fds, ms);
 }
 
 void	exec_simple_cmd_fork(t_cmd *cmd, t_ms *ms)
@@ -40,10 +40,7 @@ void	exec_simple_cmd_fork(t_cmd *cmd, t_ms *ms)
 			print_code_error(cmd->errors, ms->pname);
 	}
 	else
-	{
 		waitpid(cmd->pid, &cmd->rstatus, 0);
-		ms->status = cmd->rstatus & MASK_STATUS;
-	}
 }
 
 void	exec_simple_cmd(t_base *node, t_ms *ms)
@@ -52,10 +49,9 @@ void	exec_simple_cmd(t_base *node, t_ms *ms)
 	{
 		node->cmd.builtin = is_a_builtin(node->cmd.argv_cmd[0]);
 		if (node->cmd.builtin)
-		{
 			exec_simple_builtin(&node->cmd, ms);
-			return ;
-		}
-		exec_simple_cmd_fork(&node->cmd, ms);
+		else
+			exec_simple_cmd_fork(&node->cmd, ms);
+		ms->status = node->cmd.rstatus & MASK_STATUS;
 	}
 }

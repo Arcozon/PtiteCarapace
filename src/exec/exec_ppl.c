@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:44:45 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:30:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:47:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	wait_ppl(t_base *node, t_ms *ms)
 		waitpid(node->left->cmd.pid, &node->left->cmd.rstatus, 0);
 		node = node->right;
 	}
-	waitpid(node->right->cmd.pid, &node->right->cmd.rstatus, 0);
-	ms->status = node->right->cmd.rstatus & MASK_STATUS;
+	waitpid(node->cmd.pid, &node->cmd.rstatus, 0);
+	ms->status = node->cmd.rstatus & MASK_STATUS;
 }
 
 void	exec_ppl(t_base *node, t_ms *ms)

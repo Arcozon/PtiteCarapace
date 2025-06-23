@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:35:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 12:55:40 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:23:06 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,11 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->path_exe);
 	cmd->path_exe = 0;
 	free_tabstr(&(cmd->argv_cmd));
-	close_fd(&(cmd->fd_in));
-	close_fd(&(cmd->fd_out));
 	free_lexer(&(cmd->heredoc));
 	free_lexer(&(cmd->redirs));
 	free_lexer(&(cmd->sn_argv));
 	close_fd(&(cmd->fd_in));
 	close_fd(&(cmd->fd_out));
-	cmd->pid = 0;
 }
 
 void	free_node(t_base **pnode)
@@ -94,5 +91,4 @@ void	free_ms(t_ms *ms)
 	free_node(&(ms->exec_tree));
 	free_env(&ms->env);
 	//free_alias
-	exit(ms->status);
-}
+  }

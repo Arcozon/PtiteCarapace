@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:40 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:58:33 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:11:36 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,12 @@ int	launch_heredocs(t_snippet *delims, char **env, t_ms *ms)
 
 	errors = 0;
 	fd_hdoc = -1;
-	capture_signal_hdoc(SIG_HDOC_SET);
+	capture_signal_hdoc(SIG_HDOC_SET, ms);
 	while (delims && !errors && !g_sig)
 	{
 		swap_fds(&fd_hdoc, one_heredoc(delims->ptr, env, ms));
 		delims = delims->next;
 	}
-	capture_signal_hdoc(SIG_HDOC_RESET);
-	if (g_sig)
-		swap_fds(&fd_hdoc, -1);
-	g_sig = 0;
+	capture_signal_hdoc(SIG_HDOC_RESET, ms);
 	return (fd_hdoc);
 }
