@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:27:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:07:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 {
 	t_snippet	**exp;
 
-	exp = &(cmd->sn_argv);
 	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms->env.tab, false);
+	exp = &(cmd->sn_argv);
 	while (*exp)
 	{
-		//expandr argv
-		//check error
 		exp = &((*exp)->next);
 	}
 	return (ms->errors);
@@ -57,8 +55,10 @@ uint64_t	create_argv(t_cmd *cmd, t_ms *ms)
 	{
 		to_free = cmd->sn_argv;
 		cmd->argv_cmd[i] = cmd->sn_argv->ptr;
+		// DEBUG("ARGV:|%s|", cmd->argv_cmd[i]);
 		cmd->sn_argv = cmd->sn_argv->next;
 		free(to_free);
+		++i;
 	}
 	return (cmd->errors);
 }

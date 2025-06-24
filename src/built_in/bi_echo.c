@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:40:54 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:01:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:04:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	bi_echo(int ac, char **av, int fds[2], t_ms *ms)
 {
 	int	dash_n;
 
-	av = skip_dash_n(av, &dash_n);
+	av = skip_dash_n(++av, &dash_n);
 	while (*av)
 	{
 		if (write_echo(*av, fds[PIPE_WRITE], ms->pname) == ECHO_WRITE_ERR)

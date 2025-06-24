@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:04:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:08:02 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_builin_fct	is_a_builtin(char *av0)
 		"env", "export", "unset", "alias", 0};
 	uint64_t					i;
 
+	// DEBUG("AV0:|%s|", av0);
 	if (!av0)
 		return (0);
 	i = 0;

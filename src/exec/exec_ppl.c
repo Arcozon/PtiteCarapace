@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:44:45 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:52:11 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:20:10 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ uint64_t	launch_part_ppl(t_base *node, t_ms *ms, int p_in, int p_out)
 {
 	if (node->cmd.fd_in == -1)
 		node->cmd.fd_in = p_in;
-	node->cmd.fd_out = p_out;
+	if (node->cmd.fd_out == -1)
+		node->cmd.fd_out = p_out;
 	if (node->e_type == SUB)
 		launch_subsh(node, ms);
 	else if (node->e_type == CMD)

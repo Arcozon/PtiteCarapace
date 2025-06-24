@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:26:49 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:02:14 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	exec_simple_cmd(t_base *node, t_ms *ms)
 	if (!open_redir(&node->cmd, ms) && !create_argv(&node->cmd, ms))
 	{
 		node->cmd.builtin = is_a_builtin(node->cmd.argv_cmd[0]);
+		DEBUG("FCT:|%p|", node->cmd.builtin);
 		if (node->cmd.builtin)
 			exec_simple_builtin(&node->cmd, ms);
 		else

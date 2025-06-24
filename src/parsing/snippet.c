@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   snippet.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:49:29 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/18 16:51:50 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/06/24 14:18:09 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ bool	expand_snip(t_snippet **head, t_snippet *to_expand, char **env, bool one_bl
 	{
 		if (*str && str[ft_strlen(str) - 1] == '\n')
 			str[ft_strlen(str) - 1] = 0;
-		if (!add_to_snip_lst(&new_lst, word, str))
+		if (!add_to_snip_lst(&new_lst, to_expand->token, str))
 			return (free_snip_lst(new_lst), false);
 		str = get_next_null(pipe_fds[0]);
 	}
