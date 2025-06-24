@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:33:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:27:36 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:11:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ void	exec_or(t_base *node, t_ms *ms)
 		exec_node(node->right, ms);
 }
 
-void	launch_subsh(t_base *node, t_ms *ms)
+void	launch_subsh(t_base *node, t_ms *ms, int to_close)
 {
 	if (ms_fork(&(node->cmd.pid), ms))
 		ms_exit(ms->errors, ms);
 	if (!node->cmd.pid)
 	{
+		close_fd(&to_close);
 		if (open_redir(&node->cmd, ms))
 			ms_exit(node->cmd.rstatus, ms);
 		if (cmd_dup(&node->cmd))
@@ -53,6 +54,6 @@ void	launch_subsh(t_base *node, t_ms *ms)
 
 void	exec_subsh(t_base *node, t_ms *ms)
 {
-	launch_subsh(node, ms);
+	launch_subsh(node, ms, -1);
 	waitpid(node->cmd.pid, &node->cmd.rstatus, 0);
 }

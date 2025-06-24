@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:46:14 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:00:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdio.h>
 # include <termios.h>
 # include <signal.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # include "debug.h"
 

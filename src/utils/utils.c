@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 14:21:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:52:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,6 @@ uint64_t	cmd_dup(t_cmd *cmd)
 		cmd->errors |= E_DUP;
 	if (cmd->fd_out >= 0 && dup2(cmd->fd_out, STDOUT_FILENO) < 0)
 		cmd->errors |= E_DUP;
-	DEBUG("IN/OUT: %d|%d", cmd->fd_in, cmd->fd_out)
 	close_fd(&cmd->fd_out);
 	close_fd(&cmd->fd_in);
 	return (cmd->errors);

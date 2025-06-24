@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:31:42 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/17 15:14:01 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:16:58 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,10 @@ void	debug_tree_rec(t_base *node)
 		for (;l;l = l->next)
 			printf("%s", l->ptr);
 		printf("'");
-		l = node->cmd.heredoc;
-		for (;l;l = l->next)
-			printf("%s",l->ptr);
-		printf("'");
 		l = node->cmd.redirs;
 		for (;l;l = l->next)
 			printf("%s",l->ptr);
-		printf(">");
+		printf("'");
 		return ;
 	}
 	else if (node->e_type == SUB)
@@ -55,12 +51,11 @@ void	debug_tree_rec(t_base *node)
 		debug_tree_rec(node->left);
 		l = node->cmd.heredoc;
 		for (;l;l = l->next)
-			printf("%s",l->ptr);
-		printf("'");
-		l = node->cmd.redirs;
-		for (;l;l = l->next)
-			printf("%s",l->ptr);
-		printf(">");
+			printf("%s ",l->ptr);
+		// printf("'");
+		// l = node->cmd.redirs;
+		// for (;l;l = l->next)
+		// 	printf("%s",l->ptr);
 		printf(")");
 		return ;
 	}
@@ -88,7 +83,7 @@ void	debug_tree(t_base *node)
 {
 	printf("--TREE: ");
 	debug_tree_rec(node);
-	printf("\n\n\n");
+	printf("\n\n");
 }
 
 void	debug_lexer(t_snippet *lexer)

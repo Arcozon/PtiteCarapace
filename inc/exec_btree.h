@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 15:18:12 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:12:02 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int				hdoc_read_fd_exp(int fdin, int fdout, t_x_hdoc *hdoc);
 void			heredoc_handle_dollar(char c, t_x_hdoc *hdoc);
 int				launch_heredocs(t_snippet *delims, char **env, t_ms *ms);
 int				read_stdin_no_exp(t_x_hdoc *hdoc, int fdin);
-void			exec_ppl_cmd(t_base *node, t_ms *ms);
+void			exec_ppl_cmd(t_base *node, t_ms *ms, int to_close);
 
 struct s_cmd
 {
@@ -74,7 +74,7 @@ uint64_t		find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 					char *av0, char *path);
 uint64_t		execve_cmd(t_cmd *cmd, t_ms *ms);
 
-void			launch_subsh(t_base *node, t_ms *ms);
+void			launch_subsh(t_base *node, t_ms *ms, int to_close);
 void			exec_scol(t_base *node, t_ms *ms);
 void			exec_and(t_base *node, t_ms *ms);
 void			exec_or(t_base *node, t_ms *ms);

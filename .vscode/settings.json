@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"span": "c"
+		"span": "c",
+		"history.h": "c"
 	}
 }

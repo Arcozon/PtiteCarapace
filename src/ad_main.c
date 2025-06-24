@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/24 13:33:58 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:00:01 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,7 +337,7 @@ int	main(int ac, char **av, char **envp)
 				replace_tilde(lst, getenv("HOME"));
 				replace_wildcards(&lst);
 				optimize_lst(&lst);
-				expand_snip(&lst, lst, ms.env.tab, true); // would be done in exec
+				// expand_snip(&lst, lst, ms.env.tab, true); // would be done in exec
 				// print_snippet_list(lst); // exec
 				exec_start(&ms, &lst);
 			}

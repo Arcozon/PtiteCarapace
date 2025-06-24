@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 15:07:46 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:52:58 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ uint64_t	create_argv(t_cmd *cmd, t_ms *ms)
 	{
 		to_free = cmd->sn_argv;
 		cmd->argv_cmd[i] = cmd->sn_argv->ptr;
-		// DEBUG("ARGV:|%s|", cmd->argv_cmd[i]);
 		cmd->sn_argv = cmd->sn_argv->next;
 		free(to_free);
 		++i;

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:49:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:06:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	sig_routine(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// reset buffer
+		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 		g_sig = sig;
 	}
 }
@@ -61,7 +64,7 @@ void	capture_signal_hdoc(int status, t_ms *ms)
 	if (status == SIG_HDOC_SET)
 	{
 		tcgetattr(STDIN_FILENO, &tmp);
-		orig = tmp;
+		tcgetattr(STDIN_FILENO, &orig);
 		tmp.c_cc[VQUIT] = _POSIX_VDISABLE;
 		tmp.c_lflag |= ICANON | ECHO ;
 		tcsetattr(STDIN_FILENO, TCSANOW, &tmp);

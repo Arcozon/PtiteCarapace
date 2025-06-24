@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:44:45 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 15:40:14 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:52:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ uint64_t	launch_part_ppl(t_base *node, t_ms *ms, int p_in, int pipes[2])
 {
 	swap_fds(&node->cmd.fd_in, p_in);
 	swap_fds(&node->cmd.fd_out, pipes[PIPE_WRITE]);
-	DEBUG("NPIN: %d", node->cmd.fd_in)
-	DEBUG("NPOUT: %d", node->cmd.fd_out)
 	if (node->e_type == SUB)
-		launch_subsh(node, ms);
+		launch_subsh(node, ms, pipes[PIPE_READ]);
 	else if (node->e_type == CMD)
-		exec_ppl_cmd(node, ms);
+		exec_ppl_cmd(node, ms, pipes[PIPE_READ]);
 	close_fd(&node->cmd.fd_in);
 	close_fd(&node->cmd.fd_out);
 	return (ms->errors);
@@ -59,7 +57,7 @@ uint64_t	launch_ppl(t_base *node, t_ms *ms)
 		last_pipe = pipes[PIPE_READ];
 		node = node->right;
 	}
-	if (launch_part_ppl(node, ms, last_pipe, -1))
+	if (launch_part_ppl(node, ms, last_pipe, (int []){-1, -1}))
 		ppl_exit(last_pipe , pipes, ms->errors, ms);
 	return (ms->errors);
 }

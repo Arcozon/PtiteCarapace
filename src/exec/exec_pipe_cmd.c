@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 15:33:13 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:10:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,13 @@ void	setup_ppl_cmd(t_cmd *cmd, t_ms *ms)
 	ms_exit(cmd->rstatus, ms);
 }
 
-void	exec_ppl_cmd(t_base *node, t_ms *ms)
+void	exec_ppl_cmd(t_base *node, t_ms *ms, int to_close)
 {
 	ms->errors |= ms_fork(&node->cmd.pid, ms);
 	if (ms->errors)
 		ms_exit(ms->errors, ms);
 	if (node->cmd.pid)
 		return ;
+	close_fd(&to_close);
 	setup_ppl_cmd(&node->cmd, ms);
 }
