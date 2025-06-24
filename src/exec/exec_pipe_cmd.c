@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:25:03 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:33:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ uint64_t	execve_cmd(t_cmd *cmd, t_ms *ms)
 		}
 		ms_exit(cmd->rstatus, ms);
 	}
+	ms_exit(cmd->errors, ms);
 	return (cmd->errors);
 }
 
@@ -42,7 +43,7 @@ void	setup_ppl_cmd(t_cmd *cmd, t_ms *ms)
 		{
 			if (!cmd->path_exe && !cmd->builtin)
 			{
-				cmd->rstatus = 127;
+				cmd->rstatus = STT_CMD_NOT_FOUND;
 				ms_perror(ms->pname, cmd->path_exe);
 				ms_exit(cmd->rstatus, ms);
 			}

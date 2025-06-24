@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:40 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 16:11:36 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:19:59 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int	launch_heredocs(t_snippet *delims, char **env, t_ms *ms)
 
 	errors = 0;
 	fd_hdoc = -1;
+	if (!delims)
+		return (-1);
 	capture_signal_hdoc(SIG_HDOC_SET, ms);
 	while (delims && !errors && !g_sig)
 	{

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:34:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:18:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define EXEC_BTREE_H
 
 # include "types.h"
+
+# define STT_CMD_NOT_FOUND	127
+# define STT_SIG_BASE		0x80
 
 struct s_exe_hdoc
 {

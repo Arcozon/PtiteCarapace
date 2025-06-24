@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 14:07:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:07:46 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 {
 	t_snippet	**exp;
 
+	if (!cmd->sn_argv)
+		return (NO_ERR);
 	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms->env.tab, false);
 	exp = &(cmd->sn_argv);
 	while (*exp)

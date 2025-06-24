@@ -2,3 +2,5 @@
 * at exec
 
 Syntax: ';' can have nothing after
+
+Signaux: Truc chelou quand 2 crtl C dans le prompt : readline child ?

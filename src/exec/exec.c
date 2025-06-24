@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:21 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:30:48 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:18:58 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_start(t_ms *ms, t_snippet **lexer)
 {
 	if (g_sig)
 	{
-		ms->status = g_sig + 0x80;
+		ms->status = g_sig + STT_SIG_BASE;
 		g_sig = 0;
 	}
 	if (make_base(lexer, &ms->exec_tree))
