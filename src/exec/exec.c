@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:21 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 17:23:11 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:27:57 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ void	exec_start(t_ms *ms, t_snippet **lexer)
 		ms->status = g_sig + STT_SIG_BASE;
 		g_sig = 0;
 	}
-	debug_lexer(*lexer);
 	if (make_base(lexer, &ms->exec_tree))
 		WAIT
-	debug_tree(ms->exec_tree);
 	set_sig(EXEC, ms);
 	exec_heredoc(ms->exec_tree, ms);
 	exec_node(ms->exec_tree, ms);
