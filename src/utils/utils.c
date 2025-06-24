@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 19:54:30 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 20:06:41 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,6 @@ struct termios orig_termios;
 __attribute__((constructor))
 void	save_term(void)
 {
-	WAIT
 	tcgetattr(STDIN_FILENO, &orig_termios);
 }
 

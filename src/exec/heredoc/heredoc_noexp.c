@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:00:31 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 20:14:05 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,19 @@ int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdout)
 	while (1)
 	{
 		if (hdoc->br < 0)
+		{
+			WAIT
 			return (hdoc->errors |= E_READ, -1);
+		}
 		if (hdoc->c == '\n')
 		{
 			write(2, "> ", 2);
 			hdoc->br = read_start_line(fdout, hdoc, &hdoc->c, &hdoc->br);
 			if (hdoc->br < 0)
+			{
+				WAIT
 				return (hdoc->errors |= E_READ, -1);
+			}
 			if (!hdoc->br)
 				return (0);
 		}
