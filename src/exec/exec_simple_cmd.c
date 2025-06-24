@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 17:03:05 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 20:02:17 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ void	exec_simple_cmd_fork(t_cmd *cmd, t_ms *ms)
 		if (!cmd->argv_cmd[0])
 			ms_exit(cmd->rstatus, ms);
 		execve_cmd(cmd, ms);
-		print_code_error(cmd->errors, ms->pname);
 	}
 	else
-		waitpid(cmd->pid, &cmd->rstatus, 0);
+		cmd_waitpid(cmd);
 }
 
 void	exec_simple_cmd(t_base *node, t_ms *ms)

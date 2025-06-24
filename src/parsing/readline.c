@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/21 23:00:10 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/06/24 20:02:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "minishell.h"
+#include "arcoms.h"
 
 void	ms_rdl(char *prompt, int fd)
 {
@@ -66,6 +67,7 @@ void	rdl_child(int pipe_fds[2], pid_t pid, t_prompt prompt, int history_fd)
 		close(history_fd);
 		return (free(ptr), free(prompt.prompt), exit(0));
 	}
+	signal(SIGINT, SIG_IGN);
 }
 
 int	get_cmd_line_fd(int	*fd, t_prompt prompt, int history_fd)
@@ -81,7 +83,7 @@ int	get_cmd_line_fd(int	*fd, t_prompt prompt, int history_fd)
 		return (close(pipe_fds[0]), close(pipe_fds[1]), -1);
 	rdl_child(pipe_fds, pid, prompt, history_fd);
 	close(pipe_fds[1]);
-	wait(&status);
+	waitpid(pid, &status, 0);
 	*fd = pipe_fds[0];
 	return (get_exit_value(status));
 }

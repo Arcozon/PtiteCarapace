@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:44:10 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 16:04:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:36:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ enum e_sig
 {
 	ROUTINE,
 	EXEC,
-	HEREDOC
+	HEREDOC,
+	DEFLT_SIG
 };
 
 extern int	g_sig;

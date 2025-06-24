@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 16:52:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:54:30 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,11 +212,25 @@ uint64_t	cmd_dup(t_cmd *cmd)
 	return (cmd->errors);
 }
 
+struct termios orig_termios;
+
+__attribute__((constructor))
+void	save_term(void)
+{
+	WAIT
+	tcgetattr(STDIN_FILENO, &orig_termios);
+}
+
 uint64_t	ms_fork(int *pid, t_ms *ms)
 {
 	*pid = fork();
 	if (*pid < 0)
 		ms->errors |= E_FORK;
+	if (!*pid)
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
+		set_sig(DEFLT_SIG, ms);
+	}
 	return (ms->errors);
 }
 
@@ -232,4 +246,10 @@ uint64_t	cmd_open(int *oldfd, char *fname, int mode, char *pname)
 	}
 	swap_fds(oldfd, new_fd);
 	return (NO_ERR);
+}
+
+void	cmd_waitpid(t_cmd *cmd)
+{
+	waitpid(cmd->pid, &cmd->rstatus, 0);
+	cmd->pid = -1;
 }

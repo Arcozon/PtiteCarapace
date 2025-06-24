@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:43:09 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:00:47 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:29:16 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_base	*mlc_base(int type)
 	if (!new)
 		return (0);
 	new->e_type = type;
+	new->cmd.pid = -1;
 	new->cmd.fd_in = -1;
 	new->cmd.fd_out = -1;
 	return (new);

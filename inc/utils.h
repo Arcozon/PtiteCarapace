@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:29:29 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:30:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "types.h"
 
+void		cmd_waitpid(t_cmd *cmd);
 void		ms_exit(int rstatus, t_ms *ms);
 uint64_t	ms_fork(int *pid, t_ms *ms);
 uint64_t	cmd_open(int *oldfd, char *fname, int mode, char *pname);

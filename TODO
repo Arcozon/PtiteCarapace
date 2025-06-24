@@ -7,6 +7,10 @@ Signaux: Truc chelou quand 2 crtl C dans le prompt : readline child ?
 
 ReadlineChild : double ctrlC
 			free t_ms
+			conflit pour les sig et reset le prompt de ma faute
 
 T_ms: ajouter fd_history, alias, prompt
 
+
+
+statut return quand commande pas trouve

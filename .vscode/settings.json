@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"span": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"arcoms.h": "c"
 	}
 }

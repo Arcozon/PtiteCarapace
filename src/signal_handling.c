@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 17:06:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:39:03 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	set_sig(enum e_sig mode, t_ms *ms)
 	s_setsig.sa_handler = sig_exec;
 	if (mode == ROUTINE)
 		s_setsig.sa_handler = sig_routine;
+	else if (mode == DEFLT_SIG)
+		s_setsig.sa_handler = SIG_DFL;
 	if (sigaction(SIGINT, &s_setsig, 0))
 	{
 		ms_perror(ms->pname, "Signal setting SIGINT");
@@ -49,6 +51,8 @@ void	set_sig(enum e_sig mode, t_ms *ms)
 	s_setsig.sa_handler = SIG_IGN;
 	if (mode == EXEC)
 		s_setsig.sa_handler = sig_exec;
+	else if (mode == DEFLT_SIG)
+		s_setsig.sa_handler = SIG_DFL;
 	if (sigaction(SIGQUIT, &s_setsig, 0))
 	{
 		ms_perror(ms->pname, "Signal setting SIGQUIT");
