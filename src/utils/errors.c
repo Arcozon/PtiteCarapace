@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 10:03:15 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 12:18:17 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 12:59:30 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	ms_perror(char *pname, char *context)
 {
-	write(2, pname, ft_strlen(pname));
+	write(2, pname, ge_strlen(pname));
 	write(2, ": ", 2);
 	perror(context);
 }
 
 void	print_error(char *pname, char *error_msg)
 {
-	write(2, pname, ft_strlen(pname));
+	write(2, pname, ge_strlen(pname));
 	write(2, ": ", 2);
-	write(2, error_msg, ft_strlen(error_msg));
+	write(2, error_msg, ge_strlen(error_msg));
 	write(2, "\n", 1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:56:02 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:54:14 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:02:45 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static inline int	errors_export(char *pname, int error, char *identifier)
 
 	if (error && pname)
 	{
-		write(2, pname, ft_strlen(pname));
+		write(2, pname, ge_strlen(pname));
 		write(2, ": ", 2);
 	}
 	if (error == E_NOSPACE)
 		write(2, "export: write error: No space left on device\n", 45);
 	else if (error == E_NOVALID)
 	{
-		id_len = ft_strlen(identifier);
+		id_len = ge_strlen(identifier);
 		write(2, "export: `", 9);
 		write(2, identifier, id_len);
 		write(2, "': not a valid identifier\n", 26);

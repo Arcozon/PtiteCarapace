@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 16:12:06 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:34:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ struct s_cmd
 	uint64_t		errors;
 };
 
-uint64_t		open_redir(t_cmd *cmd, char *pname);
+uint64_t		open_redir(t_cmd *cmd, t_ms *ms);
 uint64_t		create_argv(t_cmd *cmd, t_ms *ms);
 char			*find_path(char **env);
 t_builin_fct	is_a_builtin(char *av0);
@@ -79,5 +79,6 @@ void			exec_subsh(t_base *node, t_ms *ms);
 void			exec_simple_cmd(t_base *node, t_ms *ms);
 void			exec_ppl(t_base *node, t_ms *ms);
 void			exec_node(t_base *node, t_ms *ms);
+void			exec_start(t_ms *ms, t_snippet **lexer);
 
 #endif

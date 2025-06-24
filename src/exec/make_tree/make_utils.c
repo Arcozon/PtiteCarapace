@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:43:09 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 16:23:55 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:00:47 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_base	*mlc_base(int type)
 {
 	t_base	*new;
 
-	new = ft_calloc(sizeof(t_base));
+	new = ge_calloc(sizeof(t_base));
 	if (!new)
 		return (0);
 	new->e_type = type;

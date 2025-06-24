@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:52:04 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:29:29 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ uint64_t	cmd_dup(t_cmd *cmd);
 void		swap_fds(int *oldfd, int newfd);
 void		close_fd(int *fd);
 
-inline void		ft_bzero(char *ptr, size_t size);
-void		*ft_calloc(size_t size);
-void		*ft_memcpy(void *dst, const void *src, int64_t len);
-uint64_t	ft_strlen(const char *str);
-char		*ft_strdup(const char *str);
-int			ft_strcmp(char *s1, char *s2);
+void		ge_bzero(void *vptr, size_t size);
+void		*ge_calloc(size_t size);
+void		*ge_memcpy(void *dst, const void *src, int64_t len);
+uint64_t	ge_strlen(const char *str);
+char		*ge_strdup(const char *str);
+int			ge_strcmp(char *s1, char *s2);
 int			get_ac(char **av);
 
 char		*ft_substrjoin_with_slash(char *path, char *exe, size_t len);
-int			ft_strncmp_weq(char *name, char *env_var, size_t n);
+int			ge_strncmp_weq(char *name, char *env_var, size_t n);
 size_t		ft_varnamelen(const char var[]);
 
-int			ft_isdigit(char c);
-int			ft_isalpha(char c);
-char		*ft_strchr(char *str, char c);
+int			ge_isdigit(char c);
+int			ge_isalpha(char c);
+char		*ge_strchr(char *str, char c);
 
 void		free_ms(t_ms *ms);
 void		free_node(t_base **pnode);

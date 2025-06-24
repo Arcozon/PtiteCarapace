@@ -72,15 +72,15 @@ RM =  rm -rf
 
 all:	$(NAME)
 
-$(NAME):	$(OBJ)
-	$(CC) -o$@ $^ 
+$(NAME):	$(OBJ)	$(LIBPRINTF)
+	$(CC) -o$@ $^ $(F_LIB)
 
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)
 	$(CC) $(FLAGS) $(F_INC) -c $< -o $@ 
 
 $(LIBPRINTF):
-	make bonus -C srcs/printf
+	make bonus -C $(D_LIBPRINTF)
 
 clean:
 	$(RM) $(D_BUILD)

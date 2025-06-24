@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 15:11:07 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:58:29 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:02:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	bi_pwd(int ac, char **av, int fds[2], t_ms *ms)
 	cwd = getcwd(0, 0);
 	if (!cwd)
 		return (ms_perror(ms->pname, "pwd"), 1);
-	len = ft_strlen(cwd);
+	len = ge_strlen(cwd);
 	if (write(fds[PIPE_WRITE], cwd, len) != len
 		|| write(fds[PIPE_WRITE], "\n", 1) != 1)
 	{

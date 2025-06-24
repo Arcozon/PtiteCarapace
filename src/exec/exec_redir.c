@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:20:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:55:37 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:36:02 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,23 @@ void	next_snippet(t_snippet **snippet)
 	}
 }
 
-uint64_t	open_redir(t_cmd *cmd, char *pname)
+uint64_t	open_redir(t_cmd *cmd, t_ms *ms)
 {
+	if (!cmd->redirs)
+		return (NO_ERR);
+	expand_snip(&cmd->redirs, cmd->redirs, ms->env.tab, true);
 	while (!cmd->errors && cmd->redirs)
 	{
 		// expand token check error
 		if (cmd->redirs->token == redir_in)
 			cmd->errors |= cmd_open(&(cmd->fd_in), cmd->redirs->ptr,
-					O_RDONLY, pname);
+					O_RDONLY, ms->pname);
 		else if (cmd->redirs->token == redir_out)
 			cmd->errors |= cmd_open(&(cmd->fd_out), cmd->redirs->ptr,
-					O_WRONLY | O_CREAT | O_TRUNC, pname);
+					O_WRONLY | O_CREAT | O_TRUNC, ms->pname);
 		else if (cmd->redirs->token == append)
 			cmd->errors |= cmd_open(&(cmd->fd_out), cmd->redirs->ptr,
-					O_WRONLY | O_CREAT | O_APPEND, pname);
+					O_WRONLY | O_CREAT | O_APPEND, ms->pname);
 		next_snippet(&(cmd->redirs));
 	}
 	if (cmd->errors & E_OPEN)

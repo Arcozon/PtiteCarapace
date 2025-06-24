@@ -6,14 +6,17 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 15:13:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:29:20 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
-inline void	ft_bzero(char *ptr, size_t size)
+void	ge_bzero(void *vptr, size_t size)
 {
+	char	*ptr;
+
+	ptr = vptr;
 	while ((size_t)ptr & 0b111 && size)
 	{
 		*ptr = 0;
@@ -56,7 +59,7 @@ static inline void	__attribute__((always_inline))
 		--size;
 	}
 }
-void	*ft_calloc(size_t size)
+void	*ge_calloc(size_t size)
 {
 	char	*res;
 
@@ -67,7 +70,7 @@ void	*ft_calloc(size_t size)
 	return (res);
 }
 
-uint64_t	ft_strlen(const char *str)
+uint64_t	ge_strlen(const char *str)
 {
 	uint64_t	len;
 
@@ -77,26 +80,26 @@ uint64_t	ft_strlen(const char *str)
 	return (len);
 }
 
-void	*ft_memcpy(void *dst, const void *src, int64_t len)
+void	*ge_memcpy(void *dst, const void *src, int64_t len)
 {
 	while (len--)
 		((unsigned char *)dst)[len] = ((unsigned char *)src)[len];
 	return (dst);
 }
 
-char	*ft_strdup(const char *str)
+char	*ge_strdup(const char *str)
 {
 	uint64_t	len;
 	char		*res;
 
-	len = ft_strlen(str) + 1;
+	len = ge_strlen(str) + 1;
 	res = malloc(len);
 	if (res)
-		ft_memcpy(res, str, len);
+		ge_memcpy(res, str, len);
 	return (res);
 }
 
-int	ft_strncmp_weq(char *name, char *env_var, size_t n)
+int	ge_strncmp_weq(char *name, char *env_var, size_t n)
 {
 	while (n && *name)
 	{
@@ -111,7 +114,7 @@ int	ft_strncmp_weq(char *name, char *env_var, size_t n)
 	return (1);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+int	ge_strcmp(char *s1, char *s2)
 {
 	while (*s1 && *s1 == *s2)
 	{
@@ -133,15 +136,15 @@ size_t	ft_varnamelen(const char var[])
 	return (i);
 }
 
-int	ft_isalpha(char c)
-{
-	return ((c >= 'a' && c <= 'z') || ( c >= 'A' && c <= 'Z'));
-}
+// int	ft_isalpha(char c)
+// {
+// 	return ((c >= 'a' && c <= 'z') || ( c >= 'A' && c <= 'Z'));
+// }
 
-int	ft_isdigit(char c)
-{
-	return (c >= '0' && c <= '9');
-}
+// int	ft_isdigit(char c)
+// {
+// 	return (c >= '0' && c <= '9');
+// }
 
 void	close_fd(int *fd)
 {
@@ -156,7 +159,7 @@ void	swap_fds(int *oldfd, int newfd)
 	*oldfd = newfd;
 }
 
-char	*ft_strchr(char *str, char c)
+char	*ge_strchr(char *str, char c)
 {
 	while (*str)
 	{
@@ -175,10 +178,10 @@ char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
 	size_t	i;
 	size_t	j;
 
-	j = ft_strlen(path);
+	j = ge_strlen(path);
 	if (len > j)
 		len = j;
-	res = malloc((ft_strlen(exe) + len + 1 + 1) * sizeof(char));
+	res = malloc((ge_strlen(exe) + len + 1 + 1) * sizeof(char));
 	if (!res)
 		return (0);
 	i = 0;

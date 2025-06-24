@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/24 12:05:23 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:33:58 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "get_next_line.h"
 #include "minishell.h"
 #include "libftprintf.h"
+#include "arcoms.h"
 
 bool	is_opened(char *str)
 {
@@ -272,7 +273,7 @@ void print_snippet_list(t_snippet *head)
 	}
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	char			*str;
 	char			*prev_cmdline = NULL;
@@ -282,8 +283,15 @@ int	main(int ac, char **av, char **env)
 	t_prompt		prompt_var;
 	t_snippet		*lst = NULL;
 	t_hash_table	table;
+	// t_env	__attribute__((cleanup(free_env)))	env;
+	t_ms			ms;
 
-	(void)ac;(void)av;(void)env;
+	ge_bzero(&ms, sizeof(ms));
+	ms.errors |= init_env(&ms.env, envp);
+	if (!av[0])
+		av[0] = "minishell";
+	ms.pname = _basename(av[0]);
+	(void)ac;(void)av;(void)envp;
 
 	// Checking if we are in a tty
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
@@ -300,7 +308,6 @@ int	main(int ac, char **av, char **env)
 
 	// Getting .ms_history fd
 	history_fd = ms_get_history_fd(&prev_cmdline);
-
 	// Main loop
 	while (1)
 	{
@@ -330,12 +337,13 @@ int	main(int ac, char **av, char **env)
 				replace_tilde(lst, getenv("HOME"));
 				replace_wildcards(&lst);
 				optimize_lst(&lst);
-			expand_snip(&lst, lst, env, true); // would be done in exec
-				print_snippet_list(lst); // exec
+				expand_snip(&lst, lst, ms.env.tab, true); // would be done in exec
+				// print_snippet_list(lst); // exec
+				exec_start(&ms, &lst);
 			}
 		}
 		free(str);
-		free_snip_lst(lst);
+		// free_snip_lst(lst);
 		str = NULL;
 	}
 

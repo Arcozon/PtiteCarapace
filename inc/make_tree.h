@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:10:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:51:30 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:06:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "types.h"
 # include "exec_btree.h"
+# include "minishell.h"
 
 # define F_USELESS	0b000
 # define F_S_REDIR	0b001
@@ -28,27 +29,27 @@ static const int	g_lexer_id[] = {F_WORD, F_S_REDIR, F_S_REDIR, F_HEREDOC,
 	F_S_REDIR, F_USELESS, F_USELESS, F_USELESS,
 	F_USELESS, F_USELESS, F_USELESS};
 
-enum e_token
-{
-	word,
-	redir_in,
-	redir_out,
-	here_doc,
-	append,
-	pipe_delim,
-	or,
-	and,
-	semicolon,
-	open_par,
-	closing_par
-};
+// enum e_token
+// {
+// 	word,
+// 	redir_in,
+// 	redir_out,
+// 	here_doc,
+// 	append,
+// 	pipe_delim,
+// 	or,
+// 	and,
+// 	semicolon,
+// 	open_par,
+// 	closing_par
+// };
 
-struct s_node
-{
-	enum e_token	token;
-	char			*ptr;
-	t_snippet		*next;
-};
+// struct s_node
+// {
+// 	enum e_token	token;
+// 	char			*ptr;
+// 	t_snippet		*next;
+// };
 
 struct s_base
 {
@@ -82,11 +83,11 @@ t_snippet	**goto_next(t_snippet **lexer);
 void		add_back_lexer(t_snippet **lexer, t_snippet *to_add);
 void		store_cmd(t_snippet **lexer, t_cmd *cmd);
 
-int			is_cmd(t_snippet *lexer);
-int			is_redir(t_snippet *lexer);
-int			is_simple_redir(t_snippet *lexer);
-int			is_heredoc(t_snippet *lexer);
-int			is_useless_token(t_snippet *lexer);
+int			lis_cmd(t_snippet *lexer);
+int			lis_redir(t_snippet *lexer);
+int			lis_simple_redir(t_snippet *lexer);
+int			lis_heredoc(t_snippet *lexer);
+int			lis_useless_token(t_snippet *lexer);
 
 void		debug_lexer(t_snippet *lexer);
 void		debug_tree(t_base *node);

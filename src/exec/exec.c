@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:21 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:48:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:30:48 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,15 @@ void	exec_heredoc(t_base *node, t_ms *ms)
 	exec_heredoc(node->right, ms);
 }
 
-void	exec_start(t_ms *ms)
+void	exec_start(t_ms *ms, t_snippet **lexer)
 {
 	if (g_sig)
 	{
 		ms->status = g_sig + 0x80;
 		g_sig = 0;
 	}
-	//Make BTREE
+	if (make_base(lexer, &ms->exec_tree))
+		WAIT
 	set_sig(EXEC, ms);
 	exec_heredoc(ms->exec_tree, ms);
 	exec_node(ms->exec_tree, ms);

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:19:10 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:27:24 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 	t_snippet	**exp;
 
 	exp = &(cmd->sn_argv);
+	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms->env.tab, false);
 	while (*exp)
 	{
 		//expandr argv
@@ -36,7 +37,7 @@ uint64_t	cllc_argv(t_snippet *sn_argv, char ***p_argv)
 		++len;
 		sn_argv = sn_argv->next;
 	}
-	*p_argv = ft_calloc(sizeof(char *) * (len + 1));
+	*p_argv = ge_calloc(sizeof(char *) * (len + 1));
 	if (!*p_argv)
 		return (E_MLC);
 	return (NO_ERR);

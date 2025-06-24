@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:54:56 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:25:03 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ uint64_t	execve_cmd(t_cmd *cmd, t_ms *ms)
 
 void	setup_ppl_cmd(t_cmd *cmd, t_ms *ms)
 {
-	if (!open_redir(cmd, ms->pname) && !create_argv(cmd, ms))
+	if (!open_redir(cmd, ms) && !create_argv(cmd, ms))
 	{
 		ms->errors |= find_exe(&cmd->path_exe, &cmd->builtin, cmd->argv_cmd[0],
 				find_path(ms->env.tab));

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:33:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:53:27 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:27:36 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	launch_subsh(t_base *node, t_ms *ms)
 		ms_exit(ms->errors, ms);
 	if (!node->cmd.pid)
 	{
-		if (open_redir(&node->cmd, ms->pname))
+		if (open_redir(&node->cmd, ms))
 			ms_exit(node->cmd.rstatus, ms);
 		if (cmd_dup(&node->cmd))
 			ms_exit(E_DUP, ms);

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:59:57 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:00:31 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	expected_limiter(t_x_hdoc *hdoc)
 {
 	write(2, "\n", 1);
-	write(2, hdoc->pname, ft_strlen(hdoc->pname));
+	write(2, hdoc->pname, ge_strlen(hdoc->pname));
 	write(2, ": warning: here-document delimited by end-of-file (wanted `", 59);
-	write(2, hdoc->limiter, ft_strlen(hdoc->limiter));
+	write(2, hdoc->limiter, ge_strlen(hdoc->limiter));
 	write(2, "')\n", 3);
 }
 
