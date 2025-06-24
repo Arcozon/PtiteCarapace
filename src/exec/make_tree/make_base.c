@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 17:32:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:37:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:25:29 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ uint64_t	in_sub(t_snippet **lexer, t_base **to_store)
 	if ((*lexer)->token != closing_par)
 		WAIT
 	goto_next(lexer);
-	while (*lexer && lis_cmd(*lexer))
+	while (*lexer && lis_redir(*lexer))
 		store_cmd(lexer, &(node->cmd));
+	if (*lexer && (*lexer)->token == pipe_delim)
+		return (in_pipe(goto_next(lexer), node, to_store));
 	return (0);
 }
 
