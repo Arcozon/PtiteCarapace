@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:49:29 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/24 14:18:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:53:33 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ bool	expand_snip(t_snippet **head, t_snippet *to_expand, char **env, bool one_bl
 	write(STDOUT_FILENO, "\0", 1);
 	close(pipe_fds[1]);
 	dup2(stdout_fd, STDOUT_FILENO);
-
+	close(stdout_fd);
 
 	char *str = get_next_null(pipe_fds[0]);
 	while (str)
