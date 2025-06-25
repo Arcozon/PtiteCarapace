@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:33:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 19:32:15 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:42:00 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,4 @@ void	exec_subsh(t_base *node, t_ms *ms)
 {
 	launch_subsh(node, ms, -1);
 	cmd_waitpid(&node->cmd);
-	// waitpid(node->cmd.pid, &node->cmd.rstatus, 0);
 }

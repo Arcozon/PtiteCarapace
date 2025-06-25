@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 20:02:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:41:21 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ uint64_t	execve_cmd(t_cmd *cmd, t_ms *ms)
 		{
 			execve(cmd->path_exe, cmd->argv_cmd, ms->env.tab);
 			cmd->rstatus = 126;
+			// ft_is_file_lnk_fifo CHECK DIR/JSP/TTCA
 			ms_perror(ms->pname, cmd->path_exe);
 		}
 		ms_exit(cmd->rstatus, ms);

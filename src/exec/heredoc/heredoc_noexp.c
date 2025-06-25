@@ -6,11 +6,18 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 11:19:32 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 18:39:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+
+void	hdoc_read(t_x_hdoc *hdoc)
+{
+	hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
+	// if (hdoc->br == 1)
+	// 	write(2, &hdoc->c, 1);
+}
 
 void	expected_limiter(t_x_hdoc *hdoc)
 {
@@ -29,7 +36,7 @@ int	read_start_line(int fd, t_x_hdoc *hdoc, char *c, int *br)
 	i_l = 0;
 	while (1)
 	{
-		*br = read(STDIN_FILENO, c, 1);
+		hdoc_read(hdoc);
 		if (*br < 0)
 			return (hdoc->errors |= E_READ, -1);
 		if (!*br && i_l == 0)
@@ -89,7 +96,7 @@ int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdout)
 				return (0);
 		}
 		else
-			hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
+			hdoc_read(hdoc);
 		if (hdoc->br == 1)
 		{
 			if (write(fdout, &hdoc->c, 1) != 1)
