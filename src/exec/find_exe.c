@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 15:28:55 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:32:15 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ uint64_t	find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 {
 	if (!av0)
 		return (NO_ERR);
-	DEBUG("F: %s: %d", av0, (int)ft_is_file_lnk(av0))
+	// DEBUG("F: %s: %d", av0, (int)ft_is_file_lnk(av0))
 	*fct_blti = is_a_builtin(av0);
 	if (*fct_blti)
 		return (NO_ERR);
