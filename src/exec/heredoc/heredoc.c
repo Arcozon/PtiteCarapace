@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:40 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 20:13:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:05:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ uint64_t	init_x_hdoc(t_x_hdoc *hdoc, char *limiter, char **env, t_ms *ms)
 	hdoc->pipes[1][1] = -1;
 	if (pipe(hdoc->pipes[0]) < 0 || (hdoc->to_expand
 			&& pipe(hdoc->pipes[1]) < 0))
-		hdoc->errors |= E_PIPE;
+		ms->errors |= E_PIPE;
 	hdoc->mlen_hdoc = 0;
 	hdoc->act_len = -1;
 	hdoc->vname = 0;
@@ -70,11 +70,15 @@ int	clean_heredoc(t_x_hdoc hdoc, t_ms *ms)
 	close_fd(&(hdoc.pipes[0][PIPE_WRITE]));
 	close_fd(&(hdoc.pipes[1][PIPE_READ]));
 	close_fd(&(hdoc.pipes[1][PIPE_WRITE]));
-	if (hdoc.errors)
+	if (hdoc.errors || g_sig == SIGINT || ms->errors)
 	{
-		ms->errors |= hdoc.errors;
+		if (g_sig == SIGINT)
+		{
+			hdoc.errors &= ~E_READ;
+			write(2, "\n", 1);
+		}
+		(void)ms;
 		close_fd(&(hdoc.pipes[0][PIPE_READ]));
-		return (-1);
 	}
 	return (hdoc.pipes[0][PIPE_READ]);
 }
@@ -97,7 +101,7 @@ int	one_heredoc(char *delim, char **env, t_ms *ms)
 			hdoc_read_fd_exp(hdoc.pipes[1][PIPE_READ],
 				hdoc.pipes[0][PIPE_WRITE], &hdoc);
 		else
-			hdoc.errors |= E_MLC;
+			ms->errors |= E_MLC;
 	}
 	return (clean_heredoc(hdoc, ms));
 }
@@ -117,7 +121,6 @@ int	launch_heredocs(t_snippet *delims, char **env, t_ms *ms)
 		swap_fds(&fd_hdoc, one_heredoc(delims->ptr, env, ms));
 		delims = delims->next;
 	}
-	WAIT
 	capture_signal_hdoc(SIG_HDOC_RESET, ms);
 	return (fd_hdoc);
 }

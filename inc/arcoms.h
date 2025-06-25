@@ -6,9 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 17:00:44 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:07:24 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+# include <stdio.h>
 
 #ifndef ARCOMS_H
 # define ARCOMS_H
@@ -17,8 +19,9 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
-# include <stdio.h>
 # include <termios.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <signal.h>
 # include <readline/history.h>
 # include <readline/readline.h>

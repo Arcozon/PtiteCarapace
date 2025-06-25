@@ -2,6 +2,7 @@
 	"files.associations": {
 		"span": "c",
 		"history.h": "c",
-		"arcoms.h": "c"
+		"arcoms.h": "c",
+		"ioctl.h": "c"
 	}
 }

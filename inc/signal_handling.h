@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:44:10 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 19:36:43 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 11:11:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ enum e_sig
 
 extern int	g_sig;
 
+uint8_t	uptade_sig(uint8_t	status);
 void	capture_signal_hdoc(int status, t_ms *ms);
 void	set_sig(enum e_sig	mode, t_ms *ms);
 

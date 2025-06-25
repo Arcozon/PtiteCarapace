@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 20:06:41 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 10:59:40 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,6 @@ uint64_t	cmd_open(int *oldfd, char *fname, int mode, char *pname)
 
 void	cmd_waitpid(t_cmd *cmd)
 {
-	waitpid(cmd->pid, &cmd->rstatus, 0);
-	cmd->pid = -1;
+	while (waitpid(cmd->pid, &cmd->rstatus, 0) != cmd->pid)
+		;
 }

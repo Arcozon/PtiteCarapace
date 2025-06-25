@@ -6,13 +6,21 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 19:39:03 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:02:59 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
 int	g_sig = 0;
+
+uint8_t	uptade_sig(uint8_t	status)
+{
+	if (g_sig)
+		status = g_sig + STT_SIG_BASE;
+	g_sig = 0;
+	return (status); 
+}
 
 void	sig_routine(int sig)
 {
@@ -68,9 +76,10 @@ void	capture_signal_hdoc(int status, t_ms *ms)
 	if (status == SIG_HDOC_SET)
 	{
 		tcgetattr(STDIN_FILENO, &tmp);
-		tcgetattr(STDIN_FILENO, &orig);
-		tmp.c_cc[VQUIT] = _POSIX_VDISABLE;
-		tmp.c_lflag |= ICANON | ECHO ;
+		orig = tmp;
+		tmp.c_lflag |= ICANON | ISIG;
+		tmp.c_lflag &= ~(ECHOCTL); 
+		WAIT
 		tcsetattr(STDIN_FILENO, TCSANOW, &tmp);
 		set_sig(HEREDOC, ms);
 	}
@@ -80,3 +89,4 @@ void	capture_signal_hdoc(int status, t_ms *ms)
 		set_sig(EXEC, ms);
 	}
 }
+#include <asm/ioctl.h>

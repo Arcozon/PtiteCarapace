@@ -3,11 +3,9 @@
 
 Syntax: ';' can have nothing after
 
-Signaux: Truc chelou quand 2 crtl C dans le prompt : readline child ?
-
-ReadlineChild : double ctrlC
-			free t_ms
-			conflit pour les sig et reset le prompt de ma faute
+ReadlineChild : double ctrlC FIXED
+			free T_ms
+			Init status dans get_cmd_line_fd
 
 T_ms: ajouter fd_history, alias, prompt
 

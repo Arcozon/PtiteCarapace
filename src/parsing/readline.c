@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/24 20:02:12 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 14:05:11 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	get_cmd_line_fd(int	*fd, t_prompt prompt, int history_fd)
 		return (close(pipe_fds[0]), close(pipe_fds[1]), -1);
 	rdl_child(pipe_fds, pid, prompt, history_fd);
 	close(pipe_fds[1]);
+	status = 0;
 	waitpid(pid, &status, 0);
 	*fd = pipe_fds[0];
 	return (get_exit_value(status));

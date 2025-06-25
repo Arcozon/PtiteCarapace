@@ -6,11 +6,21 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 18:09:21 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:28:55 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+
+// 0 is not file
+uint8_t	ft_is_file_lnk(const char *path)
+{
+	struct stat	bufstat;
+
+	if (stat(path, &bufstat) < 0)
+		return (0);
+	return (((bufstat.st_mode & __S_IFMT) & (__S_IFREG | __S_IFLNK)) != 0);
+}
 
 char	*find_path(char **env)
 {
@@ -37,7 +47,7 @@ uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
 		*ptr_exe = ft_substrjoin_with_slash(path + start, av0, len);
 		if (!*ptr_exe)
 			return (E_MLC);
-		if (!access(*ptr_exe, F_OK))
+		if (!access(*ptr_exe, F_OK) && ft_is_file_lnk(*ptr_exe))
 			return (NO_ERR);
 		free(*ptr_exe);
 		start += len;
@@ -73,12 +83,13 @@ uint64_t	find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 {
 	if (!av0)
 		return (NO_ERR);
+	DEBUG("F: %s: %d", av0, (int)ft_is_file_lnk(av0))
 	*fct_blti = is_a_builtin(av0);
 	if (*fct_blti)
 		return (NO_ERR);
 	if (!path || ge_strchr(av0, '/'))
 	{
-		if (!access(av0, F_OK))
+		if (!access(av0, F_OK) && ft_is_file_lnk(av0))
 			*ptr_exe = av0;
 		return (NO_ERR);
 	}
