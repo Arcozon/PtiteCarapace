@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/24 17:00:01 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:18:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,8 @@ int	main(int ac, char **av, char **envp)
 	// Creating hash table and aliases
 	ft_bzero(&table, sizeof(table));
 	parse_rc(&table);
-
+	int pipes[2];pipe(pipes);
+	DEBUG("%d", getpid())
 	// Initializing Prompt
 	ft_bzero(&prompt_var, sizeof(t_prompt));
 	prompt_var.prompt_raw = "\\u@\\h:\\w\\$ ";

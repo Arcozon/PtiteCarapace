@@ -6,18 +6,20 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 15:32:15 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:18:29 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
+
+
 // 0 is not file
-uint8_t	ft_is_file_lnk(const char *path)
+uint8_t	ft_is_file_lnk(const char *path_file)
 {
 	struct stat	bufstat;
 
-	if (stat(path, &bufstat) < 0)
+	if (stat(path_file, &bufstat) < 0)
 		return (0);
 	return (((bufstat.st_mode & __S_IFMT) & (__S_IFREG | __S_IFLNK)) != 0);
 }
@@ -83,14 +85,17 @@ uint64_t	find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 {
 	if (!av0)
 		return (NO_ERR);
-	// DEBUG("F: %s: %d", av0, (int)ft_is_file_lnk(av0))
+	DEBUG("F: %s: %d", av0, (int)ft_is_file_lnk(av0))
 	*fct_blti = is_a_builtin(av0);
 	if (*fct_blti)
 		return (NO_ERR);
 	if (!path || ge_strchr(av0, '/'))
 	{
-		if (!access(av0, F_OK) && ft_is_file_lnk(av0))
+		if (!access(av0, F_OK))
+		{
+
 			*ptr_exe = av0;
+		}
 		return (NO_ERR);
 	}
 	return (find_exe_int_path(ptr_exe, av0, path));
