@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 10:59:40 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:08:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,15 +136,10 @@ size_t	ft_varnamelen(const char var[])
 	return (i);
 }
 
-// int	ft_isalpha(char c)
-// {
-// 	return ((c >= 'a' && c <= 'z') || ( c >= 'A' && c <= 'Z'));
-// }
-
-// int	ft_isdigit(char c)
-// {
-// 	return (c >= '0' && c <= '9');
-// }
+int	ge_isupper(char c)
+{
+	return (c >= 'A' && c <= 'Z');
+}
 
 void	close_fd(int *fd)
 {

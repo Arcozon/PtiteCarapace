@@ -3,6 +3,7 @@
 		"span": "c",
 		"history.h": "c",
 		"arcoms.h": "c",
-		"ioctl.h": "c"
+		"ioctl.h": "c",
+		"make_tree.h": "c"
 	}
 }

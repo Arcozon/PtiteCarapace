@@ -6,17 +6,53 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 18:39:12 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:57:47 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
+int	is_shit_char(char c)
+{
+	const char	end_secsq[] = "hlmnsuABCDEFGHKJ";
+	int			i;
+
+	i = 0;
+	return (0);
+	(void)c, (void)end_secsq;
+}
+
+int	is_end_ofesc_seq(char c)
+{
+	const char	end_secsq[] = "hlmnsuABCDEFGHKJ";
+	int			i;
+
+	i = 0;
+	while (end_secsq[i])
+	{
+		if (end_secsq[i] == c)
+			return (1);
+		++i;
+	}
+	return (0);
+}
+
 void	hdoc_read(t_x_hdoc *hdoc)
 {
 	hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
-	// if (hdoc->br == 1)
-	// 	write(2, &hdoc->c, 1);
+	if (hdoc->br <= 0)
+		return ;
+	if (hdoc->c == '\x7f')
+		hdoc_read(hdoc);
+	if (hdoc->c == ESC)
+	{
+		while (hdoc->br == 1 && !is_end_ofesc_seq(hdoc->c))
+			hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
+		hdoc_read(hdoc);
+	}
+	else
+		write(2, &hdoc->c, 1);
+
 }
 
 void	expected_limiter(t_x_hdoc *hdoc)
