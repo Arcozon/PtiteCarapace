@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:21 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 11:13:12 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:28:52 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	exec_start(t_ms *ms, t_snippet **lexer)
 	if (g_sig)
 	{
 		free_node(&ms->exec_tree);
+		set_sig(ROUTINE, ms);
 		ms->status = uptade_sig(ms->status);
 		return ;
 	}

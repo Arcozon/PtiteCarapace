@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 18:45:13 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:41:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,6 @@ void	sig_exec(int sig)
 		g_sig = sig;
 }
 
-void	sig_hdoc(int sig)
-{
-	if (sig == SIGQUIT)
-		return ;
-	write(2, "^C", 2);
-	g_sig = sig;
-}
 
 void	set_sig(enum e_sig mode, t_ms *ms)
 {
@@ -55,27 +48,21 @@ void	set_sig(enum e_sig mode, t_ms *ms)
 	s_setsig.sa_flags = 0;
 	sigemptyset(&s_setsig.sa_mask);
 	s_setsig.sa_handler = sig_exec;
-	if (mode == HEREDOC)
-		s_setsig.sa_handler = sig_hdoc;
 	if (mode == ROUTINE)
 		s_setsig.sa_handler = sig_routine;
 	else if (mode == DEFLT_SIG)
 		s_setsig.sa_handler = SIG_DFL;
 	if (sigaction(SIGINT, &s_setsig, 0))
-	{
-		ms_perror(ms->pname, "Signal setting SIGINT");
-		ms_exit(ms->status, ms);
-	}
-	s_setsig.sa_handler = sig_hdoc;
+		(ms_perror(ms->pname, "Signal setting SIGQUIT"),
+			ms_exit(ms->status, ms));
+	s_setsig.sa_handler = SIG_IGN;
 	if (mode == EXEC)
 		s_setsig.sa_handler = sig_exec;
 	else if (mode == DEFLT_SIG)
 		s_setsig.sa_handler = SIG_DFL;
 	if (sigaction(SIGQUIT, &s_setsig, 0))
-	{
-		ms_perror(ms->pname, "Signal setting SIGQUIT");
-		ms_exit(ms->status, ms);
-	}
+		(ms_perror(ms->pname, "Signal setting SIGQUIT"),
+			ms_exit(ms->status, ms));
 }
 
 void	capture_signal_hdoc(int status, t_ms *ms)
@@ -88,9 +75,6 @@ void	capture_signal_hdoc(int status, t_ms *ms)
 		tcgetattr(STDIN_FILENO, &tmp);
 		orig = tmp;
 		tmp.c_lflag |= ICANON | ECHO | ISIG;
-    	tmp.c_lflag &= ~(ECHOCTL);
-		// tmp.c_cc[VTIME] = 0;
-		// tmp.c_cc[VMIN] = 1;
 		tcsetattr(STDIN_FILENO, TCSANOW, &tmp);
 		set_sig(HEREDOC, ms);
 	}

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 14:57:47 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:47:38 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ void	hdoc_read(t_x_hdoc *hdoc)
 	hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
 	if (hdoc->br <= 0)
 		return ;
-	if (hdoc->c == '\x7f')
+	if (hdoc->c == '\x1c')
+	{
 		hdoc_read(hdoc);
+		return ;
+	}
 	if (hdoc->c == ESC)
 	{
 		while (hdoc->br == 1 && !is_end_ofesc_seq(hdoc->c))
 			hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
 		hdoc_read(hdoc);
 	}
-	else
-		write(2, &hdoc->c, 1);
-
 }
 
 void	expected_limiter(t_x_hdoc *hdoc)
