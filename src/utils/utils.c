@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 14:08:22 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 18:34:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,25 @@ uint64_t	cmd_open(int *oldfd, char *fname, int mode, char *pname)
 
 void	cmd_waitpid(t_cmd *cmd)
 {
-	while (waitpid(cmd->pid, &cmd->rstatus, 0) != cmd->pid)
+	int	rstatus;
+
+	rstatus = 0;
+	while (waitpid(cmd->pid, &rstatus, 0) != cmd->pid)
 		;
+	cmd->rstatus = WEXITSTATUS(rstatus);
+}
+
+int	is_end_ofesc_seq(char c)
+{
+	const char	end_secsq[] = "hlmnsuABCDEFGHKJ";
+	int			i;
+
+	i = 0;
+	while (end_secsq[i])
+	{
+		if (end_secsq[i] == c)
+			return (1);
+		++i;
+	}
+	return (0);
 }

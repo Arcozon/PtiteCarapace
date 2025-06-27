@@ -6,36 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 15:47:38 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:49:09 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-int	is_shit_char(char c)
-{
-	const char	end_secsq[] = "hlmnsuABCDEFGHKJ";
-	int			i;
-
-	i = 0;
-	return (0);
-	(void)c, (void)end_secsq;
-}
-
-int	is_end_ofesc_seq(char c)
-{
-	const char	end_secsq[] = "hlmnsuABCDEFGHKJ";
-	int			i;
-
-	i = 0;
-	while (end_secsq[i])
-	{
-		if (end_secsq[i] == c)
-			return (1);
-		++i;
-	}
-	return (0);
-}
 
 void	hdoc_read(t_x_hdoc *hdoc)
 {

@@ -6,11 +6,20 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 10:03:15 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 19:06:26 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 17:57:01 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+
+void	ms_c_perror(char *pname, char *str, char *context)
+{
+	write(2, pname, ge_strlen(pname));
+	write(2, ": ", 2);
+	write(2, str, ge_strlen(str));
+	write(2, ": ", 2);
+	perror(context);
+}
 
 void	ms_perror(char *pname, char *context)
 {

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 14:07:56 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:50:10 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ size_t		ft_varnamelen(const char var[]);
 int			ge_isdigit(char c);
 int			ge_isalpha(char c);
 int			ge_isupper(char c);
+int			is_end_ofesc_seq(char c);
 char		*ge_strchr(char *str, char c);
 
 void		free_ms(t_ms *ms);

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:03:44 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/27 18:22:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ uint64_t	add_var_env(t_env *env, char *to_add)
 uint64_t	init_env(t_env *env, char *envp[])
 {
 	env->last_mty = 0;
-	env->ttsize = BASE_ENV_SIZE;
 	env->tab = ge_calloc(sizeof(char *) * (BASE_ENV_SIZE + 1));
 	if (!env->tab)
 		return (E_MLC);
+	env->ttsize = BASE_ENV_SIZE;
 	while (*envp)
 	{
 		if (add_var_env(env, *envp))
@@ -99,4 +99,17 @@ uint64_t	init_env(t_env *env, char *envp[])
 		++envp;
 	}
 	return (NO_ERR);
+}
+
+char	*find_content_var(char *vname, char **env)
+{
+	uint64_t	len_vname = ft_strlen(vname);
+
+	while (*env)
+	{
+		if (!ge_strncmp_weq(vname, *env, len_vname))
+			return (*env + len_vname + 1);
+		++env;
+	}
+	return (0);
 }

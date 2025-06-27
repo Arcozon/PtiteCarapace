@@ -4,6 +4,7 @@
 		"history.h": "c",
 		"arcoms.h": "c",
 		"ioctl.h": "c",
-		"make_tree.h": "c"
+		"make_tree.h": "c",
+		"fcntl.h": "c"
 	}
 }
