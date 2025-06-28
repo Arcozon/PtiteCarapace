@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 18:34:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/28 12:18:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,11 @@ size_t	ft_varnamelen(const char var[])
 int	ge_isupper(char c)
 {
 	return (c >= 'A' && c <= 'Z');
+}
+
+int	ge_isspace(char c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
 void	close_fd(int *fd)

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:40:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:02:30 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/28 12:36:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static inline void	err_no_space(const char *pname)
 int	bi_env(int ac, char **av, int fds[2], t_ms *ms)
 {
 	uint64_t	i;
-	int64_t	len;
+	int64_t		len;
 
 	(void)ac, (void)av;
 	i = 0;

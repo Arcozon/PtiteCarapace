@@ -12,10 +12,4 @@ T_ms: ajouter fd_history, alias, prompt
 prompt : prompt vert et prompt rouge ?
 			maj du pwd dans le prompt
 
-statut return quand commande pas trouve
-
-
 env init, set PWD oLD PWD SHLVL
-
-faire exit ptetre
-

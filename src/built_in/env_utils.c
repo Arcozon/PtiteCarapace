@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 18:22:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/28 12:29:45 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ uint64_t	init_env(t_env *env, char *envp[])
 
 char	*find_content_var(char *vname, char **env)
 {
-	uint64_t	len_vname = ft_strlen(vname);
+	const uint64_t	len_vname = ft_strlen(vname);
 
 	while (*env)
 	{
