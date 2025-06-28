@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 13:57:30 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/28 12:41:41 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ struct s_cmd
 
 uint64_t		open_redir(t_cmd *cmd, t_ms *ms);
 uint64_t		create_argv(t_cmd *cmd, t_ms *ms);
-char			*find_path(char **env);
 t_builin_fct	is_a_builtin(char *av0);
 uint64_t		find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 					char *av0, char *path);

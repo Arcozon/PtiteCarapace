@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 17:02:01 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/06/28 12:40:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,6 @@ uint8_t	ft_is_file_lnk(const char *path_file)
 		return (0);
 	return (((bufstat.st_mode & __S_IFMT)
 		& (__S_IFREG | __S_IFLNK)) != 0);
-}
-
-char	*find_path(char **env)
-{
-	while (*env)
-	{
-		if (!ge_strncmp_weq("PATH", *env, 4))
-			return (*env);
-		++env;
-	}
-	return (0);
 }
 
 uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
