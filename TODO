@@ -14,3 +14,4 @@ prompt : prompt vert et prompt rouge ?
 
 env init, set PWD oLD PWD SHLVL
 
+Error when cmd is not found
