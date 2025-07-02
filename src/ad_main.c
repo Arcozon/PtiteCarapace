@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/27 18:26:57 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:59:17 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,7 @@ int	main(int ac, char **av, char **envp)
 	// Initializing Prompt
 	ft_bzero(&prompt_var, sizeof(t_prompt));
 	// prompt_var.prompt_raw = "\\u@\\h:\\w\\$ ";
-	prompt_var.prompt_raw = "[1;34m\\u[0;35m\\w [1;32m$ [0m";
+	prompt_var.prompt_raw = "\1[1;34m\2\\u\1[0;35m\2\\w \1[1;32m\2$ \1[0m\2";
 	update_prompt_var(&prompt_var);
 
 	// Getting .ms_history fd
