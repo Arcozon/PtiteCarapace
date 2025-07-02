@@ -13,3 +13,4 @@ prompt : prompt vert et prompt rouge ?
 			maj du pwd dans le prompt
 
 env init, set PWD oLD PWD SHLVL
+
