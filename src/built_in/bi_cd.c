@@ -34,6 +34,7 @@ int	internal_cd(char *to_cd, int fdout, t_ms *ms, int to_print_newpwd)
 		return (0);
 	if (!chdir(to_cd))
 	{
+		update_prompt_var(&ms->prompt_var);
 		joined = ft_strjoin("OLDPWD=", (char *)cont_pwd);
 		if (!joined || add_var_env(&ms->env, joined))
 			return (ms->errors |= E_MLC, 1);

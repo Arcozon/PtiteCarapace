@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/27 18:26:57 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/02 18:33:30 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,12 @@ void print_snippet_list(t_snippet *head)
 	}
 }
 
+__attribute__((constructor)) void check_for_interractive_mode(void)
+{
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+		exit(EXIT_FAILURE);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char			*str;
@@ -294,8 +300,6 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;(void)av;(void)envp;
 
 	// Checking if we are in a tty
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-		return (1);
 
 	// Creating hash table and aliases
 	ft_bzero(&table, sizeof(table));
@@ -303,15 +307,15 @@ int	main(int ac, char **av, char **envp)
 	// Initializing Prompt
 	ft_bzero(&prompt_var, sizeof(t_prompt));
 	// prompt_var.prompt_raw = "\\u@\\h:\\w\\$ ";
-	prompt_var.prompt_raw = "[1;34m\\u[0;35m\\w [1;32m$ [0m";
-	update_prompt_var(&prompt_var);
+	ms.prompt_var.prompt_raw = "\1\33[1;34m\2\\u@\\h:\1\33[0;35m\002\\w \1\33[1;32m\2$ \1\33[0m\2";
+	update_prompt_var(&ms.prompt_var);
 
 	// Getting .ms_history fd
 	history_fd = ms_get_history_fd(&prev_cmdline);
 	// Main loop
 	while (1)
 	{
-		ret_val = get_cmd_line_fd(&fd, prompt_var, history_fd);
+		ret_val = get_cmd_line_fd(&fd, ms.prompt_var, history_fd);
 		if (ret_val == -1)
 			break ;
 		//str = gnl(fd);

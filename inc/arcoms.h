@@ -56,6 +56,8 @@ struct s_ms
 	t_env		env;
 	uint8_t		status;
 	uint64_t	errors;
+
+	t_prompt	prompt_var;
 };
 
 #endif

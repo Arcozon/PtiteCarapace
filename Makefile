@@ -1,4 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
+#    Updated: 2025/07/02 18:21:32 by malfwa           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME =  minishell
+
+include src/printf/libft/libft_vars.mk
+include src/printf/printf_vars.mk
 
 S_SRC_BUILTIN =  bi_cd.c  bi_echo.c  bi_clear.c bi_env.c  bi_export.c  bi_pwd.c  bi_unset.c  bi_exit.c  env_utils.c  pipi.c
 D_SRC_BUILTIN =  built_in/
@@ -53,13 +68,16 @@ SRC	+=	parsing/readline.c\
 SRC	+=	prompt/generate_prompt.c\
 		prompt/write_prompt.c
 
+SRC +=	$(addprefix printf/srcs/, $(SRC_PRINTF))
+SRC +=	$(addprefix printf/libft/, $(SRC_LIBFT))
+
 D_INC = inc/ src/printf/includes/ src/printf/libft/
 
 D_BUILD = .build/
 OBJ =  $(addprefix $(D_BUILD), $(SRC:.c=.o))
 
 D_LIBPRINTF = $(D_SRC)printf/
-LIBPRINTF	=	$(D_SRC)/printf/libftprintf.a
+LIBPRINTF	=	$(D_SRC)printf/libftprintf.a
 
 CC =  cc
 FLAGS =  -Wall -Wextra -Werror -MMD -g
@@ -72,15 +90,12 @@ RM =  rm -rf
 
 all:	$(NAME)
 
-$(NAME):	$(OBJ)	$(LIBPRINTF)
-	$(CC) -o$@ $^ $(F_LIB)
+$(NAME):	$(OBJ)
+	$(CC) -o $@ $^ $(F_LIB)
 
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)
 	$(CC) $(FLAGS) $(F_INC) -c $< -o $@ 
-
-$(LIBPRINTF):
-	make bonus -C $(D_LIBPRINTF)
 
 clean:
 	$(RM) $(D_BUILD)

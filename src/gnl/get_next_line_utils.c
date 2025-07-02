@@ -6,7 +6,7 @@
 /*   By: amouflet <amouflet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 01:14:47 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/23 09:58:31 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/02 18:17:12 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,25 +89,4 @@ int	new_elem_back(t_buf **begin, char *buf)
 		tmp = tmp->next;
 	tmp->next = new;
 	return (0);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	len;
-
-	i = 0;
-	if (dst && src && size != 0)
-	{
-		while (i < size - 1 && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = 0;
-	}
-	len = 0;
-	while (src[len])
-		len++;
-	return (len);
 }
