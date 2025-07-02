@@ -6,7 +6,7 @@
 /*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/23 09:54:30 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/02 19:27:05 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_hash_table
 	t_pair	*bucket[TABLE_SIZE];
 }	t_hash_table;
 
+# include "arcoms.h"
 //Snippet
 
 t_snippet	*new_snip(enum e_token token, char *ptr);
@@ -125,8 +126,9 @@ void		set_sigint_handler(int fds_to_close[2]);
 
 int			get_cmd_line_fd(int	*fd, t_prompt prompt, int history_fd);
 
-void		parse_rc(t_hash_table *table);
+void		parse_rc(t_ms *ms);
 void		alias(t_hash_table *table, char *str);
+bool		check_alias_chars(char *str);
 bool		get_fd(int *fd);
 void		free_table(t_hash_table *table);
 int			_hash(char *key, int len);

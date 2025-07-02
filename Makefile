@@ -6,7 +6,7 @@
 #    By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/02 18:21:32 by malfwa           ###   ########.fr        #
+#    Updated: 2025/07/02 19:13:29 by malfwa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME =  minishell
 include src/printf/libft/libft_vars.mk
 include src/printf/printf_vars.mk
 
-S_SRC_BUILTIN =  bi_cd.c  bi_echo.c  bi_clear.c bi_env.c  bi_export.c  bi_pwd.c  bi_unset.c  bi_exit.c  env_utils.c  pipi.c
+S_SRC_BUILTIN =  bi_cd.c  bi_echo.c  bi_clear.c bi_env.c  bi_export.c  bi_pwd.c  bi_unset.c  bi_exit.c  env_utils.c bi_alias.c
 D_SRC_BUILTIN =  built_in/
 SRC_BUILTIN =  $(addprefix $(D_SRC_BUILTIN), $(S_SRC_BUILTIN))
 

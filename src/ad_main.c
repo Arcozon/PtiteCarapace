@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/02 18:33:30 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/02 19:27:22 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,36 @@ enum e_token	get_token(char *str)
 	return (word);
 }
 
+char	*cpy_without_quote(char *str)
+{
+	int		len;
+	char	*dup;
+	int		i;
+	char	*ptr;
+
+	if (!str)
+		return (0);
+	len = ft_strlen(str);
+	dup = malloc(sizeof(char) * (len + 1));
+	if (!dup)
+		return (0);
+	i = 0;
+	while (*str)
+	{
+		if (*str != '\'' && *str != '\"')
+			dup[i++] = *(str++);
+		else
+		{
+			ptr = ft_strchr(str + 1, *str);
+			while (++str != ptr)
+				dup[i++] = *str;
+			str++;
+		}
+	}
+	dup[i] = 0;
+	return (dup);
+}
+
 void	optimize_lst(t_snippet **head)
 {
 	t_snippet	*ptr;
@@ -85,11 +115,17 @@ void	optimize_lst(t_snippet **head)
 			ptr = tmp;
 		}
 		else
+		{
+			if (ft_strchr(ptr->ptr, '\'') || ft_strchr(ptr->ptr, '"'))
+			{
+				tmp = cpy_without_quote(ptr->ptr);
+				free(ptr->ptr);
+				ptr->ptr = tmp;
+			}
 			ptr = ptr->next;
+		}
 	}
 }
-
-const char	*token_to_string(enum e_token token);
 
 t_snippet	*lexer(char *str)
 {
@@ -196,7 +232,7 @@ void	dollar_exp(char *ptr, char scope, char *quote)
 		{
 			test = write_snip(ptr, quote, ft_strlen(ptr));
 			if (test != ft_strlen(ptr))
-				write(1, "\n", 1);
+				write(1, "\0", 1);
 			ptr += test;
 			ptr = pass_whitespace(ptr);
 		}
@@ -242,7 +278,11 @@ void	expand_token(char *ptr, char **env, int len, char scope)
 	}
 }
 
-#include <stdio.h>
+__attribute__((constructor)) void check_for_interractive_mode(void)
+{
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+		exit(EXIT_FAILURE);
+}
 
 const char *token_to_string(enum e_token token)
 {
@@ -272,13 +312,6 @@ void print_snippet_list(t_snippet *head)
 		head = head->next;
 	}
 }
-
-__attribute__((constructor)) void check_for_interractive_mode(void)
-{
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-		exit(EXIT_FAILURE);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char			*str;
@@ -286,9 +319,9 @@ int	main(int ac, char **av, char **envp)
 	int				fd;
 	int				history_fd;
 	int				ret_val;
-	t_prompt		prompt_var;
+//	t_prompt		prompt_var;
 	t_snippet		*lst = NULL;
-	t_hash_table	table;
+//	t_hash_table	table;
 	// t_env	__attribute__((cleanup(free_env)))	env;
 	t_ms			ms;
 
@@ -302,11 +335,8 @@ int	main(int ac, char **av, char **envp)
 	// Checking if we are in a tty
 
 	// Creating hash table and aliases
-	ft_bzero(&table, sizeof(table));
-	parse_rc(&table);
+	parse_rc(&ms);
 	// Initializing Prompt
-	ft_bzero(&prompt_var, sizeof(t_prompt));
-	// prompt_var.prompt_raw = "\\u@\\h:\\w\\$ ";
 	ms.prompt_var.prompt_raw = "\1\33[1;34m\2\\u@\\h:\1\33[0;35m\002\\w \1\33[1;32m\2$ \1\33[0m\2";
 	update_prompt_var(&ms.prompt_var);
 
@@ -334,15 +364,14 @@ int	main(int ac, char **av, char **envp)
 				free(str);
 				break ;
 			}
-			//expand_snip(&lst, lst, env, true); // would be done in exec
 			if (check_syntaxe(lst, _basename(av[0])))
 			{
-				replace_aliases(&lst, &table);
+				replace_aliases(&lst, &ms.table);
 				replace_tilde(lst, getenv("HOME"));
-				replace_wildcards(&lst);
-				optimize_lst(&lst);
-				// expand_snip(&lst, lst, ms.env.tab, true); // would be done in exec
-				// print_snippet_list(lst); // exec
+				replace_wildcards(&lst);// cette fonction 
+				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
+				//pendant que tu optimize tu devrais surement retirer les guillemets ?
+				print_snippet_list(lst);
 				exec_start(&ms, &lst);
 			}
 		}
@@ -352,11 +381,11 @@ int	main(int ac, char **av, char **envp)
 	}
 
 	// Freeing everything 
-	free_table(&table);
+	free_table(&ms.table);
 	close(history_fd);
 	free(prev_cmdline);
-	free(prompt_var.prompt);
-	free(prompt_var.hostname);
+	free(ms.prompt_var.prompt);
+	free(ms.prompt_var.hostname);
 	clear_history();
 	rl_clear_history();
 	free_ms(&ms);

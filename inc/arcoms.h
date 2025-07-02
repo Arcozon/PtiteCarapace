@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 15:07:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/02 19:09:58 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,19 @@
 
 struct s_ms
 {
-	char		*pname;
+	char			*pname;
 
 	// aliases
-	t_snippet	*lexer;
+	t_hash_table	table;
+	t_snippet		*lexer;
 
-	t_base		*exec_tree;
+	t_base			*exec_tree;
 
-	t_env		env;
-	uint8_t		status;
-	uint64_t	errors;
+	t_env			env;
+	uint8_t			status;
+	uint64_t		errors;
 
-	t_prompt	prompt_var;
+	t_prompt		prompt_var;
 };
 
 #endif

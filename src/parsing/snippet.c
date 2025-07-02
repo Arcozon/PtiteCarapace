@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:49:29 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/02 18:27:39 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/02 19:25:56 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,17 +152,27 @@ void	pop_n_insert(t_snippet **head, t_snippet *to_expand, t_snippet *new_lst)
 bool	expand_snip(t_snippet **head, t_snippet *exp, char **env, bool one_blk)
 {
 	t_snippet	*new_lst;
+	t_snippet	*next;
 	int			fd;
 
 	new_lst = NULL;
 	if (!exp)
 		return (false);
-	fd = expand_in_pipe(exp->ptr, env, one_blk);
-	if (!get_snips_expanded(&new_lst, fd))
-		return (close(fd), false);
-	close(fd);
-	pop_n_insert(head, exp, new_lst);
-	free(exp->ptr);
-	free(exp);
+
+	while (exp)
+	{
+		next = exp->next;
+		if (ft_strchr(exp->ptr, '$'))
+		{
+			fd = expand_in_pipe(exp->ptr, env, one_blk);
+			if (!get_snips_expanded(&new_lst, fd))
+				return (close(fd), false);
+			close(fd);
+			pop_n_insert(head, exp, new_lst);
+			free(exp->ptr);
+			free(exp);
+		}
+		exp = next;
+	}
 	return (true);
 }
