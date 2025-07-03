@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/25 14:05:11 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:14:25 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	rdl_child(int pipe_fds[2], pid_t pid, t_prompt prompt, int history_fd)
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
 		close(history_fd);
-		return (free(ptr), free(prompt.prompt), exit(0));
+		return (free(ptr), exit(0)); //, free(prompt.prompt)
 	}
 	signal(SIGINT, SIG_IGN);
 }

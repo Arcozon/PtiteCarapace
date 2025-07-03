@@ -15,3 +15,7 @@ prompt : prompt vert et prompt rouge ?
 env init, set PWD oLD PWD SHLVL
 
 Error when cmd is not found
+
+mettre le minishellrc dans le repertoire courrant
+
+pb sur la detection d alias

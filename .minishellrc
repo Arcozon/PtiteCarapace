@@ -1,0 +1,8 @@
+alias l=ls -la --color=tty
+alias ls=ls --color=tty
+alias -=cd -
+alias ..=cd ..
+alias ...=cd ../..
+alias ....=../../..
+alias .....=../../../..
+alias ......=../../../../..

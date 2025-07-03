@@ -5,6 +5,7 @@
 		"arcoms.h": "c",
 		"ioctl.h": "c",
 		"make_tree.h": "c",
-		"fcntl.h": "c"
+		"fcntl.h": "c",
+		"minishell.h": "c"
 	}
 }

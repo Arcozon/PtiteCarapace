@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/28 12:18:12 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/03 14:43:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,4 +270,20 @@ int	is_end_ofesc_seq(char c)
 		++i;
 	}
 	return (0);
+}
+
+uint32_t	findslash(const char *str)
+{
+	uint32_t	last_slash;
+	uint32_t	i;
+
+	i = 0;
+	last_slash = -1;
+	while (str[i])
+	{
+		if (str[i] == '/')
+			last_slash = i;
+		++i;
+	}
+	return (last_slash + 1);
 }

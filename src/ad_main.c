@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/02 15:59:17 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:13:58 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,14 +303,16 @@ int	main(int ac, char **av, char **envp)
 	// Initializing Prompt
 	ft_bzero(&prompt_var, sizeof(t_prompt));
 	// prompt_var.prompt_raw = "\\u@\\h:\\w\\$ ";
-	prompt_var.prompt_raw = "\1[1;34m\2\\u\1[0;35m\2\\w \1[1;32m\2$ \1[0m\2";
-	update_prompt_var(&prompt_var);
+	prompt_var.prompt_raw = "\1[1;34m\2\\u\1[0;35m\2\\w \1\033[1;38;2;255;20;70m\2$ \1[0m\2";
+	// update_prompt_var(&prompt_var);
 
 	// Getting .ms_history fd
 	history_fd = ms_get_history_fd(&prev_cmdline);
 	// Main loop
 	while (1)
 	{
+		make_prompt(ms.prompt, ms.status, ms.env.tab);
+		prompt_var.prompt = ms.prompt;
 		ret_val = get_cmd_line_fd(&fd, prompt_var, history_fd);
 		if (ret_val == -1)
 			break ;
@@ -351,7 +353,7 @@ int	main(int ac, char **av, char **envp)
 	free_table(&table);
 	close(history_fd);
 	free(prev_cmdline);
-	free(prompt_var.prompt);
+	// free(prompt_var.prompt);
 	free(prompt_var.hostname);
 	clear_history();
 	rl_clear_history();

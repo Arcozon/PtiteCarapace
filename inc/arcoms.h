@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 15:07:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/03 18:39:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include "types.h"
 # include "errors.h"
 
+# include "prompt.h"
 # include "env.h"
 # include "built_in.h"
 
@@ -48,7 +49,7 @@ struct s_ms
 {
 	char		*pname;
 
-	// aliases
+	char		prompt[PROMPT_SIZE + 1];
 	t_snippet	*lexer;
 
 	t_base		*exec_tree;
@@ -57,5 +58,6 @@ struct s_ms
 	uint8_t		status;
 	uint64_t	errors;
 };
+
 
 #endif

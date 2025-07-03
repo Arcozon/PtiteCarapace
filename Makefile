@@ -20,7 +20,7 @@ S_SRC_UTILS =  utils.c  free.c  errors.c
 D_SRC_UTILS =  utils/
 SRC_UTILS =  $(addprefix $(D_SRC_UTILS), $(S_SRC_UTILS))
 
-SRC =  $(SRC_UTILS)  $(SRC_EXEC)  $(SRC_BUILTIN)  main.c  signal_handling.c  ad_main.c
+SRC =  $(SRC_UTILS)  $(SRC_EXEC)  $(SRC_BUILTIN)  main.c  signal_handling.c  ad_main.c  arco_prompt.c
 D_SRC = src/
 
 SRC +=	gnl/get_next_line_utils.c\

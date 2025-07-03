@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/28 12:18:26 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/03 14:43:53 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int			ge_isupper(char c);
 int			ge_isspace(char c);
 int			is_end_ofesc_seq(char c);
 char		*ge_strchr(char *str, char c);
+uint32_t	findslash(const char *str);
 
 void		free_ms(t_ms *ms);
 void		free_node(t_base **pnode);
