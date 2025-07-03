@@ -58,6 +58,8 @@ struct s_ms
 	uint8_t			status;
 	uint64_t		errors;
 
+	int				history_fd;
+	char			*prev_cmdline;
 	t_prompt		prompt_var;
 };
 

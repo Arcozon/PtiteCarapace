@@ -38,7 +38,7 @@ long	exit_atoi(char *str, int *valid)
 	while (ft_isdigit(str[i]))
 	{
 		res = res * 10 + str[i++] - '0';
-		if (res > LONG_MAX + (sign == -1))
+		if (res > (uint64_t)LONG_MAX + (sign == -1))
 			return (*valid = 0, 2);
 	}
 	if (!i || !ft_isdigit(str[i - 1]) || str[i])

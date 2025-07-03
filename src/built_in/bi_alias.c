@@ -24,7 +24,7 @@ int	show_aliases(t_hash_table *table)
 		ptr = table->bucket[i];
 		while (ptr)
 		{
-			ft_putendl_fd(ptr->key, STDOUT_FILENO);
+			ft_printf("%s=%s\n", ptr->key, ptr->value);
 			ptr = ptr->next;
 		}
 		i++;

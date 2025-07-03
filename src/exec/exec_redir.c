@@ -29,7 +29,7 @@ uint64_t	open_redir(t_cmd *cmd, t_ms *ms)
 {
 	if (!cmd->redirs)
 		return (NO_ERR);
-	expand_snip(&cmd->redirs, cmd->redirs, ms->env.tab, true);
+	expand_snip(&cmd->redirs, cmd->redirs, ms, true);
 	while (!cmd->errors && cmd->redirs)
 	{
 		if (cmd->redirs->token == redir_in)

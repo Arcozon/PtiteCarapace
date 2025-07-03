@@ -89,7 +89,7 @@ void	free_snip_lst(t_snippet *lst)
 	}
 }
 
-int	expand_in_pipe(char *str, char **env, bool one_block)
+int	expand_in_pipe(char *str, t_ms *ms, bool one_block)
 {
 	int	stdout_fd;
 	int	pipe_fds[2];
@@ -98,11 +98,12 @@ int	expand_in_pipe(char *str, char **env, bool one_block)
 	if (stdout_fd < 0 || pipe(pipe_fds) < 0)
 		return (-1);
 	if (dup2(pipe_fds[1], STDOUT_FILENO) < 0)
-		return (close(pipe_fds[0]), close(pipe_fds[1]), -1);
-	expand_token(str, env, ft_strlen(str), (char)one_block);
+		return (close(stdout_fd), close(pipe_fds[0]), close(pipe_fds[1]), -1);
+	expand_token(str, ms, ft_strlen(str), (char)one_block);
 	write(STDOUT_FILENO, "\0", 1);
 	close(pipe_fds[1]);
 	dup2(stdout_fd, STDOUT_FILENO);
+	close(stdout_fd);
 	return (pipe_fds[0]);
 }
 
@@ -149,7 +150,7 @@ void	pop_n_insert(t_snippet **head, t_snippet *to_expand, t_snippet *new_lst)
 	}
 }
 
-bool	expand_snip(t_snippet **head, t_snippet *exp, char **env, bool one_blk)
+bool	expand_snip(t_snippet **head, t_snippet *exp, t_ms *ms, bool one_blk)
 {
 	t_snippet	*new_lst;
 	t_snippet	*next;
@@ -164,7 +165,7 @@ bool	expand_snip(t_snippet **head, t_snippet *exp, char **env, bool one_blk)
 		next = exp->next;
 		if (ft_strchr(exp->ptr, '$'))
 		{
-			fd = expand_in_pipe(exp->ptr, env, one_blk);
+			fd = expand_in_pipe(exp->ptr, ms, one_blk);
 			if (!get_snips_expanded(&new_lst, fd))
 				return (close(fd), false);
 			close(fd);

@@ -18,7 +18,8 @@ uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 
 	if (!cmd->sn_argv)
 		return (NO_ERR);
-	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms->env.tab, false);
+	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms, false);
+	//expand_snip(&cmd->sn_argv, cmd->sn_argv, ms->env.tab, false);
 	exp = &(cmd->sn_argv);
 	while (*exp)
 	{

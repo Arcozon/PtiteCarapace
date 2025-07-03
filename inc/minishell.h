@@ -87,6 +87,8 @@ typedef struct s_hash_table
 }	t_hash_table;
 
 # include "arcoms.h"
+
+
 //Snippet
 
 t_snippet	*new_snip(enum e_token token, char *ptr);
@@ -96,7 +98,7 @@ void		insert_snip(t_snippet *node, t_snippet *to_insert);
 t_snippet	*get_last_snip(t_snippet *lst);
 void		free_snip_lst(t_snippet *lst);
 bool		expand_snip(t_snippet **head, t_snippet *to_expand,
-				char **env, bool one_block);
+				t_ms *ms, bool one_block);
 t_snippet	*wildcard(char *raw_pattern);
 bool		replace_wildcards(t_snippet **head);
 
@@ -119,7 +121,8 @@ void		trim_trailling_ws(char *str);
 //Signal
 
 void		sigint_handler(int sig);
-void		set_sigint_handler(int fds_to_close[2]);
+void		ms_handler(int signum);
+void		set_sigchild_handler(int fds_to_close[2]);
 //bool	ms_set_sighandler(void);
 
 //Parsing 
@@ -127,7 +130,10 @@ void		set_sigint_handler(int fds_to_close[2]);
 int			get_cmd_line_fd(int	*fd, t_prompt prompt, int history_fd);
 
 void		parse_rc(t_ms *ms);
+void		parse_rc_file(t_ms *ms, char *filename);
+char		*expand(char **env, char *var_name, int len);
 void		alias(t_hash_table *table, char *str);
+bool		is_statement_open(char *str);
 bool		check_alias_chars(char *str);
 bool		get_fd(int *fd);
 void		free_table(t_hash_table *table);
@@ -171,7 +177,7 @@ int			find_closing_bracket(char *opening_bracket);
 int			dollar_len(char *str_dollar);
 void		expand_env_var(char **env, char *varname, int len);
 
-void		expand_token(char *ptr, char **env, int len, char scope);
+void		expand_token(char *ptr, t_ms *ms, int len, char scope);
 t_snippet	*lexer(char *str);
 void		optimize_lst(t_snippet **head);
 #endif

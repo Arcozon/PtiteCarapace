@@ -16,6 +16,9 @@
 # define SIG_HDOC_SET	0
 # define SIG_HDOC_RESET	1
 
+# include <stdint.h>
+# include "arcoms.h"
+
 enum e_sig
 {
 	ROUTINE,
@@ -25,6 +28,7 @@ enum e_sig
 };
 
 extern int	g_sig;
+//extern volatile sig_atomic_t g_sig;
 
 uint8_t	uptade_sig(uint8_t	status);
 void	capture_signal_hdoc(int status, t_ms *ms);

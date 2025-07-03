@@ -135,6 +135,9 @@ t_snippet	*lexer(char *str)
 
 	if (!str)
 		return (NULL);
+	str = pass_whitespace(str);
+	if (!*str)
+		return (NULL);
 	lst = NULL;
 	while (*str)
 	{
@@ -249,7 +252,7 @@ void	put_to_zero(int *i, char *quote)
 		*quote = 0;
 }
 
-void	expand_token(char *ptr, char **env, int len, char scope)
+void	expand_token(char *ptr, t_ms *ms, int len, char scope)
 {
 	int		wlen;
 	int		i;
@@ -260,15 +263,15 @@ void	expand_token(char *ptr, char **env, int len, char scope)
 	{
 		wlen = get_wlen(ptr, len);
 		if (*ptr == '"')
-			expand_token(ptr + 1, env, wlen - 2, *ptr);
+			expand_token(ptr + 1, ms, wlen - 2, *ptr);
 		else
 		{
 			if (*ptr == '$' && wlen != 1 && ft_strncmp("$$", ptr, 2))
 			{
 				if (wlen == 2 && !ft_strncmp("$?", ptr, wlen))
-					ft_putnbr_fd(972, STDOUT_FILENO);
+					ft_putnbr_fd(ms->status, STDOUT_FILENO);
 				else
-					dollar_exp(expand(env, ptr + 1, wlen - 1), scope, &quote);
+					dollar_exp(expand(ms->env.tab, ptr + 1, wlen - 1), scope, &quote);
 			}
 			else
 				write_without_quote(ptr, wlen);
@@ -315,9 +318,7 @@ void print_snippet_list(t_snippet *head)
 int	main(int ac, char **av, char **envp)
 {
 	char			*str;
-	char			*prev_cmdline = NULL;
 	int				fd;
-	int				history_fd;
 	int				ret_val;
 //	t_prompt		prompt_var;
 	t_snippet		*lst = NULL;
@@ -335,43 +336,52 @@ int	main(int ac, char **av, char **envp)
 	// Checking if we are in a tty
 
 	// Creating hash table and aliases
-	parse_rc(&ms);
+	//parse_rc(&ms);
+	parse_rc_file(&ms, "/home/malfwa/.minishellrc");
 	// Initializing Prompt
 	ms.prompt_var.prompt_raw = "\1\33[1;34m\2\\u@\\h:\1\33[0;35m\002\\w \1\33[1;32m\2$ \1\33[0m\2";
 	update_prompt_var(&ms.prompt_var);
 
 	// Getting .ms_history fd
-	history_fd = ms_get_history_fd(&prev_cmdline);
+	ms.history_fd = ms_get_history_fd(&ms.prev_cmdline);
 	// Main loop
 	while (1)
 	{
-		ret_val = get_cmd_line_fd(&fd, ms.prompt_var, history_fd);
-		if (ret_val == -1)
+		if (signal(SIGINT, ms_handler) == SIG_ERR)
+			break ;
+		ret_val = get_cmd_line_fd(&fd, ms.prompt_var, ms.history_fd);
+		if (ret_val == -1 || signal(SIGINT, SIG_IGN) == SIG_ERR)
 			break ;
 		//str = gnl(fd);
 		str = get_next_null(fd);
 		close(fd);
 		if (!str)
-			break ;
+			bi_exit(1, NULL, NULL, &ms);
+		if (g_sig)
+		{
+			ms.status = uptade_sig(g_sig);
+			g_sig = 0;
+		}
 		if (*str)
 		{
-			ms_add_history(str, history_fd, &prev_cmdline);
-			if (!prev_cmdline)
-				ft_putstr_fd("Error saving prev_cmdline\n", 2);
+			ms_add_history(str, ms.history_fd, &ms.prev_cmdline);
 			lst = lexer(str);
 			if (!lst)
 			{
 				free(str);
-				break ;
+		
+				 continue ;
 			}
+			ft_printf("%d\n", *str);
+
+				print_snippet_list(lst);
 			if (check_syntaxe(lst, _basename(av[0])))
 			{
 				replace_aliases(&lst, &ms.table);
-				replace_tilde(lst, getenv("HOME"));
+				replace_tilde(lst, expand(ms.env.tab, "HOME", 4));
 				replace_wildcards(&lst);// cette fonction 
 				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
-				//pendant que tu optimize tu devrais surement retirer les guillemets ?
-				print_snippet_list(lst);
+
 				exec_start(&ms, &lst);
 			}
 		}
@@ -381,13 +391,6 @@ int	main(int ac, char **av, char **envp)
 	}
 
 	// Freeing everything 
-	free_table(&ms.table);
-	close(history_fd);
-	free(prev_cmdline);
-	free(ms.prompt_var.prompt);
-	free(ms.prompt_var.hostname);
-	clear_history();
-	rl_clear_history();
 	free_ms(&ms);
 	return (0);
 }
