@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:33:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/03 19:10:10 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:27:20 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define PROMPT_CHARSET_ARCO		"uhHwW\\[]?"
 # define HOSTNAME_FILE			"/etc/hostname"
-# define BASE_PROMPT_FORMAT		"minishell>\\?$\\] "
+# define BASE_PROMPT_FORMAT		"minishell>\\?$\\[\033[0m\\] "
 # define PROMPT_FORMAT_VNAME	"PROMPT_FORMAT"
 # define HOME_VNAME				"HOME"
 # define USER_VNAME				"USER"

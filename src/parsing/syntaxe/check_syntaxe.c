@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntaxe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 17:35:26 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/22 21:26:44 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/04 11:01:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ bool	check_syntaxe(t_snippet *lst, char *exe)
 		return (ft_printf("%s%s`%c'\n", exe, SYNTAXE, ')'), false);
 	if (lst)
 		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, lst->ptr), false);
-	if (is_cntl_op(prev) || is_redir(prev) || (ptr && ptr[0] == '&'))
+	if ((is_cntl_op(prev) && prev != semicolon) || is_redir(prev) || (ptr && ptr[0] == '&'))
 		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, ptr), false);
 	return (true);
 }

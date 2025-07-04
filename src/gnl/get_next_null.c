@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_null.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amouflet <amouflet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:18:56 by amouflet          #+#    #+#             */
-/*   Updated: 2025/06/23 10:13:33 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/04 12:49:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	cpy(char **stash, char **line, t_buf *tmp)
 	while (tmp != NULL)
 	{
 		j = 0;
-		while (tmp->str && (tmp->str)[j] && j < BUFFER_SIZE)
+		while (tmp->str  && j < BUFFER_SIZE)
 			(*line)[i++] = tmp->str[j++];
 		if (!tmp->str[j])
 			(*line)[i++] = tmp->str[j++];

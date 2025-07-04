@@ -6,25 +6,18 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 17:38:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 12:43:16 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+void print_snippet_list(t_snippet *head);
 
 uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 {
-	t_snippet	**exp;
-
 	if (!cmd->sn_argv)
 		return (NO_ERR);
 	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms, false);
-	//expand_snip(&cmd->sn_argv, cmd->sn_argv, ms->env.tab, false);
-	exp = &(cmd->sn_argv);
-	while (*exp)
-	{
-		exp = &((*exp)->next);
-	}
 	return (ms->errors);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 09:57:06 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 13:51:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ void	optimize_lst(t_snippet **head)
 		}
 		else
 		{
-			if (ft_strchr(ptr->ptr, '\'') || ft_strchr(ptr->ptr, '"'))
-			{
-				tmp = cpy_without_quote(ptr->ptr);
-				free(ptr->ptr);
-				ptr->ptr = tmp;
-			}
+			// if (ft_strchr(ptr->ptr, '\'') || ft_strchr(ptr->ptr, '"'))
+			// {
+			// 	tmp = cpy_without_quote(ptr->ptr);
+			// 	free(ptr->ptr);
+			// 	ptr->ptr = tmp;
+			// }
 			ptr = ptr->next;
 		}
 	}
@@ -192,10 +192,10 @@ size_t	write_snip(char *str, char *quote, int len)
 		else if (*quote == str[i])
 			*quote = 0;
 		if (str[i] == ' ' && !*quote)
-			return (write(STDOUT_FILENO, str, i));
+			return (write(STDOUT_FILENO, str, i), write(2, str, i));
 		i++;
 	}
-	return (write(STDOUT_FILENO, str, i));
+	return (write(STDOUT_FILENO, str, i), write(2, str, i));
 }
 
 void	write_without_quote(char *str, int len)
@@ -252,6 +252,7 @@ void	put_to_zero(int *i, char *quote)
 		*quote = 0;
 }
 
+
 void	expand_token(char *ptr, t_ms *ms, int len, char scope)
 {
 	int		wlen;
@@ -262,6 +263,8 @@ void	expand_token(char *ptr, t_ms *ms, int len, char scope)
 	while (*ptr && i < len)
 	{
 		wlen = get_wlen(ptr, len);
+		// arc_get_wlen(ptr, len, ms->env.tab);
+		// fprintf(stderr, "[%d] %.*s\n", wlen, wlen, ptr);
 		if (*ptr == '"')
 			expand_token(ptr + 1, ms, wlen - 2, *ptr);
 		else
@@ -321,8 +324,6 @@ int	main(int ac, char **av, char **envp)
 	int				fd;
 	int				ret_val;
 	t_snippet		*lst = NULL;
-//	t_hash_table	table;
-	// t_env	__attribute__((cleanup(free_env)))	env;
 	t_ms			ms;
 
 	ge_bzero(&ms, sizeof(ms));
@@ -332,36 +333,33 @@ int	main(int ac, char **av, char **envp)
 	ms.pname = _basename(av[0]);
 	(void)ac;(void)av;(void)envp;
 
-	// Checking if we are in a tty
-
-	// Creating hash table and aliases
-	//parse_rc(&ms);
-	parse_rc_file(&ms, "/home/malfwa/.minishellrc");
-	// Initializing Prompt
-	// prompt_var.prompt_raw = "\\u@\\h:\\w\\$ ";
-	// update_prompt_var(&prompt_var);
+	parse_rc_file(&ms, MS_RC);
 
 	// Getting .ms_history fd
 	ms.history_fd = ms_get_history_fd(&ms.prev_cmdline);
 	// Main loop
 	while (1)
 	{
+		ms.status = uptade_sig(g_sig);
 		make_prompt(ms.prompt, ms.status, ms.env.tab);
-		if (signal(SIGINT, ms_handler) == SIG_ERR)
-			break ;
-		ret_val = get_cmd_line_fd(&fd, ms.prompt_var, ms.history_fd);
+		// if (signal(SIGINT, ms_handler) == SIG_ERR)
+		// 	bi_exit(1, NULL, NULL, &ms);
+		set_sig(ROUTINE, &ms);
+		ret_val = get_cmd_line_fd(&fd, ms.prompt, ms.history_fd);
+		if (g_sig == SIGINT)
+		{
+			close(fd);
+			continue ;
+		}
 		if (ret_val == -1 || signal(SIGINT, SIG_IGN) == SIG_ERR)
-			break ;
+			bi_exit(1, NULL, NULL, &ms);
 		//str = gnl(fd);
-		str = get_next_null(fd);
+		str = get_next_null_arco(fd);
 		close(fd);
 		if (!str)
 			bi_exit(1, NULL, NULL, &ms);
 		if (g_sig)
-		{
 			ms.status = uptade_sig(g_sig);
-			g_sig = 0;
-		}
 		if (*str)
 		{
 			ms_add_history(str, ms.history_fd, &ms.prev_cmdline);
@@ -373,20 +371,16 @@ int	main(int ac, char **av, char **envp)
 			}
 			if (check_syntaxe(lst, _basename(av[0])))
 			{
+				// print_snippet_list(lst);
 				replace_aliases(&lst, &ms.table);
 				replace_tilde(lst, expand(ms.env.tab, "HOME", 4));
 				replace_wildcards(&lst);// cette fonction 
 				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
-
 				exec_start(&ms, &lst);
 			}
 		}
 		free(str);
-		// free_snip_lst(lst);
 		str = NULL;
 	}
-
-	// Freeing everything 
-	free_ms(&ms);
 	return (0);
 }

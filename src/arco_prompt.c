@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 10:59:15 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/03 19:16:56 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:06:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	fill_prompt_host(t_aprompt *mprompt)
 		}
 		++i;
 	}
+	close(fdhost);
 }
 
 void	fill_mprompt(t_aprompt *mprompt, int status, char **env)

@@ -19,3 +19,8 @@ Error when cmd is not found
 mettre le minishellrc dans le repertoire courrant
 
 pb sur la detection d alias
+
+SRC	+=	prompt/generate_prompt.c\
+		prompt/write_prompt.c
+
+// add \p \n dans le prompt

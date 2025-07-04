@@ -1,8 +1,13 @@
-alias l=ls -la --color=tty
-alias ls=ls --color=tty
-alias -=cd -
-alias ..=cd ..
-alias ...=cd ../..
-alias ....=../../..
-alias .....=../../../..
-alias ......=../../../../..
+export PROMPT_FORMAT="\[[1;34m\]\u\[[90m\]@\[[1;36m\]\h\[[0m\]:\[[1;38;2;178;102;255m\]\w\?$\[[1;90m\]>\[[0m\] "
+# [1;38;2;40;170;60m
+alias l='ls -la --color=tty'
+alias ls='ls --color=tty'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='../../..'
+alias .....='../../../..'
+alias ......='../../../../..'
+alias abc='echo cba'
+alias -='cd -'
+export h='a b'
+echo $h

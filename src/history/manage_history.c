@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_history.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:01:44 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/22 21:35:55 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/04 13:07:05 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	fill_history(int fd, char **ptr_oldcmd)
 
 	if (fd < 0)
 		return (false);
-	str = gnl(fd);
+	str = get_next_null_arco(fd);
 	while (str)
 	{
 		ptr = pass_whitespace(str);
@@ -55,7 +55,7 @@ static bool	fill_history(int fd, char **ptr_oldcmd)
 			*ptr_oldcmd = ft_strdup(ptr);
 		}
 		free(str);
-		str = gnl(fd);
+		str = get_next_null_arco(fd);
 	}
 	return (true);
 }
@@ -97,6 +97,7 @@ void	ms_add_history(char *str, int fd, char **ptr_oldcmd)
 		*ptr_oldcmd = ft_strdup(ptr);
 		if (fd < 0)
 			return ;
-		ft_putendl_fd(ptr, fd);
+		ft_putstr_fd(ptr, fd);
+		ft_putchar_fd(0, fd);
 	}
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+         #
+#    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/02 19:13:29 by malfwa           ###   ########.fr        #
+#    Updated: 2025/07/04 12:54:37 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ S_SRC_UTILS =  utils.c  free.c  errors.c
 D_SRC_UTILS =  utils/
 SRC_UTILS =  $(addprefix $(D_SRC_UTILS), $(S_SRC_UTILS))
 
-SRC =  $(SRC_UTILS)  $(SRC_EXEC)  $(SRC_BUILTIN)  main.c  signal_handling.c  ad_main.c  arco_prompt.c
+SRC =  $(SRC_UTILS)  $(SRC_EXEC)  $(SRC_BUILTIN)  signal_handling.c  ad_main.c  arco_prompt.c  arco_get_next_line.c
 D_SRC = src/
 
 SRC +=	gnl/get_next_line_utils.c\
@@ -65,9 +65,6 @@ SRC	+=	parsing/readline.c\
 		parsing/wildcard/wildcard.c\
 		parsing/wildcard/manage_files.c
 
-SRC	+=	prompt/generate_prompt.c\
-		prompt/write_prompt.c
-
 SRC +=	$(addprefix printf/srcs/, $(SRC_PRINTF))
 SRC +=	$(addprefix printf/libft/, $(SRC_LIBFT))
 
@@ -88,14 +85,16 @@ RM =  rm -rf
 
 TOTAL := $(shell echo $(SRC) | wc -w) 
 
+MINISHELLRC = .minishellrc
+
 .DEFAULT_GOAL := all
 
-all:	~/.minishellrc counter.sh set_counter $(NAME)
+all:	$(MINISHELLRC) counter.sh set_counter $(NAME)
+	@rm -rf /tmp/ms_counter
 
 $(NAME):	$(OBJ) 
 	@$(CC) -o $@ $^ $(F_LIB)
 	@echo "\033[1;32m$@ linked!\033[0m"
-	@rm -rf /tmp/ms_counter
 
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)
@@ -111,24 +110,18 @@ fclean: clean
 re: fclean
 	$(MAKE) all
 
-S_TREE_SRC = make_base.c  test_exec.c  make_utils.c  debug_base.c  in_logic_opp.c  make_utils2.c
-TREE_SRC = $(addprefix src/exec/make_tree/, $(S_TREE_SRC))  src/utils/utils.c  src/utils/free.c
-
-tree:	
-	$(CC) $(FLAGS) $(TREE_SRC) -I$(D_INC) -o $@
-
 DEPS = $(addprefix $(D_BUILD), $(SRC:.c=.d))
 -include $(DEPS)
 
 
-~/.minishellrc:
-	@echo "❌ Missing minishellrc. Creating...";
-	@echo "alias l='ls -l'" >> ~/.minishellrc;
-	@echo "alias la='ls -la'" >> ~/.minishellrc;
-	@echo "✅ minishellrc created";
+$(MINISHELLRC):
+	@echo "❌ Missing $@. Creating...";
+	@echo "alias l='ls -l'" >> $@;
+	@echo "alias la='ls -la'" >> $@;
+	@echo "✅ $@ created";
 
 
-.PHONY: re fclean clean all $(CC) $(FLAGS) $(RM) tree clear_counter minishellrc
+.PHONY: re fclean clean all set_counter
 
 
 set_counter:
@@ -148,5 +141,3 @@ count=$$((count + 1))\n\
 echo "[$$count/$$total]: 🔧 Compiling $$file"\n\
 echo $$count > "$$counter_file"\n' > counter.sh
 	chmod +x counter.sh
-
-

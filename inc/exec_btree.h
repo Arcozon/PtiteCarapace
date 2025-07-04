@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/28 12:41:41 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 11:28:21 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ struct s_cmd
 	t_snippet		*heredoc;
 	t_snippet		*redirs;
 	t_snippet		*sn_argv;
+	t_snippet		*sn_argv_exp;
 
 	pid_t			pid;
 

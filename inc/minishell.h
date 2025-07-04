@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/02 19:27:05 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/04 10:35:17 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define MS_RC ".minishellrc"
 # define ALIAS "alias"
 # define ALIAS_LEN 5
-# define FORBIDDEN_CHAR_ALIAS " -./!@#$*&():"
+# define FORBIDDEN_CHAR_ALIAS " \t\n\v\r\f/!@#$*&():"
 # define BUF_SIZE 511
 
 # include <stdbool.h>
@@ -31,15 +31,15 @@
 # include <unistd.h>
 # include "libftprintf.h"
 
-typedef struct s_prompt
-{
-	char		*hostname;
-	char		cwd[PATH_MAX];
-	char		*prompt;
-	char const	*cwd_basename;
-	char const	*user;
-	char const	*prompt_raw;
-}	t_prompt;
+// typedef struct s_prompt
+// {
+// 	char		*hostname;
+// 	char		cwd[PATH_MAX];
+// 	char		*prompt;
+// 	char const	*cwd_basename;
+// 	char const	*user;
+// 	char const	*prompt_raw;
+// }	t_prompt;
 
 typedef struct s_pair
 {
@@ -127,7 +127,7 @@ void		set_sigchild_handler(int fds_to_close[2]);
 
 //Parsing 
 
-int			get_cmd_line_fd(int	*fd, t_prompt prompt, int history_fd);
+int			get_cmd_line_fd(int	*fd, char *prompt, int history_fd);
 
 void		parse_rc(t_ms *ms);
 void		parse_rc_file(t_ms *ms, char *filename);
@@ -162,9 +162,9 @@ t_list		*get_all_files(void);
 
 //Prompt
 
-bool		expand_prompt(t_prompt *prompt);
-bool		update_prompt_var(t_prompt *ptr);
-void		get_prompt(t_prompt *prompt, int pipe_fds[2]);
+// bool		expand_prompt(t_prompt *prompt);
+// bool		update_prompt_var(t_prompt *ptr);
+// void		get_prompt(t_prompt *prompt, int pipe_fds[2]);
 
 //gnl_utils
 

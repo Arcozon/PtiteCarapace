@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:49:29 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/02 19:25:56 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/04 12:55:16 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,19 @@ int	expand_in_pipe(char *str, t_ms *ms, bool one_block)
 	return (pipe_fds[0]);
 }
 
-bool	get_snips_expanded(t_snippet **new_lst, int fd)
+bool	get_snips_expanded(t_snippet **new_lst, int fd, enum e_token token)
 {
 	char	*str;
 
-	str = get_next_null(fd);
+	str = get_next_null_arco(fd);
 	while (str)
 	{
+		fprintf(stderr, "[%s]\n", str);
 		if (*str && str[ft_strlen(str) - 1] == '\n')
 			str[ft_strlen(str) - 1] = 0;
-		if (!add_to_snip_lst(new_lst, word, str))
+		if (!add_to_snip_lst(new_lst, token, str))
 			return (free_snip_lst(*new_lst), false);
-		str = get_next_null(fd);
+		str = get_next_null_arco(fd);
 	}
 	return (true);
 }
@@ -131,7 +132,7 @@ void	pop_n_insert(t_snippet **head, t_snippet *to_expand, t_snippet *new_lst)
 	{
 		if ((*head)->next && new_lst)
 		{
-			insert_snip(get_last_snip(new_lst), (*head)->next);
+			get_last_snip(new_lst)->next = (*head)->next;
 			*head = new_lst;
 		}
 		else if ((*head)->next)
@@ -150,30 +151,66 @@ void	pop_n_insert(t_snippet **head, t_snippet *to_expand, t_snippet *new_lst)
 	}
 }
 
-bool	expand_snip(t_snippet **head, t_snippet *exp, t_ms *ms, bool one_blk)
+// bool	expand_snip(t_snippet **head, t_snippet *exp, t_ms *ms, bool one_blk)
+// {
+// 	t_snippet	*new_lst;
+// 	t_snippet	*next;
+// 	int			fd;
+
+// 	new_lst = NULL;
+// 	if (!exp)
+// 		return (false);
+	
+// 	while (exp)
+// 	{
+// 		next = exp->next;
+// 		//if (ft_strchr(exp->ptr, '$'))
+// 		//{
+// 			fd = expand_in_pipe(exp->ptr, ms, one_blk);
+// 			if (!get_snips_expanded(&new_lst, fd))
+// 				return (close(fd), false);
+// 			close(fd);
+// 			pop_n_insert(head, exp, new_lst);
+// 			free(exp->ptr);
+// 			free(exp);
+// 		//}
+// 		exp = next;
+// 	}
+// 	// *head = new_lst
+// 	return (true);
+// }
+
+t_snippet **get_addr_last(t_snippet **lst)
+{
+	while (*lst)
+		lst = &((*lst)->next);
+	return (lst);
+}
+
+bool expand_snip(t_snippet **to_store, t_snippet *to_exp, t_ms *ms, bool one_blk)
 {
 	t_snippet	*new_lst;
+	t_snippet	*tmp;
 	t_snippet	*next;
 	int			fd;
 
-	new_lst = NULL;
-	if (!exp)
-		return (false);
-
-	while (exp)
+	new_lst = 0;
+	if (!to_exp)
+		return (true);
+	while (to_exp)
 	{
-		next = exp->next;
-		if (ft_strchr(exp->ptr, '$'))
-		{
-			fd = expand_in_pipe(exp->ptr, ms, one_blk);
-			if (!get_snips_expanded(&new_lst, fd))
-				return (close(fd), false);
-			close(fd);
-			pop_n_insert(head, exp, new_lst);
-			free(exp->ptr);
-			free(exp);
-		}
-		exp = next;
+		next = to_exp->next;
+		tmp = NULL;
+		fd = expand_in_pipe(to_exp->ptr, ms, one_blk);
+		if (!get_snips_expanded(&tmp, fd, to_exp->token))
+			return (close(fd), false);
+		close(fd);
+		*get_addr_last(&new_lst) = tmp;
+		free(to_exp->ptr);
+		free(to_exp);
+		to_exp = next;
+		// expand_1_token(&new_lst, to_exp, ms, one_blk);
 	}
+	*to_store = new_lst;
 	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_rcfile.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/23 09:33:44 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/04 10:36:17 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	check_alias_chars(char *str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
+		if (ft_strchr(FORBIDDEN_CHAR_ALIAS, str[i]))
 			return (false);
 		i++;
 	}

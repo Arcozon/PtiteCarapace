@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/04 09:57:19 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 12:51:45 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # include "make_tree.h"
 # include "exec_btree.h"
 
+# include "arco_get_next_line.h"
+
 # define PIPE_READ	0
 # define PIPE_WRITE	1
 
@@ -61,7 +63,7 @@ struct s_ms
 
 	int				history_fd;
 	char			*prev_cmdline;
-	t_prompt		prompt_var;
+	// t_prompt		prompt_var;
 };
 
 

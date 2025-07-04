@@ -6,11 +6,13 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:20:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 16:52:36 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 12:32:09 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+
+void print_snippet_list(t_snippet *head);
 
 void	next_snippet(t_snippet **snippet)
 {
@@ -29,7 +31,9 @@ uint64_t	open_redir(t_cmd *cmd, t_ms *ms)
 {
 	if (!cmd->redirs)
 		return (NO_ERR);
+	print_snippet_list(cmd->redirs);
 	expand_snip(&cmd->redirs, cmd->redirs, ms, true);
+	print_snippet_list(cmd->redirs);
 	while (!cmd->errors && cmd->redirs)
 	{
 		if (cmd->redirs->token == redir_in)

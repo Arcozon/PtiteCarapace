@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:35:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:57:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:24:35 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ void	free_ms(t_ms *ms)
 		close(ms->history_fd);
 
 	free(ms->prev_cmdline);
-	free(ms->prompt_var.prompt);
-	free(ms->prompt_var.hostname);
 	clear_history();
 	rl_clear_history();
 	free_table(&ms->table);
