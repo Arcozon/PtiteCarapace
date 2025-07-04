@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 13:51:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:57:53 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,7 +351,7 @@ int	main(int ac, char **av, char **envp)
 			close(fd);
 			continue ;
 		}
-		if (ret_val == -1 || signal(SIGINT, SIG_IGN) == SIG_ERR)
+		if (ret_val == 1 || signal(SIGINT, SIG_IGN) == SIG_ERR)
 			bi_exit(1, NULL, NULL, &ms);
 		//str = gnl(fd);
 		str = get_next_null_arco(fd);

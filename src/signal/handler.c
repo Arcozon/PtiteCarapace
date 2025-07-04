@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:15:55 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 14:03:22 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 18:00:54 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,22 @@ __attribute__((constructor)) void	ms_set_sighandler(void)
 		exit(EXIT_FAILURE);
 }
 
-void	sigusr_handler(int sig)
-{
-	write(2, "ici\n\n", 5);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	(void)sig;
-}
-
 void	sigint_handler(int sig)
 {
 	(void)sig;
 	// write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
-	rl_on_new_line();
-	// write(0, "\n", 1);
+	// rl_on_new_line();
+	// write(2, "\n", 1);
 	// rl_redisplay();
 	g_sig = sig;
 }
 
 void	set_sigchild_handler(int fds_to_close[2])
 {
-	rl_on_new_line();
+	// rl_on_new_line();
 	// rl_replace_line("", 0);
 	// rl_redisplay();
-	if (signal(SIGUSR1, sigusr_handler) == SIG_ERR)
-		;
 	if (signal(SIGINT, sigint_handler) == SIG_ERR)
 	{
 		close(fds_to_close[0]);

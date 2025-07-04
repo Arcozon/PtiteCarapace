@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 14:01:33 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 18:49:21 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include "minishell.h"
 #include "arcoms.h"
+
+# define PROMPT_UNCLOSED "\1\033[1;90m\2> \1\033[0m\2"
 
 void	ms_rdl(char *prompt, int fd)
 {
@@ -67,6 +69,44 @@ void	rdl_child(int pipe_fds[2], pid_t pid, char *prompt, int history_fd)
 	}
 }
 
+int	arco_ms_rdl(char *prompt, int fd, bool first)
+{
+	char	*ptr;
+	char	*tmp;
+
+	ft_putchar_fd('\n', fd);
+	rl_on_new_line();
+	ptr = readline(prompt);
+	if (!ptr)
+		return (1);
+	if (ptr && *ptr)
+	{
+		tmp = pass_whitespace(ptr);
+		trim_trailling_ws(tmp);
+		ft_putstr_fd(tmp, fd);
+	}
+	if (((!first && ptr && !*ptr) || is_opened(ptr)))
+	{
+		free(ptr);
+		return (arco_ms_rdl(PROMPT_UNCLOSED, fd, 0));
+	}
+	free(ptr);
+	return (0);
+}
+
+void	arco_rdl_child(int pipe_fds[2], char *prompt)
+{
+	int	arl_status;
+
+	set_sigchild_handler(pipe_fds);
+	rl_getc_function = getc;
+	arl_status = arco_ms_rdl(prompt, pipe_fds[1], 1);
+	close(pipe_fds[0]);
+	close(pipe_fds[1]);
+	// fprintf(stderr, "-[%d]-", arl_status);
+	exit(arl_status);
+}
+
 int	get_cmd_line_fd(int	*fd, char *prompt, int history_fd)
 {
 	int		pipe_fds[2];
@@ -78,16 +118,17 @@ int	get_cmd_line_fd(int	*fd, char *prompt, int history_fd)
 	pid = fork();
 	if (pid < 0)
 		return (close(pipe_fds[0]), close(pipe_fds[1]), -1);
-	rdl_child(pipe_fds, pid, prompt, history_fd);
+	if (!pid)
+		arco_rdl_child(pipe_fds, prompt);
+	// rdl_child(pipe_fds, pid, prompt, history_fd);
 	close(pipe_fds[1]);
 	status = 0;
 	if (waitpid(pid, &status, 0) != pid)
 	{
-		write(2, "la\n", 3);
 		g_sig = SIGINT;
-		kill(pid, SIGUSR1);
-		kill(pid, SIGKILL);
 	}
 	*fd = pipe_fds[0];
+	// fprintf(stderr, "-{%d}-", get_exit_value(status));
 	return (get_exit_value(status));
+	(void)history_fd;
 }
