@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:49:29 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 12:55:16 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:08:48 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ bool	get_snips_expanded(t_snippet **new_lst, int fd, enum e_token token)
 	str = get_next_null_arco(fd);
 	while (str)
 	{
-		fprintf(stderr, "[%s]\n", str);
+		// fprintf(stderr, "[%s]\n", str);
 		if (*str && str[ft_strlen(str) - 1] == '\n')
 			str[ft_strlen(str) - 1] = 0;
 		if (!add_to_snip_lst(new_lst, token, str))

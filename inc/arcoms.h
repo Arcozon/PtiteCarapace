@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/04 12:51:45 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:15:35 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@
 # include "exec_btree.h"
 
 # include "arco_get_next_line.h"
+
+# define MS_RL_CTRLD		1
+# define MS_RL_RESTART_READ	2
 
 # define PIPE_READ	0
 # define PIPE_WRITE	1

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 17:57:53 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:17:08 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,13 +346,13 @@ int	main(int ac, char **av, char **envp)
 		// 	bi_exit(1, NULL, NULL, &ms);
 		set_sig(ROUTINE, &ms);
 		ret_val = get_cmd_line_fd(&fd, ms.prompt, ms.history_fd);
-		if (g_sig == SIGINT)
+		if (ret_val == MS_RL_CTRLD)// || signal(SIGINT, SIG_IGN) == SIG_ERR)
+			bi_exit(1, NULL, NULL, &ms);
+		else if (ret_val == MS_RL_RESTART_READ)
 		{
 			close(fd);
 			continue ;
 		}
-		if (ret_val == 1 || signal(SIGINT, SIG_IGN) == SIG_ERR)
-			bi_exit(1, NULL, NULL, &ms);
 		//str = gnl(fd);
 		str = get_next_null_arco(fd);
 		close(fd);

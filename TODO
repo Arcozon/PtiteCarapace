@@ -24,3 +24,5 @@ SRC	+=	prompt/generate_prompt.c\
 		prompt/write_prompt.c
 
 // add \p \n dans le prompt
+
+r_value qui reset quand une input est vide

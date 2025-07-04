@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 18:49:21 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:41:55 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	arco_ms_rdl(char *prompt, int fd, bool first)
 	rl_on_new_line();
 	ptr = readline(prompt);
 	if (!ptr)
-		return (1);
+		return ((int []){MS_RL_RESTART_READ, MS_RL_CTRLD}[first]);
 	if (ptr && *ptr)
 	{
 		tmp = pass_whitespace(ptr);
@@ -88,7 +88,7 @@ int	arco_ms_rdl(char *prompt, int fd, bool first)
 	if (((!first && ptr && !*ptr) || is_opened(ptr)))
 	{
 		free(ptr);
-		return (arco_ms_rdl(PROMPT_UNCLOSED, fd, 0));
+		return (arco_ms_rdl(PROMPT_UNCLOSED, fd, false));
 	}
 	free(ptr);
 	return (0);
@@ -98,12 +98,15 @@ void	arco_rdl_child(int pipe_fds[2], char *prompt)
 {
 	int	arl_status;
 
+	g_sig = 0;
 	set_sigchild_handler(pipe_fds);
 	rl_getc_function = getc;
-	arl_status = arco_ms_rdl(prompt, pipe_fds[1], 1);
+	arl_status = arco_ms_rdl(prompt, pipe_fds[1], true);
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
-	// fprintf(stderr, "-[%d]-", arl_status);
+	if (g_sig == SIGINT)
+		arl_status = MS_RL_RESTART_READ;
+	// fprintf(stderr, "-[%d]-", g_sig);
 	exit(arl_status);
 }
 
@@ -123,12 +126,12 @@ int	get_cmd_line_fd(int	*fd, char *prompt, int history_fd)
 	// rdl_child(pipe_fds, pid, prompt, history_fd);
 	close(pipe_fds[1]);
 	status = 0;
-	if (waitpid(pid, &status, 0) != pid)
+	while (waitpid(pid, &status, 0) != pid)
 	{
-		g_sig = SIGINT;
+		g_sig = SIGINT; // ?
 	}
 	*fd = pipe_fds[0];
-	// fprintf(stderr, "-{%d}-", get_exit_value(status));
+	// fprintf(stderr, "-{%d|%d}-\n", WEXITSTATUS(status), get_exit_value(status));
 	return (get_exit_value(status));
 	(void)history_fd;
 }
