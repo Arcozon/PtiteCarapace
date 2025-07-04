@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/03 19:13:58 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 09:57:06 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,36 @@ enum e_token	get_token(char *str)
 	return (word);
 }
 
+char	*cpy_without_quote(char *str)
+{
+	int		len;
+	char	*dup;
+	int		i;
+	char	*ptr;
+
+	if (!str)
+		return (0);
+	len = ft_strlen(str);
+	dup = malloc(sizeof(char) * (len + 1));
+	if (!dup)
+		return (0);
+	i = 0;
+	while (*str)
+	{
+		if (*str != '\'' && *str != '\"')
+			dup[i++] = *(str++);
+		else
+		{
+			ptr = ft_strchr(str + 1, *str);
+			while (++str != ptr)
+				dup[i++] = *str;
+			str++;
+		}
+	}
+	dup[i] = 0;
+	return (dup);
+}
+
 void	optimize_lst(t_snippet **head)
 {
 	t_snippet	*ptr;
@@ -85,11 +115,17 @@ void	optimize_lst(t_snippet **head)
 			ptr = tmp;
 		}
 		else
+		{
+			if (ft_strchr(ptr->ptr, '\'') || ft_strchr(ptr->ptr, '"'))
+			{
+				tmp = cpy_without_quote(ptr->ptr);
+				free(ptr->ptr);
+				ptr->ptr = tmp;
+			}
 			ptr = ptr->next;
+		}
 	}
 }
-
-const char	*token_to_string(enum e_token token);
 
 t_snippet	*lexer(char *str)
 {
@@ -98,6 +134,9 @@ t_snippet	*lexer(char *str)
 	char		*dup;
 
 	if (!str)
+		return (NULL);
+	str = pass_whitespace(str);
+	if (!*str)
 		return (NULL);
 	lst = NULL;
 	while (*str)
@@ -196,7 +235,7 @@ void	dollar_exp(char *ptr, char scope, char *quote)
 		{
 			test = write_snip(ptr, quote, ft_strlen(ptr));
 			if (test != ft_strlen(ptr))
-				write(1, "\n", 1);
+				write(1, "\0", 1);
 			ptr += test;
 			ptr = pass_whitespace(ptr);
 		}
@@ -213,7 +252,7 @@ void	put_to_zero(int *i, char *quote)
 		*quote = 0;
 }
 
-void	expand_token(char *ptr, char **env, int len, char scope)
+void	expand_token(char *ptr, t_ms *ms, int len, char scope)
 {
 	int		wlen;
 	int		i;
@@ -224,15 +263,15 @@ void	expand_token(char *ptr, char **env, int len, char scope)
 	{
 		wlen = get_wlen(ptr, len);
 		if (*ptr == '"')
-			expand_token(ptr + 1, env, wlen - 2, *ptr);
+			expand_token(ptr + 1, ms, wlen - 2, *ptr);
 		else
 		{
 			if (*ptr == '$' && wlen != 1 && ft_strncmp("$$", ptr, 2))
 			{
 				if (wlen == 2 && !ft_strncmp("$?", ptr, wlen))
-					ft_putnbr_fd(972, STDOUT_FILENO);
+					ft_putnbr_fd(ms->status, STDOUT_FILENO);
 				else
-					dollar_exp(expand(env, ptr + 1, wlen - 1), scope, &quote);
+					dollar_exp(expand(ms->env.tab, ptr + 1, wlen - 1), scope, &quote);
 			}
 			else
 				write_without_quote(ptr, wlen);
@@ -242,7 +281,11 @@ void	expand_token(char *ptr, char **env, int len, char scope)
 	}
 }
 
-#include <stdio.h>
+__attribute__((constructor)) void check_for_interractive_mode(void)
+{
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+		exit(EXIT_FAILURE);
+}
 
 const char *token_to_string(enum e_token token)
 {
@@ -272,17 +315,13 @@ void print_snippet_list(t_snippet *head)
 		head = head->next;
 	}
 }
-
 int	main(int ac, char **av, char **envp)
 {
 	char			*str;
-	char			*prev_cmdline = NULL;
 	int				fd;
-	int				history_fd;
 	int				ret_val;
-	t_prompt		prompt_var;
 	t_snippet		*lst = NULL;
-	t_hash_table	table;
+//	t_hash_table	table;
 	// t_env	__attribute__((cleanup(free_env)))	env;
 	t_ms			ms;
 
@@ -294,53 +333,51 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;(void)av;(void)envp;
 
 	// Checking if we are in a tty
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-		return (1);
 
 	// Creating hash table and aliases
-	ft_bzero(&table, sizeof(table));
-	parse_rc(&table);
+	//parse_rc(&ms);
+	parse_rc_file(&ms, "/home/malfwa/.minishellrc");
 	// Initializing Prompt
-	ft_bzero(&prompt_var, sizeof(t_prompt));
 	// prompt_var.prompt_raw = "\\u@\\h:\\w\\$ ";
-	prompt_var.prompt_raw = "\1[1;34m\2\\u\1[0;35m\2\\w \1\033[1;38;2;255;20;70m\2$ \1[0m\2";
 	// update_prompt_var(&prompt_var);
 
 	// Getting .ms_history fd
-	history_fd = ms_get_history_fd(&prev_cmdline);
+	ms.history_fd = ms_get_history_fd(&ms.prev_cmdline);
 	// Main loop
 	while (1)
 	{
 		make_prompt(ms.prompt, ms.status, ms.env.tab);
-		prompt_var.prompt = ms.prompt;
-		ret_val = get_cmd_line_fd(&fd, prompt_var, history_fd);
-		if (ret_val == -1)
+		if (signal(SIGINT, ms_handler) == SIG_ERR)
+			break ;
+		ret_val = get_cmd_line_fd(&fd, ms.prompt_var, ms.history_fd);
+		if (ret_val == -1 || signal(SIGINT, SIG_IGN) == SIG_ERR)
 			break ;
 		//str = gnl(fd);
 		str = get_next_null(fd);
 		close(fd);
 		if (!str)
-			break ;
+			bi_exit(1, NULL, NULL, &ms);
+		if (g_sig)
+		{
+			ms.status = uptade_sig(g_sig);
+			g_sig = 0;
+		}
 		if (*str)
 		{
-			ms_add_history(str, history_fd, &prev_cmdline);
-			if (!prev_cmdline)
-				ft_putstr_fd("Error saving prev_cmdline\n", 2);
+			ms_add_history(str, ms.history_fd, &ms.prev_cmdline);
 			lst = lexer(str);
 			if (!lst)
 			{
 				free(str);
-				break ;
+				continue ;
 			}
-			//expand_snip(&lst, lst, env, true); // would be done in exec
 			if (check_syntaxe(lst, _basename(av[0])))
 			{
-				replace_aliases(&lst, &table);
-				replace_tilde(lst, getenv("HOME"));
-				replace_wildcards(&lst);
-				optimize_lst(&lst);
-				// expand_snip(&lst, lst, ms.env.tab, true); // would be done in exec
-				// print_snippet_list(lst); // exec
+				replace_aliases(&lst, &ms.table);
+				replace_tilde(lst, expand(ms.env.tab, "HOME", 4));
+				replace_wildcards(&lst);// cette fonction 
+				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
+
 				exec_start(&ms, &lst);
 			}
 		}
@@ -350,13 +387,6 @@ int	main(int ac, char **av, char **envp)
 	}
 
 	// Freeing everything 
-	free_table(&table);
-	close(history_fd);
-	free(prev_cmdline);
-	// free(prompt_var.prompt);
-	free(prompt_var.hostname);
-	clear_history();
-	rl_clear_history();
 	free_ms(&ms);
 	return (0);
 }

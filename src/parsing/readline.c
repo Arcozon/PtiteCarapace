@@ -47,7 +47,7 @@ void	rdl_child(int pipe_fds[2], pid_t pid, t_prompt prompt, int history_fd)
 
 	if (is_child(pid))
 	{
-		set_sigint_handler(pipe_fds);
+		set_sigchild_handler(pipe_fds);
 		if (prompt.prompt)
 			ptr = readline(prompt.prompt);
 		else
@@ -57,6 +57,8 @@ void	rdl_child(int pipe_fds[2], pid_t pid, t_prompt prompt, int history_fd)
 			tmp = pass_whitespace(ptr);
 			trim_trailling_ws(tmp);
 			ft_putstr_fd(tmp, pipe_fds[1]);
+			if (!*(char *)tmp)
+				ft_putchar_fd(' ', pipe_fds[1]);
 		}
 		else if (ptr)
 			ft_putchar_fd(' ', pipe_fds[1]);
@@ -67,7 +69,6 @@ void	rdl_child(int pipe_fds[2], pid_t pid, t_prompt prompt, int history_fd)
 		close(history_fd);
 		return (free(ptr), exit(0)); //, free(prompt.prompt)
 	}
-	signal(SIGINT, SIG_IGN);
 }
 
 int	get_cmd_line_fd(int	*fd, t_prompt prompt, int history_fd)

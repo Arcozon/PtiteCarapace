@@ -16,11 +16,19 @@
 #include <signal.h>
 #include "libft.h"
 #include <stdbool.h>
+#include "signal_handling.h"
+
+void	ms_handler(int signum)
+{
+	if (signum == SIGINT)
+		g_sig = signum;
+}
 
 __attribute__((constructor)) void	ms_set_sighandler(void)
 {
-	if (signal(SIGINT, SIG_IGN) == SIG_ERR
-		|| signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	if (signal(SIGINT, ms_handler) == SIG_ERR)
+		exit(EXIT_FAILURE);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		exit(EXIT_FAILURE);
 }
 
@@ -33,7 +41,7 @@ void	sigint_handler(int sig)
 	rl_redisplay();
 }
 
-void	set_sigint_handler(int fds_to_close[2])
+void	set_sigchild_handler(int fds_to_close[2])
 {
 	if (signal(SIGINT, sigint_handler) == SIG_ERR)
 	{

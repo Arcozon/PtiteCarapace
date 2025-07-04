@@ -30,7 +30,7 @@ bool	get_fd(int *fd)
 	return (true);
 }
 
-bool	alias_open(char *str)
+bool	is_statement_open(char *str)
 {
 	char	quote;
 	int		bracket;
@@ -66,7 +66,7 @@ bool	check_alias_chars(char *str)
 			return (false);
 		i++;
 	}
-	if (str[i] != '=' || alias_open(str + i + 1))
+	if (str[i] != '=' || is_statement_open(str + i + 1))
 		return (false);
 	return (true);
 }

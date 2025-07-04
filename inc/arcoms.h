@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/03 18:39:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/04 09:57:19 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,21 @@
 
 struct s_ms
 {
-	char		*pname;
+	char			*pname;
 
-	char		prompt[PROMPT_SIZE + 1];
-	t_snippet	*lexer;
+	char			prompt[PROMPT_SIZE + 1];
+	t_hash_table	table;
+	t_snippet		*lexer;
 
-	t_base		*exec_tree;
+	t_base			*exec_tree;
 
-	t_env		env;
-	uint8_t		status;
-	uint64_t	errors;
+	t_env			env;
+	uint8_t			status;
+	uint64_t		errors;
+
+	int				history_fd;
+	char			*prev_cmdline;
+	t_prompt		prompt_var;
 };
 
 

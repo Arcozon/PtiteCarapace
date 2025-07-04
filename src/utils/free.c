@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "arcoms.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	free_env(t_env *env)
 {
@@ -90,5 +92,15 @@ void	free_ms(t_ms *ms)
 {
 	free_node(&(ms->exec_tree));
 	free_env(&ms->env);
-	//free_alias
+
+// A checker si G le gere deja
+	if (ms->history_fd > 0)
+		close(ms->history_fd);
+
+	free(ms->prev_cmdline);
+	free(ms->prompt_var.prompt);
+	free(ms->prompt_var.hostname);
+	clear_history();
+	rl_clear_history();
+	free_table(&ms->table);
 }
