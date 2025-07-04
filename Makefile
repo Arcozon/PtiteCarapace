@@ -86,16 +86,21 @@ F_LIB =  -lreadline -lncurses -L$(D_LIBPRINTF) $(LIBPRINTF)
 
 RM =  rm -rf
 
+TOTAL := $(shell echo $(SRC) | wc -w) 
+
 .DEFAULT_GOAL := all
 
-all:	$(NAME)
+all:	~/.minishellrc counter.sh set_counter $(NAME)
 
-$(NAME):	$(OBJ)
-	$(CC) -o $@ $^ $(F_LIB)
+$(NAME):	$(OBJ) 
+	@$(CC) -o $@ $^ $(F_LIB)
+	@echo "\033[1;32m$@ linked!\033[0m"
+	@rm -rf /tmp/ms_counter
 
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)
-	$(CC) $(FLAGS) $(F_INC) -c $< -o $@ 
+	@./counter.sh $< $(TOTAL)
+	@$(CC) $(FLAGS) $(F_INC) -c $< -o $@ 
 
 clean:
 	$(RM) $(D_BUILD)
@@ -104,7 +109,7 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean
-	make all
+	$(MAKE) all
 
 S_TREE_SRC = make_base.c  test_exec.c  make_utils.c  debug_base.c  in_logic_opp.c  make_utils2.c
 TREE_SRC = $(addprefix src/exec/make_tree/, $(S_TREE_SRC))  src/utils/utils.c  src/utils/free.c
@@ -115,5 +120,33 @@ tree:
 DEPS = $(addprefix $(D_BUILD), $(SRC:.c=.d))
 -include $(DEPS)
 
-.PHONY: re fclean clean all $(CC) $(FLAGS) $(RM) tree
+
+~/.minishellrc:
+	@echo "❌ Missing minishellrc. Creating...";
+	@echo "alias l='ls -l'" >> ~/.minishellrc;
+	@echo "alias la='ls -la'" >> ~/.minishellrc;
+	@echo "✅ minishellrc created";
+
+
+.PHONY: re fclean clean all $(CC) $(FLAGS) $(RM) tree clear_counter minishellrc
+
+
+set_counter:
+	@count=$$( $(MAKE) -n $(NAME) | grep "Wall" | wc -l );\
+		printf "$$(($(TOTAL) - $$count))" > /tmp/ms_counter
+
+counter.sh:
+	@printf '#! /bin/bash\n\
+\n\
+file=$$1\n\
+total=$$2\n\
+\n\
+counter_file="/tmp/ms_counter"\n\
+\n\
+count=$$(cat "$$counter_file")\n\
+count=$$((count + 1))\n\
+echo "[$$count/$$total]: 🔧 Compiling $$file"\n\
+echo $$count > "$$counter_file"\n' > counter.sh
+	chmod +x counter.sh
+
 

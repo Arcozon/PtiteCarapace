@@ -369,12 +369,8 @@ int	main(int ac, char **av, char **envp)
 			if (!lst)
 			{
 				free(str);
-		
-				 continue ;
+				continue ;
 			}
-			ft_printf("%d\n", *str);
-
-				print_snippet_list(lst);
 			if (check_syntaxe(lst, _basename(av[0])))
 			{
 				replace_aliases(&lst, &ms.table);

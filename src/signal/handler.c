@@ -18,8 +18,6 @@
 #include <stdbool.h>
 #include "signal_handling.h"
 
-//volatile sig_atomic_t g_sig = 0;
-
 void	ms_handler(int signum)
 {
 	if (signum == SIGINT)
