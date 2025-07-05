@@ -1,0 +1,117 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amouflet <amouflet@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/08 20:33:18 by amouflet          #+#    #+#             */
+/*   Updated: 2022/11/15 15:06:46 by amouflet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stdio.h>
+
+static int	ft_count_word(char const *s, char c)
+{
+	unsigned int	i;
+	unsigned int	x;
+	char			quote;
+
+	x = 0;
+	i = -1;
+	while (s && s[++i])
+	{
+		if (s[i] == '\'' || s[i] == '\"')
+		{
+			quote = s[i++];
+			while (s[i] != quote)
+				i++;
+		}
+		if ((s[i] != c && s[i + 1] == c) || (s[i] != c && s[i + 1] == 0))
+			x++;
+	}
+	return (x);
+}
+
+static void	*ft_free(char **tab)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (!tab)
+		return (NULL);
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+	return (NULL);
+}
+
+static int	ft_fill_tab(char **tab, char const *s, unsigned int *i, char c)
+{
+	int		j;
+	int		len;
+	char	quote;
+
+	while (s && s[(*i)] == c && s[(*i)] != 0)
+		(*i)++;
+	j = 0;
+	len = 0;
+	while (s && s[*i + len] && s[*i + len] != c)
+	{
+		if (s[*i + len] == '\'' || s[*i + len] == '\"')
+		{
+			quote = s[*i + len++];
+			while (s[*i + len] != quote)
+				len++;
+		}
+		len++;
+	}
+	*tab = malloc(sizeof(char) * (len + 1));
+	if (*tab == NULL)
+		return (1);
+	while (j < len)
+		(*tab)[j++] = s[(*i)++];
+	(*tab)[j] = 0;
+	while (s && s[(*i)] == c && s[(*i)] != 0)
+		(*i)++;
+	return (0);
+}
+
+
+char	**ft_split_pattern(char const *s, char c)
+{
+	unsigned int	count;
+	unsigned int	i;
+	int				len;
+	unsigned int	x;
+	char			**tab;
+	char			quote;
+
+	count = ft_count_word(s, c);
+	tab = malloc(sizeof(char *) * (count + 1));
+	if (tab == NULL)
+		return (NULL);
+	tab[count] = NULL;
+	i = 0;
+	x = 0;
+	while (s && s[i] && x != count)
+	{
+		len = 0;
+		while (s[i + len] != c && s[i + len] != 0)
+		{
+			if (s[i + len] == '\'' || s[i + len] == '\"')
+			{
+				quote = s[i + len++];
+				while (s[i + len] != quote)
+					len++;
+			}
+			len++;
+		}
+		if (ft_fill_tab(&(tab[x]), s, &i, c) == 1)
+			return (ft_free(tab));
+		x++;
+	}
+	return (tab);
+}

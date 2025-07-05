@@ -48,7 +48,7 @@ D_SRC_GNL =  gnl/
 SRC_GNL   =  $(addprefix $(D_SRC_GNL), $(S_SRC_GNL))
 
 S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c    tilde.c  word_len.c
-S_SRC_PARSING += wildcard/manage_files.c  wildcard/wildcard.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
+S_SRC_PARSING += wildcard/manage_files.c  wildcard/wildcard.c wildcard/split_pattern.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))
 

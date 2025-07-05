@@ -47,6 +47,8 @@ t_snippet	*lst_to_snip(t_list *lst, char *raw_pattern)
 	return (head);
 }
 
+char	**ft_split_pattern(char const *s, char c);
+
 t_snippet	*wildcard(char *raw_pattern)
 {
 	char		**patterns;
@@ -64,7 +66,7 @@ t_snippet	*wildcard(char *raw_pattern)
 		ft_lstclear(&head, NULL);
 		return (snip);
 	}
-	patterns = ft_split(raw_pattern, '*');
+	patterns = ft_split_pattern(raw_pattern, '*');
 	if (!patterns)
 		return (ft_lstclear(&head, NULL), NULL);
 	pop_non_matching_files(&head, patterns, raw_pattern);

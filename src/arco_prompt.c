@@ -140,7 +140,7 @@ void	make_prompt(char prompt[PROMPT_SIZE + 1], uint8_t status, char **env)
 	cpy_prompt(prompt, &m_prompt);
 	free(m_prompt.pwd);
 }
-
+/*
 void	make_prompt(char prompt[PROMPT_SIZE + 1], uint8_t status, char **env)
 {
 	t_aprompt	m_prompt;
@@ -153,4 +153,4 @@ void	make_prompt(char prompt[PROMPT_SIZE + 1], uint8_t status, char **env)
 		m_prompt.format = BASE_PROMPT_FORMAT;
 	cpy_prompt(prompt, &m_prompt);
 	free(m_prompt.pwd);
-}
+}*/
