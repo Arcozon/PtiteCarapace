@@ -1,16 +1,11 @@
 ~ exp at exec
 * at exec
 
-Syntax: ';' can have nothing after
-
 ReadlineChild : double ctrlC FIXED
 			free T_ms
 			Init status dans get_cmd_line_fd
 
 T_ms: ajouter fd_history, alias, prompt
-
-prompt : prompt vert et prompt rouge ?
-			maj du pwd dans le prompt
 
 env init, set PWD oLD PWD SHLVL PROMPT_FORMAT
 

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 10:59:15 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/04 10:06:51 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:58:35 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,20 @@ void	cpy_prompt(char prompt[PROMPT_SIZE + 1], t_aprompt *mprompt)
 	}
 	strstopcpy_prompt(prompt, mprompt, "\1\033[0m\2", 0);
 	prompt[mprompt->i_res] = 0;
+}
+
+void	make_prompt(char prompt[PROMPT_SIZE + 1], uint8_t status, char **env)
+{
+	t_aprompt	m_prompt;
+
+	ft_bzero(prompt, PROMPT_SIZE + 1);
+	ft_bzero(&m_prompt, sizeof(m_prompt));
+	ft_bzero(m_prompt.hostname, HOST_SIZE);
+	fill_mprompt(&m_prompt, status, env);
+	if (!m_prompt.format)
+		m_prompt.format = BASE_PROMPT_FORMAT;
+	cpy_prompt(prompt, &m_prompt);
+	free(m_prompt.pwd);
 }
 
 void	make_prompt(char prompt[PROMPT_SIZE + 1], uint8_t status, char **env)

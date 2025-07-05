@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 19:17:08 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:56:53 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,16 +340,19 @@ int	main(int ac, char **av, char **envp)
 	// Main loop
 	while (1)
 	{
-		ms.status = uptade_sig(g_sig);
+		ms.status = update_sig(ms.status);
 		make_prompt(ms.prompt, ms.status, ms.env.tab);
 		// if (signal(SIGINT, ms_handler) == SIG_ERR)
 		// 	bi_exit(1, NULL, NULL, &ms);
 		set_sig(ROUTINE, &ms);
 		ret_val = get_cmd_line_fd(&fd, ms.prompt, ms.history_fd);
+		// printf("ici|%d|\n", ret_val);//, getpid());
 		if (ret_val == MS_RL_CTRLD)// || signal(SIGINT, SIG_IGN) == SIG_ERR)
 			bi_exit(1, NULL, NULL, &ms);
 		else if (ret_val == MS_RL_RESTART_READ)
 		{
+			// write(1, "a", 1);
+			// printf("la");
 			close(fd);
 			continue ;
 		}
@@ -359,7 +362,7 @@ int	main(int ac, char **av, char **envp)
 		if (!str)
 			bi_exit(1, NULL, NULL, &ms);
 		if (g_sig)
-			ms.status = uptade_sig(g_sig);
+			ms.status = update_sig(ms.status);
 		if (*str)
 		{
 			ms_add_history(str, ms.history_fd, &ms.prev_cmdline);

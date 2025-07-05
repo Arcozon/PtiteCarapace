@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/04 17:59:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:43:25 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_sig = 0;
 
-uint8_t	uptade_sig(uint8_t	status)
+uint8_t	update_sig(uint8_t	status)
 {
 	if (g_sig)
 		status = g_sig + STT_SIG_BASE;
