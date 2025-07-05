@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:39:22 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 12:23:02 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 13:15:08 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,52 +128,6 @@ int  len_dollar(char *str, int *i, char **env)
 	return (len_vcontent);
 }
 
-// int arc_get_wlen(char *ptr, int lim, char **env)
-// {	
-// 	int	len;
-// 	int	i;
-
-// 	len = 0;
-// 	i = 0;
-// 	while (ptr[i])
-// 	{
-// 		if (ptr[i] == '\'')
-// 		{
-// 			++i;
-// 			while (ptr[i] && ptr[i] != '\'')
-// 			{
-// 				++len;
-// 				++i;
-// 			}
-// 			++i;
-// 		}
-// 		if (ptr[i] == '\"')
-// 		{
-// 			++i;
-// 			while (ptr[i] && ptr[i] != '\"')
-// 			{
-// 				if (ptr[i] == '$')
-// 					len += len_dollar(ptr,  &i, env);
-// 				else
-// 				{
-// 					++len;
-// 					++i;
-// 				}
-// 			}
-// 			++i;
-// 		}
-// 		if (ptr[i] == '$')
-// 			len += len_dollar(ptr,  &i, env);
-// 		else
-// 		{
-// 			++len;
-// 			++i;
-// 		}
-// 	}
-// 	fprintf(stderr, "-- [%d] %.*s\n", len, i, ptr);
-// 	return (len);
-// 	(void)lim;
-// }
 bool	dollar_sep_quote(char c);
 
 int	get_wlen(char *ptr, int len)

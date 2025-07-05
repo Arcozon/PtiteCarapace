@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/05 10:56:53 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 13:20:33 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,14 @@ size_t	write_snip(char *str, char *quote, int len)
 		else if (*quote == str[i])
 			*quote = 0;
 		if (str[i] == ' ' && !*quote)
+		{
+			return (write(STDOUT_FILENO, str, i));
 			return (write(STDOUT_FILENO, str, i), write(2, str, i));
+		}
 		i++;
 	}
-	return (write(STDOUT_FILENO, str, i), write(2, str, i));
+	// return (write(STDOUT_FILENO, str, i), write(2, str, i));
+	return (write(STDOUT_FILENO, str, i));
 }
 
 void	write_without_quote(char *str, int len)
@@ -341,7 +345,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		ms.status = update_sig(ms.status);
-		make_prompt(ms.prompt, ms.status, ms.env.tab);
+		make_prompt(ms.prompt, &ms);
 		// if (signal(SIGINT, ms_handler) == SIG_ERR)
 		// 	bi_exit(1, NULL, NULL, &ms);
 		set_sig(ROUTINE, &ms);

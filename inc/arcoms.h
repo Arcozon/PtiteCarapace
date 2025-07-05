@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 10:19:25 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 13:05:46 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ struct s_ms
 {
 	char			*pname;
 
-	char			prompt[PROMPT_SIZE + 1];
+	char			prompt[PROMPT_SIZE];
 	t_hash_table	table;
 	t_snippet		*lexer;
 
@@ -67,7 +67,6 @@ struct s_ms
 
 	int				history_fd;
 	char			*prev_cmdline;
-	// t_prompt		prompt_var;
 };
 
 

@@ -16,8 +16,8 @@ pb sur la detection d alias ??
 SRC	+=	prompt/generate_prompt.c\
 		prompt/write_prompt.c
 
-// add \p \n dans le prompt
+check redir order
 
-r_value qui reset quand une input est vide
+enlever les getenv
 
-echeck redir order
+export PATH=    -> error execve

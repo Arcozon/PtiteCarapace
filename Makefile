@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/05 10:26:37 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/05 17:14:13 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,17 +47,21 @@ S_SRC_GNL =  get_next_line.c  get_next_line_utils.c  get_next_null.c  gnl.c  gnl
 D_SRC_GNL =  gnl/
 SRC_GNL   =  $(addprefix $(D_SRC_GNL), $(S_SRC_GNL))
 
+S_SRC_PROMPT =  cpy_prompt.c  prompt.c
+D_SRC_PROMPT =  prompt/
+SRC_PROMPT   =  $(addprefix $(D_SRC_PROMPT), $(S_SRC_PROMPT))
+
 S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c    tilde.c  word_len.c
 S_SRC_PARSING += wildcard/manage_files.c  wildcard/wildcard.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))
 
-SRC =  $(SRC_UTILS)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  arco_prompt.c  arco_get_next_line.c
-SRC	+=	history/manage_history.c
-SRC	+=	signal/handler.c
-SRC	+=	ad_utils/utils.c  ad_utils/sep_func.c
-SRC +=	$(addprefix printf/srcs/, $(SRC_PRINTF))
-SRC +=	$(addprefix printf/libft/, $(SRC_LIBFT))
+SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  arco_get_next_line.c
+SRC	+= history/manage_history.c
+SRC	+= signal/handler.c
+SRC	+= ad_utils/utils.c  ad_utils/sep_func.c
+SRC += $(addprefix printf/srcs/, $(SRC_PRINTF))
+SRC += $(addprefix printf/libft/, $(SRC_LIBFT))
 
 D_SRC = src/
 
@@ -72,7 +76,6 @@ LIBPRINTF	=  $(D_SRC)printf/libftprintf.a
 CC =  cc
 FLAGS =  -Wall -Wextra -Werror -MMD -g
 F_INC =  $(addprefix -I, $(D_INC))
-# F_LIB =  -lreadline -lncurses -L$(D_LIBPRINTF) $(LIBPRINTF) 
 F_LIB =  -lreadline -lncurses 
 
 RM =  rm -rf
