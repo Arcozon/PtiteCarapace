@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_alias.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:12:25 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/02 19:15:45 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/05 09:32:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	show_aliases(t_hash_table *table)
 		ptr = table->bucket[i];
 		while (ptr)
 		{
-			ft_printf("%s=%s\n", ptr->key, ptr->value);
+			ft_printf("%s='%s'\n", ptr->key, ptr->value);
 			ptr = ptr->next;
 		}
 		i++;

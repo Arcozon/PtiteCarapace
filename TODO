@@ -12,13 +12,11 @@ T_ms: ajouter fd_history, alias, prompt
 prompt : prompt vert et prompt rouge ?
 			maj du pwd dans le prompt
 
-env init, set PWD oLD PWD SHLVL
+env init, set PWD oLD PWD SHLVL PROMPT_FORMAT
 
 Error when cmd is not found
 
-mettre le minishellrc dans le repertoire courrant
-
-pb sur la detection d alias
+pb sur la detection d alias ??
 
 SRC	+=	prompt/generate_prompt.c\
 		prompt/write_prompt.c
@@ -26,3 +24,5 @@ SRC	+=	prompt/generate_prompt.c\
 // add \p \n dans le prompt
 
 r_value qui reset quand une input est vide
+
+echeck redir order

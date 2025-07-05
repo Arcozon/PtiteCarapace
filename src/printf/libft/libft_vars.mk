@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    libft_vars.mk                                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+         #
+#    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:30:34 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/02 18:19:39 by malfwa           ###   ########.fr        #
+#    Updated: 2025/07/05 10:27:42 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,8 @@ SRC_LIBFT	=	ft_atoi.c		\
 				ft_strval.c		\
 				ft_substr.c		\
 				ft_tolower.c	\
-				ft_toupper.c
-
-SRC_LBONUS	=	ft_lstnew.c			\
+				ft_toupper.c	\
+				ft_lstnew.c			\
 				ft_lstsize.c		\
 				ft_lstlast.c		\
 				ft_lstadd_front.c	\

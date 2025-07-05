@@ -9,5 +9,3 @@ alias .....='../../../..'
 alias ......='../../../../..'
 alias abc='echo cba'
 alias -='cd -'
-export h='a b'
-echo $h
