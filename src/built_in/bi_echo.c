@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:40:54 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 14:04:43 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 17:34:52 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	write_echo(char *str, int fd_out, char *pname)
 	len = ge_strlen(str);
 	if (write(fd_out, str, len) != len)
 	{
-		print_error(pname, "echo: write error: No space left on device");
+		print_error_1(pname, "echo: write error: No space left on device");
 		return (ECHO_WRITE_ERR);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/28 12:40:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 17:38:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ uint64_t	find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 	*fct_blti = is_a_builtin(av0);
 	if (*fct_blti)
 		return (NO_ERR);
-	if (!path || ge_strchr(av0, '/'))
+	if (!path || ! path[0] || ge_strchr(av0, '/'))
 	{
 		if (!access(av0, F_OK))
 			*ptr_exe = av0;
