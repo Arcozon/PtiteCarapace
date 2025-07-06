@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 17:37:22 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 12:38:05 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,4 @@ void	exec_simple_cmd(t_base *node, t_ms *ms)
 		else
 			exec_simple_cmd_fork(&node->cmd, ms);
 	}
-	else
-		node->cmd.rstatus = 1;
-	ms->status = node->cmd.rstatus & MASK_STATUS;
 }
