@@ -18,5 +18,3 @@ check redir order
 enlever les getenv
 
 export PATH=    -> error execve [fixed, can be better]
-
-status when no cmd after ;
