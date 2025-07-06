@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/06 12:36:59 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 15:21:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,6 @@ size_t	ft_varnamelen(const char var[])
 	while (ft_isdigit(var[i]) || ft_isalpha(var[i]) || var[i] == '_')
 		++i;
 	return (i);
-}
-
-int	ge_isupper(char c)
-{
-	return (c >= 'A' && c <= 'Z');
 }
 
 int	ge_isspace(char c)

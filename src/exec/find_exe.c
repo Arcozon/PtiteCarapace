@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 17:38:22 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 15:19:20 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
 t_builin_fct	is_a_builtin(char *av0)
 {
 	static const t_builin_fct	fct_builtin[] = {bi_echo, bi_clear, bi_exit, bi_cd,
-		bi_pwd, bi_env, bi_export, bi_unset, bi_alias, 0};
+		bi_pwd, bi_env, bi_export, bi_unset, bi_alias, bi_status, 0};
 	static char					*str_builtin[] = {"echo", "clear", "exit", "cd", "pwd",
-		"env", "export", "unset", "alias", 0};
+		"env", "export", "unset", "alias", "status", 0};
 	uint64_t					i;
 
 	if (!av0)
