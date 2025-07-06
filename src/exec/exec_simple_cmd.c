@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/28 12:41:30 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 12:38:05 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exec_simple_cmd_fork(t_cmd *cmd, t_ms *ms)
 			ms_exit(ms->errors, ms);
 		if (!cmd->path_exe && cmd->argv_cmd[0])
 		{
-			ms_perror(ms->pname, cmd->argv_cmd[0]);
+			print_error_1(cmd->argv_cmd[0], ERR_CMD_NOT_FOUND);
 			ms_exit(STT_CMD_NOT_FOUND, ms);
 		}
 		if (!cmd->argv_cmd[0])
@@ -59,7 +59,4 @@ void	exec_simple_cmd(t_base *node, t_ms *ms)
 		else
 			exec_simple_cmd_fork(&node->cmd, ms);
 	}
-	else
-		node->cmd.rstatus = 1;
-	ms->status = node->cmd.rstatus & MASK_STATUS;
 }

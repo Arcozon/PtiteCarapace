@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:33:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 17:42:00 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 12:40:47 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,16 @@ void	exec_scol(t_base *node, t_ms *ms)
 		exec_node(node->left, ms);
 	if (!ms->errors && node->right && g_sig != SIGINT)
 		exec_node(node->right, ms);
+	node->cmd.rstatus = ms->status;
 }
 
 void	exec_and(t_base *node, t_ms *ms)
 {
 	if (!ms->errors && node->left)
 		exec_node(node->left, ms);
-	if (!ms->errors && node->right && ms->status == 0 && g_sig != SIGINT)
+	if (!ms->errors && ms->status == 0 && g_sig != SIGINT)
 		exec_node(node->right, ms);
+	node->cmd.rstatus = ms->status; 
 }
 
 void	exec_or(t_base *node, t_ms *ms)
@@ -34,6 +36,7 @@ void	exec_or(t_base *node, t_ms *ms)
 		exec_node(node->left, ms);
 	if (!ms->errors && ms->status != 0 && g_sig != SIGINT)
 		exec_node(node->right, ms);
+	node->cmd.rstatus = ms->status;
 }
 
 void	launch_subsh(t_base *node, t_ms *ms, int to_close)
@@ -42,6 +45,7 @@ void	launch_subsh(t_base *node, t_ms *ms, int to_close)
 		ms_exit(ms->errors, ms);
 	if (!node->cmd.pid)
 	{
+		set_sig(DEFLT_SIG, ms);
 		close_fd(&to_close);
 		if (open_redir(&node->cmd, ms))
 			ms_exit(node->cmd.rstatus, ms);

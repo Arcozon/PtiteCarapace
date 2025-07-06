@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 10:19:25 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 13:56:26 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,11 @@
 # define PIPE_READ	0
 # define PIPE_WRITE	1
 
-# define MASK_STATUS	0xff
-
 struct s_ms
 {
 	char			*pname;
 
-	char			prompt[PROMPT_SIZE + 1];
+	char			prompt[PROMPT_SIZE];
 	t_hash_table	table;
 	t_snippet		*lexer;
 
@@ -67,7 +65,6 @@ struct s_ms
 
 	int				history_fd;
 	char			*prev_cmdline;
-	// t_prompt		prompt_var;
 };
 
 

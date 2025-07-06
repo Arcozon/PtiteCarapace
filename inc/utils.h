@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/03 14:43:53 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 15:21:11 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ char		*ft_substrjoin_with_slash(char *path, char *exe, size_t len);
 int			ge_strncmp_weq(char *name, char *env_var, size_t n);
 size_t		ft_varnamelen(const char var[]);
 
-int			ge_isdigit(char c);
-int			ge_isalpha(char c);
-int			ge_isupper(char c);
 int			ge_isspace(char c);
 int			is_end_ofesc_seq(char c);
 char		*ge_strchr(char *str, char c);

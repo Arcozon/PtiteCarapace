@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 16:24:52 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 16:29:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 15:01:27 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	bi_clear(int ac, char **av, int fds[2], t_ms *ms)
 {
-	write(fds[PIPE_WRITE], "[H[2J[3J", 11);
+	write(fds[PIPE_WRITE], "\033[H\033[2J\033[3J", 11);
 	return (0);
 	(void)ac, (void)av, (void)ms;
 }

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 15:36:38 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/04 10:24:49 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 17:34:41 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	cd_oldpwd(t_ms *ms, int fdout)
 	const char	*oldpwd = find_content_var("OLDPWD", ms->env.tab);
 
 	if (!oldpwd)
-		return (print_error(ms->pname, "cd: OLDPWD not set"), 1);
+		return (print_error_1(ms->pname, "cd: OLDPWD not set"), 1);
 	return (internal_cd((char *)oldpwd, fdout, ms, 1));
 }
 
@@ -66,14 +66,14 @@ int	cd_ac_eq_1(t_ms *ms, int fdout)
 	const char	*home = find_content_var("HOME", ms->env.tab);
 
 	if (!home)
-		return (print_error(ms->pname, "cd: HOME not set"), 1);
+		return (print_error_1(ms->pname, "cd: HOME not set"), 1);
 	return (internal_cd((char *)home, fdout, ms, 0));
 }
 
 int	bi_cd(int ac, char **av, int fds[2], t_ms *ms)
 {
 	if (ac >= 3)
-		return (print_error(ms->pname, "cd: too many arguments"), 1);
+		return (print_error_1(ms->pname, "cd: too many arguments"), 1);
 	if (ac == 1)
 		return (cd_ac_eq_1(ms, fds[PIPE_WRITE]));
 	if (!ft_strcmp("-", av[1]))

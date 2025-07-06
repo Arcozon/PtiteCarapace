@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/03 14:43:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/06 15:21:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,6 @@ size_t	ft_varnamelen(const char var[])
 	return (i);
 }
 
-int	ge_isupper(char c)
-{
-	return (c >= 'A' && c <= 'Z');
-}
-
 int	ge_isspace(char c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
@@ -212,24 +207,24 @@ uint64_t	cmd_dup(t_cmd *cmd)
 	return (cmd->errors);
 }
 
-struct termios orig_termios;
+// struct termios orig_termios;
 
-__attribute__((constructor))
-void	save_term(void)
-{
-	tcgetattr(STDIN_FILENO, &orig_termios);
-}
+// __attribute__((constructor))
+// void	save_term(void)
+// {
+// 	tcgetattr(STDIN_FILENO, &orig_termios);
+// }
 
 uint64_t	ms_fork(int *pid, t_ms *ms)
 {
 	*pid = fork();
 	if (*pid < 0)
 		ms->errors |= E_FORK;
-	if (!*pid)
-	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
-		set_sig(DEFLT_SIG, ms);
-	}
+	// if (!*pid)
+	// {
+	// 	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);	//WHAT THE FUCK AM I DOING ?
+	// 	set_sig(DEFLT_SIG, ms);
+	// }
 	return (ms->errors);
 }
 

@@ -9,15 +9,12 @@ T_ms: ajouter fd_history, alias, prompt
 
 env init, set PWD oLD PWD SHLVL PROMPT_FORMAT
 
-Error when cmd is not found
-
 pb sur la detection d alias ??
 
-SRC	+=	prompt/generate_prompt.c\
-		prompt/write_prompt.c
+alias use fds[2]
 
-// add \p \n dans le prompt
+check redir order
 
-r_value qui reset quand une input est vide
+enlever les getenv
 
-echeck redir order
+export PATH=    -> error execve [fixed, can be better]

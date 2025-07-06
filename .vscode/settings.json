@@ -7,6 +7,8 @@
 		"make_tree.h": "c",
 		"fcntl.h": "c",
 		"minishell.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"prompt.h": "c",
+		"cerrno": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:12:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/27 17:57:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/05 17:37:24 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 # define E_WRITE	0b1000
 # define E_FORK		0b10000
 # define E_PIPE		0b100000
-# define E_DUP		0b1000000	
+# define E_DUP		0b1000000
+
+# define ERR_CMD_NOT_FOUND "command not found"
 
 void	ms_perror(char *pname, char *context);
-void	ms_c_perror(char *pname, char *str, char *context);
-void	print_error(char *pname, char *error_msg);
+void	ms_c_perror(char *pname, char *err_msg, char *context);
+void	print_error_1(char *pname, char *error_msg);
+void	print_error_2(char *pname, char *fname, char *error_msg);
 void	print_code_error(uint64_t errors, char *pname);
 
 #endif
