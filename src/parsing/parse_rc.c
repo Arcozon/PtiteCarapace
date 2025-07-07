@@ -34,10 +34,24 @@ void	parse_rc(t_ms *ms)
 	}
 }
 
+void	exec_rc(char *str, t_ms *ms)
+{
+	t_snippet	*lst;
+
+	lst = lexer(str);
+	if (check_syntaxe(lst, MS_RC))
+	{
+		replace_tilde(lst, expand(ms->env.tab, "HOME", 4));
+		optimize_lst(&lst);
+		exec_start(ms, &lst);
+	}
+	else
+		free_snip_lst(lst);
+}
+
 void	parse_rc_file(t_ms *ms, char *filename)
 {
 	int			line;
-	t_snippet	*lst;
 	char		*str;
 	int			len;
 	int			fd;
@@ -51,22 +65,14 @@ void	parse_rc_file(t_ms *ms, char *filename)
 	{
 		if (is_statement_open(str) || *str == '#')
 		{
-			free(str);
-			str = get_next_line(fd);
+			(free(str), str = get_next_line(fd));
 			continue ;
 		}
 		len = ft_strlen(str);
 		if (len > 0 && str[len - 1] == '\n')
-		str[len - 1] = 0;
-		lst = lexer(str);
-		if (check_syntaxe(lst, MS_RC))
-		{
-			replace_tilde(lst, expand(ms->env.tab, "HOME", 4));
-			optimize_lst(&lst);
-			exec_start(ms, &lst);
-		}
-		free(str);
-		str = get_next_line(fd);
+			str[len - 1] = 0;
+		exec_rc(str, ms);
+		(free(str), str = get_next_line(fd));
 	}
 	close(fd);
 }

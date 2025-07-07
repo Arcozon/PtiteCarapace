@@ -20,7 +20,6 @@ bool	dollar_n_sep(char c)
 	return (false);
 }
 
-
 bool	dollar_sep_quote(char c)
 {
 	if (ft_strchr(SEP, c) || c == '$' || c == '\'' || c == '\"')

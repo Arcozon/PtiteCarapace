@@ -78,7 +78,8 @@ bool	replace_aliases(t_snippet **head, t_hash_table *table)
 			bracket++;
 		else if (lst->token == closing_par)
 			bracket--;
-		if (lst->token == word && (prev == -1 || is_cntl_op(prev) || prev == open_par))
+		if (lst->token == word
+			&& (prev == -1 || is_cntl_op(prev) || prev == open_par))
 			if (!replace(head, &lst, table))
 				return (false);
 		prev = lst->token;

@@ -13,8 +13,6 @@
 #include "get_next_line.h"
 #include "libft.h"
 
-
-
 static void	cpy(char **stash, char **line, t_buf *tmp)
 {
 	int	i;

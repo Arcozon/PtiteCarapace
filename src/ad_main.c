@@ -352,7 +352,7 @@ int	main(int ac, char **av, char **envp)
 		ret_val = get_cmd_line_fd(&fd, ms.prompt, ms.history_fd);
 		// printf("ici|%d|\n", ret_val);//, getpid());
 		if (ret_val == MS_RL_CTRLD)// || signal(SIGINT, SIG_IGN) == SIG_ERR)
-			bi_exit(1, NULL, NULL, &ms);
+			(close(fd), bi_exit(1, NULL, NULL, &ms));
 		else if (ret_val == MS_RL_RESTART_READ)
 		{
 			// write(1, "a", 1);
@@ -385,6 +385,8 @@ int	main(int ac, char **av, char **envp)
 				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
 				exec_start(&ms, &lst);
 			}
+			else
+				free_snip_lst(lst);
 		}
 		free(str);
 		str = NULL;

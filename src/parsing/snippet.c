@@ -13,82 +13,6 @@
 #include "minishell.h"
 #include "get_next_line.h"
 
-t_snippet	*new_snip(enum e_token token, char *ptr)
-{
-	t_snippet	*new;
-
-	new = malloc(sizeof(t_snippet));
-	if (!new)
-		return (NULL);
-	new->token = token;
-	new->ptr = ptr;
-	new->next = NULL;
-	return (new);
-}
-
-t_snippet	*get_last_snip(t_snippet *lst)
-{
-	if (!lst)
-		ft_putstr_fd("Check your code dumbass (get_last_snip)\n", 2);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
-
-void	pop_snip(t_snippet **head, t_snippet *to_pop)
-{
-	t_snippet	*ptr;
-
-	if (to_pop == *head)
-		*head = (*head)->next;
-	else
-	{
-		ptr = *head;
-		while (ptr->next != to_pop)
-			ptr = ptr->next;
-		if (!ptr)
-			ft_putstr_fd("Check your code dumbass (pop_snip)\n", 2);
-		ptr->next = ptr->next->next;
-	}
-	free(to_pop->ptr);
-	free(to_pop);
-}
-
-bool	add_to_snip_lst(t_snippet **head, enum e_token token, char *ptr)
-{
-	t_snippet	*new;
-
-	new = new_snip(token, ptr);
-	if (!new)
-		return (ft_putstr_fd("Error malloc\n", 2), false);
-	if (!*head)
-		*head = new;
-	else
-		get_last_snip(*head)->next = new;
-	return (true);
-}
-
-void	insert_snip(t_snippet *node, t_snippet *to_insert)
-{
-	if (!node)
-		ft_putstr_fd("Check your code dumbass (insert_snip)\n", 2);
-	get_last_snip(to_insert)->next = node->next;
-	node->next = to_insert;
-}
-
-void	free_snip_lst(t_snippet *lst)
-{
-	void	*tmp;
-
-	while (lst)
-	{
-		tmp = lst->next;
-		free(lst->ptr);
-		free(lst);
-		lst = tmp;
-	}
-}
-
 int	expand_in_pipe(char *str, t_ms *ms, bool one_block)
 {
 	int	stdout_fd;
@@ -114,7 +38,6 @@ bool	get_snips_expanded(t_snippet **new_lst, int fd, enum e_token token)
 	str = get_next_null_arco(fd);
 	while (str)
 	{
-		// fprintf(stderr, "[%s]\n", str);
 		if (*str && str[ft_strlen(str) - 1] == '\n')
 			str[ft_strlen(str) - 1] = 0;
 		if (!add_to_snip_lst(new_lst, token, str))
@@ -151,43 +74,14 @@ void	pop_n_insert(t_snippet **head, t_snippet *to_expand, t_snippet *new_lst)
 	}
 }
 
-// bool	expand_snip(t_snippet **head, t_snippet *exp, t_ms *ms, bool one_blk)
-// {
-// 	t_snippet	*new_lst;
-// 	t_snippet	*next;
-// 	int			fd;
-
-// 	new_lst = NULL;
-// 	if (!exp)
-// 		return (false);
-	
-// 	while (exp)
-// 	{
-// 		next = exp->next;
-// 		//if (ft_strchr(exp->ptr, '$'))
-// 		//{
-// 			fd = expand_in_pipe(exp->ptr, ms, one_blk);
-// 			if (!get_snips_expanded(&new_lst, fd))
-// 				return (close(fd), false);
-// 			close(fd);
-// 			pop_n_insert(head, exp, new_lst);
-// 			free(exp->ptr);
-// 			free(exp);
-// 		//}
-// 		exp = next;
-// 	}
-// 	// *head = new_lst
-// 	return (true);
-// }
-
-t_snippet **get_addr_last(t_snippet **lst)
+t_snippet	**get_addr_last(t_snippet **lst)
 {
 	while (*lst)
 		lst = &((*lst)->next);
 	return (lst);
 }
 
-bool expand_snip(t_snippet **to_store, t_snippet *to_exp, t_ms *ms, bool one_blk)
+bool	expand_snip(t_snippet **store, t_snippet *exp, t_ms *ms, bool one_blk)
 {
 	t_snippet	*new_lst;
 	t_snippet	*tmp;
@@ -195,22 +89,21 @@ bool expand_snip(t_snippet **to_store, t_snippet *to_exp, t_ms *ms, bool one_blk
 	int			fd;
 
 	new_lst = 0;
-	if (!to_exp)
+	if (!exp)
 		return (true);
-	while (to_exp)
+	while (exp)
 	{
-		next = to_exp->next;
+		next = exp->next;
 		tmp = NULL;
-		fd = expand_in_pipe(to_exp->ptr, ms, one_blk);
-		if (!get_snips_expanded(&tmp, fd, to_exp->token))
+		fd = expand_in_pipe(exp->ptr, ms, one_blk);
+		if (!get_snips_expanded(&tmp, fd, exp->token))
 			return (close(fd), false);
 		close(fd);
 		*get_addr_last(&new_lst) = tmp;
-		free(to_exp->ptr);
-		free(to_exp);
-		to_exp = next;
-		// expand_1_token(&new_lst, to_exp, ms, one_blk);
+		free(exp->ptr);
+		free(exp);
+		exp = next;
 	}
-	*to_store = new_lst;
+	*store = new_lst;
 	return (true);
 }

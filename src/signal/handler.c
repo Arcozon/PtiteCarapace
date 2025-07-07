@@ -35,19 +35,12 @@ __attribute__((constructor)) void	ms_set_sighandler(void)
 void	sigint_handler(int sig)
 {
 	(void)sig;
-	// write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
-	// rl_on_new_line();
-	// write(2, "\n", 1);
-	// rl_redisplay();
 	g_sig = sig;
 }
 
 void	set_sigchild_handler(int fds_to_close[2])
 {
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
-	// rl_redisplay();
 	if (signal(SIGINT, sigint_handler) == SIG_ERR)
 	{
 		close(fds_to_close[0]);

@@ -32,21 +32,21 @@ int	show_aliases(t_hash_table *table)
 	return (0);
 }
 
-int	bi_alias(int ac, char **av,int fds[2], t_ms *ms)
+int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 {
 	int		i;
 	char	*dup;
 	t_pair	*new;
 
-	(void)ac; (void)fds;
-
+	(void)ac;
+	(void)fds;
 	if (ac == 1)
 		return (show_aliases(&ms->table));
 	i = 0;
 	while (++i < ac)
 	{
 		if (ft_isdigit(*av[i]) || !check_alias_chars(av[i]))
-			continue ;	
+			continue ;
 		dup = ft_strdup(av[i]);
 		if (!dup)
 			return (1);

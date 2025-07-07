@@ -43,7 +43,7 @@ S_SRC_GA_FPRINTF += conversion/x.c  conversion/p.c  conversion/percent.c  conver
 D_SRC_GA_FPRINTF =  ga_fprintf/
 SRC_GA_FRPINTF   = $(addprefix $(D_SRC_GA_FPRINTF), $(S_SRC_GA_FPRINTF))
 
-S_SRC_GNL =  get_next_line.c  get_next_line_utils.c  get_next_null.c  gnl.c  gnl_utils.c  utils.c
+S_SRC_GNL =  get_next_line.c  get_next_line_utils.c  gnl_utils.c  utils.c
 D_SRC_GNL =  gnl/
 SRC_GNL   =  $(addprefix $(D_SRC_GNL), $(S_SRC_GNL))
 
@@ -51,7 +51,7 @@ S_SRC_PROMPT =  cpy_prompt.c  prompt.c
 D_SRC_PROMPT =  prompt/
 SRC_PROMPT   =  $(addprefix $(D_SRC_PROMPT), $(S_SRC_PROMPT))
 
-S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c    tilde.c  word_len.c
+S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c  new_snip.c  snip_utils.c  tilde.c  word_len.c
 S_SRC_PARSING += wildcard/manage_files.c  wildcard/wildcard.c wildcard/split_pattern.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))

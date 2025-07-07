@@ -42,33 +42,6 @@ void	ms_rdl(char *prompt, int fd)
 	free(ptr);
 }
 
-void	rdl_child(int pipe_fds[2], pid_t pid, char *prompt, int history_fd)
-{
-	char	*ptr;
-	void	*tmp;
-
-	if (is_child(pid))
-	{
-		set_sigchild_handler(pipe_fds);
-		ptr = readline(prompt);
-		if (ptr && *ptr)
-		{
-			tmp = pass_whitespace(ptr);
-			trim_trailling_ws(tmp);
-			ft_putstr_fd(tmp, pipe_fds[1]);
-			if (!*(char *)tmp)
-				ft_putchar_fd(' ', pipe_fds[1]);
-		}
-		else if (ptr)
-			ft_putchar_fd(' ', pipe_fds[1]);
-		if (is_opened(ptr))
-			ms_rdl("> ", pipe_fds[1]);
-		(close(pipe_fds[0]), close(pipe_fds[1]), close(history_fd));
-		return (free(ptr), exit(0));
-		// return (free(ptr), exit((int []){0, 1}[g_sig == SIGINT])); //, free(prompt.prompt)
-	}
-}
-
 int	arco_ms_rdl(char *prompt, int fd, bool first)
 {
 	char	*ptr;
@@ -94,7 +67,7 @@ int	arco_ms_rdl(char *prompt, int fd, bool first)
 	return (0);
 }
 
-void	arco_rdl_child(int pipe_fds[2], char *prompt)
+void	arco_rdl_child(int pipe_fds[2], char *prompt, int fd_to_close)
 {
 	int	arl_status;
 
@@ -104,6 +77,7 @@ void	arco_rdl_child(int pipe_fds[2], char *prompt)
 	arl_status = arco_ms_rdl(prompt, pipe_fds[1], true);
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
+	close(fd_to_close);
 	if (g_sig == SIGINT)
 		arl_status = MS_RL_RESTART_READ;
 	// fprintf(stderr, "-[%d]-", g_sig);
@@ -122,7 +96,7 @@ int	get_cmd_line_fd(int	*fd, char *prompt, int history_fd)
 	if (pid < 0)
 		return (close(pipe_fds[0]), close(pipe_fds[1]), -1);
 	if (!pid)
-		arco_rdl_child(pipe_fds, prompt);
+		arco_rdl_child(pipe_fds, prompt, history_fd);
 	// rdl_child(pipe_fds, pid, prompt, history_fd);
 	close(pipe_fds[1]);
 	status = 0;

@@ -160,11 +160,16 @@ void		pop_non_matching_files(t_list **head, char **patterns, char *raw_p);
 void		take_off_hidden_files(t_list **head);
 t_list		*get_all_files(void);
 
-//Prompt
 
-// bool		expand_prompt(t_prompt *prompt);
-// bool		update_prompt_var(t_prompt *ptr);
-// void		get_prompt(t_prompt *prompt, int pipe_fds[2]);
+//snip
+
+
+t_snippet	*new_snip(enum e_token token, char *ptr);
+t_snippet	*get_last_snip(t_snippet *lst);
+void	pop_snip(t_snippet **head, t_snippet *to_pop);
+bool	add_to_snip_lst(t_snippet **head, enum e_token token, char *ptr);
+void	insert_snip(t_snippet *node, t_snippet *to_insert);
+void	free_snip_lst(t_snippet *lst);
 
 //gnl_utils
 

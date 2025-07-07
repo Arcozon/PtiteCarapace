@@ -48,29 +48,38 @@ static void	*ft_free(char **tab)
 	return (NULL);
 }
 
+static int	get_len(char const *s, char c)
+{
+	char	quote;
+	int		len;
+
+	len = 0;
+	while (s && s[len] && s[len] != c)
+	{
+		if (s[len] == '\'' || s[len] == '\"')
+		{
+			quote = s[len++];
+			while (s[len] != quote)
+				len++;
+		}
+		len++;
+	}
+	return (len);
+}
+
 static int	ft_fill_tab(char **tab, char const *s, unsigned int *i, char c)
 {
 	int		j;
 	int		len;
-	char	quote;
 
 	while (s && s[(*i)] == c && s[(*i)] != 0)
 		(*i)++;
 	j = 0;
 	len = 0;
-	while (s && s[*i + len] && s[*i + len] != c)
-	{
-		if (s[*i + len] == '\'' || s[*i + len] == '\"')
-		{
-			quote = s[*i + len++];
-			while (s[*i + len] != quote)
-				len++;
-		}
-		len++;
-	}
 	*tab = malloc(sizeof(char) * (len + 1));
 	if (*tab == NULL)
 		return (1);
+	len = get_len(s + *i, c);
 	while (j < len)
 		(*tab)[j++] = s[(*i)++];
 	(*tab)[j] = 0;
@@ -79,15 +88,12 @@ static int	ft_fill_tab(char **tab, char const *s, unsigned int *i, char c)
 	return (0);
 }
 
-
 char	**ft_split_pattern(char const *s, char c)
 {
 	unsigned int	count;
 	unsigned int	i;
-	int				len;
 	unsigned int	x;
 	char			**tab;
-	char			quote;
 
 	count = ft_count_word(s, c);
 	tab = malloc(sizeof(char *) * (count + 1));
@@ -98,17 +104,6 @@ char	**ft_split_pattern(char const *s, char c)
 	x = 0;
 	while (s && s[i] && x != count)
 	{
-		len = 0;
-		while (s[i + len] != c && s[i + len] != 0)
-		{
-			if (s[i + len] == '\'' || s[i + len] == '\"')
-			{
-				quote = s[i + len++];
-				while (s[i + len] != quote)
-					len++;
-			}
-			len++;
-		}
 		if (ft_fill_tab(&(tab[x]), s, &i, c) == 1)
 			return (ft_free(tab));
 		x++;
