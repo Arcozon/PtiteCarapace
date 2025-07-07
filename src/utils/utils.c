@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/06 15:21:28 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/07 15:46:38 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,14 +169,15 @@ char	*ge_strchr(char *str, char c)
 
 char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
 {
-	char	*res;
-	size_t	i;
-	size_t	j;
+	const uint32_t	insert_slash = (len != 0);
+	char			*res;
+	size_t			i;
+	size_t			j;
 
 	j = ge_strlen(path);
 	if (len > j)
 		len = j;
-	res = malloc((ge_strlen(exe) + len + 1 + 1) * sizeof(char));
+	res = malloc((ge_strlen(exe) + len + insert_slash + 1) * sizeof(char));
 	if (!res)
 		return (0);
 	i = 0;
@@ -185,7 +186,8 @@ char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
 		res[i] = path[i];
 		++i;
 	}
-	res[i++] = '/';
+	if (insert_slash)
+		res[i++] = '/';
 	j = 0;
 	while (exe[j])
 	{
