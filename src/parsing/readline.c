@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 14:45:13 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:27:35 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "minishell.h"
 #include "arcoms.h"
 
-# define PROMPT_UNCLOSED "\1\033[1;90m\2> \1\033[0m\2"
+#define PROMPT_UNCLOSED "\1\033[1;90m\2> \1\033[0m\2"
 
 void	ms_rdl(char *prompt, int fd)
 {

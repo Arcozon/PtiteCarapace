@@ -6,14 +6,14 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:09:00 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:07:23 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:11:10 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
 int	lis_heredoc(t_snippet *lexer)
-{	
+{
 	return (g_lexer_id[lexer->token] & F_HEREDOC);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:11:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 18:16:02 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:27:11 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	prompt_handle_bslasgh_2(char prompt[PROMPT_SIZE],
 	else if (mode == 'H')
 		strstopcpy_prompt(prompt, mprompt, mprompt->hostname, 0);
 }
+
 
 void	prompt_handle_bslash(char prompt[PROMPT_SIZE], t_aprompt *mprompt)
 {

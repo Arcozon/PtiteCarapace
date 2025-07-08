@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:35:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 18:13:26 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:24:05 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,4 @@ void	free_node(t_base **pnode)
 		free_node(&((*pnode)->right));
 	free(node);
 	*pnode = 0;
-}
-
-void	free_ms(t_ms *ms)
-{
-	free_node(&ms->exec_tree);
-	free_env(&ms->env);
-	if (ms->history_fd >= 0)
-		close_Fd(ms->history_fd);
-	free(ms->prev_cmdline);
-	ms->prev_cmdline = 0;
-	clear_history();
-	rl_clear_history();
-	free_table(&ms->table);
 }

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:12:25 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 14:30:48 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:13:18 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 	t_pair	*new;
 
 	if (ac == 1)
-	return (show_aliases(&ms->table, fds[PIPE_WRITE]));
+		return (show_aliases(&ms->table, fds[PIPE_WRITE]));
 	i = 0;
 	while (++i < ac)
 	{

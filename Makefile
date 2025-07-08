@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/08 17:10:33 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/08 18:26:10 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ S_SRC_EXEC += create_argv.c  exec.c  exec_simple_cmd.c  exec_pipe_cmd.c  exec_op
 D_SRC_EXEC =  exec/
 SRC_EXEC   =  $(addprefix $(D_SRC_EXEC), $(S_SRC_EXEC))
 
-S_SRC_UTILS =  utils.c  free.c  errors.c
+S_SRC_UTILS =  utils.c  free.c  free_ms.c  errors.c  ge_str.c  ge_strutils.c  ge_mem.c  ge_cmd.c
 D_SRC_UTILS =  utils/
 SRC_UTILS   =  $(addprefix $(D_SRC_UTILS), $(S_SRC_UTILS))
 
@@ -51,12 +51,12 @@ S_SRC_PROMPT =  cpy_prompt.c  prompt.c
 D_SRC_PROMPT =  prompt/
 SRC_PROMPT   =  $(addprefix $(D_SRC_PROMPT), $(S_SRC_PROMPT))
 
-S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c  new_snip.c  snip_utils.c  tilde.c  word_len.c
-S_SRC_PARSING += wildcard/manage_files.c  wildcard/wildcard.c wildcard/split_pattern.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
+S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c  new_snip.c  snip_utils.c  word_len.c
+S_SRC_PARSING += wildcard/manage_files.c  wildcard/strnstr_without_quote.c  wildcard/wildcard.c wildcard/split_pattern.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))
 
-SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  arco_get_next_line.c
+SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  arco_get_next_line.c  token_exp.c  exp_utils.c
 SRC	+= history/manage_history.c
 SRC	+= signal/handler.c
 SRC	+= ad_utils/utils.c  ad_utils/sep_func.c

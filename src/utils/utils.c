@@ -6,124 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 18:14:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:23:37 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-void	ge_bzero(void *vptr, size_t size)
-{
-	char	*ptr;
-
-	ptr = vptr;
-	while ((size_t)ptr & 0b111 && size)
-	{
-		*ptr = 0;
-		++ptr;
-		--size;
-	}
-	while (size & ~0b111)
-	{
-		*(size_t *)ptr = 0;
-		ptr += 8;
-		size -= 8;
-	}
-	while (size)
-	{
-		*ptr = 0;
-		++ptr;
-		--size;
-	}
-}
-
-static inline void	__attribute__((always_inline))
-	inline_bzero(char *ptr, size_t size)
-{
-	while ((size_t)ptr & 0b111 && size)
-	{
-		*ptr = 0;
-		++ptr;
-		--size;
-	}
-	while (size & ~0b111)
-	{
-		*(size_t *)ptr = 0;
-		ptr += 8;
-		size -= 8;
-	}
-	while (size)
-	{
-		*ptr = 0;
-		++ptr;
-		--size;
-	}
-}
-
-void	*ge_calloc(size_t size)
-{
-	char	*res;
-
-	res = malloc(size);
-	if (!res)
-		return (res);
-	inline_bzero(res, size);
-	return (res);
-}
-
-uint64_t	ge_strlen(const char *str)
-{
-	uint64_t	len;
-
-	len = 0;
-	while (str[len])
-		++len;
-	return (len);
-}
-
-void	*ge_memcpy(void *dst, const void *src, int64_t len)
-{
-	while (len--)
-		((unsigned char *)dst)[len] = ((unsigned char *)src)[len];
-	return (dst);
-}
-
-char	*ge_strdup(const char *str)
-{
-	uint64_t	len;
-	char		*res;
-
-	len = ge_strlen(str) + 1;
-	res = malloc(len);
-	if (res)
-		ge_memcpy(res, str, len);
-	return (res);
-}
-
-int	ge_strncmp_weq(char *name, char *env_var, size_t n)
-{
-	while (n && *name)
-	{
-		if (*name != *env_var || *env_var == '=')
-			return (1);
-		--n;
-		++name;
-		++env_var;
-	}
-	if (!n && *env_var == '=')
-		return (0);
-	return (1);
-}
-
-int	ge_strcmp(char *s1, char *s2)
-{
-	while (*s1 && *s1 == *s2)
-	{
-		++s1;
-		++s2;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
 
 size_t	ft_varnamelen(const char var[])
 {
@@ -135,11 +22,6 @@ size_t	ft_varnamelen(const char var[])
 	while (ft_isdigit(var[i]) || ft_isalpha(var[i]) || var[i] == '_')
 		++i;
 	return (i);
-}
-
-int	ge_isspace(char c)
-{
-	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
 void	close_fd(int *fd)
@@ -155,49 +37,6 @@ void	swap_fds(int *oldfd, int newfd)
 	*oldfd = newfd;
 }
 
-char	*ge_strchr(char *str, char c)
-{
-	while (*str)
-	{
-		if (*str == c)
-			return (str);
-		++str;
-	}
-	if (c == 0)
-		return (str);
-	return (0);
-}
-
-char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
-{
-	const uint32_t	insert_slash = (len != 0);
-	const size_t	len_exe = ge_strlen(exe);
-	char			*res;
-
-	if (len > ge_strlen(path))
-		len = ge_strlen(path);
-	res = malloc((len_exe + len + insert_slash + 1) * sizeof(char));
-	if (!res)
-		return (0);
-	ft_memcpy(res, path, len);
-	if (insert_slash)
-		res[len] = '/';
-	ft_memcpy(res + len + insert_slash, exe, len);
-	res[len + insert_slash + len_exe] = '\0';
-	return (res);
-}
-
-uint64_t	cmd_dup(t_cmd *cmd)
-{
-	if (cmd->fd_in >= 0 && dup2(cmd->fd_in, STDIN_FILENO) < 0)
-		cmd->errors |= E_DUP;
-	if (cmd->fd_out >= 0 && dup2(cmd->fd_out, STDOUT_FILENO) < 0)
-		cmd->errors |= E_DUP;
-	close_fd(&cmd->fd_out);
-	close_fd(&cmd->fd_in);
-	return (cmd->errors);
-}
-
 uint64_t	ms_fork(int *pid, t_ms *ms)
 {
 	*pid = fork();
@@ -206,33 +45,6 @@ uint64_t	ms_fork(int *pid, t_ms *ms)
 	if (!*pid)
 		close_fd(&ms->history_fd);
 	return (ms->errors);
-}
-
-uint64_t	cmd_open(int *oldfd, char *fname, int mode, char *pname)
-{
-	int	new_fd;
-
-	new_fd = open(fname, mode, 0644);
-	if (new_fd < 0)
-	{
-		ms_perror(pname, fname);
-		return (E_OPEN);
-	}
-	swap_fds(oldfd, new_fd);
-	return (NO_ERR);
-}
-
-void	cmd_waitpid(t_cmd *cmd)
-{
-	int	rstatus;
-
-	rstatus = 0;
-	while (waitpid(cmd->pid, &rstatus, 0) != cmd->pid)
-		;
-	if (WIFSIGNALED(rstatus))
-		cmd->rstatus = WTERMSIG(rstatus);
-	else
-		cmd->rstatus = WEXITSTATUS(rstatus);
 }
 
 int	is_end_ofesc_seq(char c)
@@ -248,20 +60,4 @@ int	is_end_ofesc_seq(char c)
 		++i;
 	}
 	return (0);
-}
-
-uint32_t	findslash(const char *str)
-{
-	uint32_t	last_slash;
-	uint32_t	i;
-
-	i = 0;
-	last_slash = -1;
-	while (str[i])
-	{
-		if (str[i] == '/')
-			last_slash = i;
-		++i;
-	}
-	return (last_slash + 1);
 }

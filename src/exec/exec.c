@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:21 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/06 12:38:02 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:13:00 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exec_node(t_base *node, t_ms *ms)
 		exec_or, exec_ppl, exec_simple_cmd, exec_subsh};
 
 	exec_fct[node->e_type](node, ms);
-	ms->status =node->cmd.rstatus;
+	ms->status = node->cmd.rstatus;
 }
 
 void	exec_heredoc(t_base *node, t_ms *ms)

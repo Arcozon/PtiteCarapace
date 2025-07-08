@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 14:44:44 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:06:24 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char		*_basename(char *str);
 void		print_until(char *str, char c, int fd);
 bool		dollar_n_sep(char c);
 bool		simple_sep(char c);
+bool		dollar_sep_quote(char c);
 
 //History
 
@@ -159,6 +160,9 @@ bool		is_only_wildcard(char *str);
 void		pop_non_matching_files(t_list **head, char **patterns, char *raw_p);
 void		take_off_hidden_files(t_list **head);
 t_list		*get_all_files(void);
+int			ft_strlen_without_q(char *str);
+int			ft_strncmp_without_q(char *s_w_q, char *cmp, int len_w_q);
+char		*ft_strnstr_without_q(const char *big, const char *l, size_t len);
 
 
 //snip
@@ -166,10 +170,10 @@ t_list		*get_all_files(void);
 
 t_snippet	*new_snip(enum e_token token, char *ptr);
 t_snippet	*get_last_snip(t_snippet *lst);
-void	pop_snip(t_snippet **head, t_snippet *to_pop);
-bool	add_to_snip_lst(t_snippet **head, enum e_token token, char *ptr);
-void	insert_snip(t_snippet *node, t_snippet *to_insert);
-void	free_snip_lst(t_snippet *lst);
+void		pop_snip(t_snippet **head, t_snippet *to_pop);
+bool		add_to_snip_lst(t_snippet **head, enum e_token token, char *ptr);
+void		insert_snip(t_snippet *node, t_snippet *to_insert);
+void		free_snip_lst(t_snippet *lst);
 
 //gnl_utils
 
@@ -185,4 +189,9 @@ int			dollar_len(char *str_dollar);
 void		expand_token(char *ptr, t_ms *ms, int len, char scope);
 t_snippet	*lexer(char *str);
 void		optimize_lst(t_snippet **head);
+
+void		write_without_quote(char *str, int len);
+size_t		write_snip(char *str, char *quote, int len);
+char		*expand(char **env, char *var_name, int len);
+
 #endif

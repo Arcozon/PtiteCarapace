@@ -6,7 +6,7 @@
 /*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:39 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/23 09:55:38 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/08 16:51:09 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,85 +73,6 @@ void	take_off_hidden_files(t_list **head)
 	}
 }
 
-int	ft_strlen_without_quote(char *str)
-{
-	int	i;
-	int len;
-
-	i = 0;
-	len = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (str[i] != '\'' && str[i] != '\"')
-			len++;
-		i++;
-	}
-	return (len);
-}
-
-int	ft_strncmp_without_quote(char *str_w_quote, char *cmp, int len_w_quote)
-{
-	int	i;
-	int	j;
-
-	if (!cmp && !str_w_quote)
-		return (0);
-	if (!cmp)
-		return (*str_w_quote);
-	if (!str_w_quote)
-		return (*cmp);
-	i = 0;
-	j = 0;
-	while (str_w_quote[i] && i < len_w_quote - 1)
-	{
-		if (ft_strchr("\'\"", str_w_quote[i]))
-		{
-			i++;
-			continue ;
-		}
-		if (str_w_quote[i] != cmp[j])
-			return (str_w_quote[i] - cmp[j]);
-		i++;
-		j++;
-	}
-	if (ft_strchr("\'\"", str_w_quote[i]))
-		return (0);
-	return (str_w_quote[i] - cmp[j]);
-}
-
-char    *ft_strnstr_without_quote(const char *big, const char *little, size_t len)
-{
-	size_t  i;
-	size_t  x;
-	size_t	y;
-
-	i = 0;
-	x = 0;
-	y = 0;
-	if (!little || !*little)
-		return ((char *)big);
-	if (!big || !len)
-		return (NULL);
-	while (big[i + x] && x + i < len && little[x + y])
-	{
-		if (ft_strchr("\'\"", little[x + y]))
-			y++;
-		else if (big[i + x] == little[x + y])
-			x++;
-		else
-		{
-			y = 0;
-			x = 0;
-			i++;
-		}
-	}
-	if (!little[x + y] || (ft_strchr("\'\"", little[x + y]) && !little[x + y + 1]))
-		return ((char *)big + i);
-	return (NULL);
-}
-
 bool	check_pattern(char *str, char **patterns, char *raw_pattern)
 {
 	int	i;
@@ -161,17 +82,17 @@ bool	check_pattern(char *str, char **patterns, char *raw_pattern)
 		return (false);
 	if (*raw_pattern != '*')
 	{
-		if (ft_strncmp_without_quote(*patterns, str, ft_strlen(*patterns)))
+		if (ft_strncmp_without_q(*patterns, str, ft_strlen(*patterns)))
 			return (false);
-		str += ft_strlen_without_quote(*patterns);
+		str += ft_strlen_without_q(*patterns);
 		i++;
 	}
 	while (patterns[i])
 	{
-		str = ft_strnstr_without_quote(str, patterns[i], ft_strlen(str));
+		str = ft_strnstr_without_q(str, patterns[i], ft_strlen(str));
 		if (!str)
 			return (false);
-		str += ft_strlen_without_quote(patterns[i]);
+		str += ft_strlen_without_q(patterns[i]);
 		i++;
 	}
 	if (raw_pattern[ft_strlen(raw_pattern) - 1] != '*' && *str)

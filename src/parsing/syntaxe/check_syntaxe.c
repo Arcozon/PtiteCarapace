@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 17:35:26 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 11:01:28 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:59:15 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ bool	is_cntl_op(enum e_token token)
 
 bool	is_syntaxe_ok(enum e_token prev, enum e_token token)
 {
+	if (token == open_par && !is_cntl_op(prev))
+		return (false);
 	if (prev == open_par && (token == closing_par || is_cntl_op(token)))
 		return (false);
 	if (prev == semicolon && token == closing_par)
@@ -39,29 +41,29 @@ bool	is_syntaxe_ok(enum e_token prev, enum e_token token)
 
 bool	check_syntaxe(t_snippet *lst, char *exe)
 {
-	enum e_token	prev;
+	enum e_token	p;
 	int				bracket;
-	char			*ptr;
+	char			*pt;
 
-	prev = lst->token;
-	if (is_cntl_op(prev) || prev == closing_par)
+	p = lst->token;
+	if (is_cntl_op(p) || p == closing_par)
 		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, lst->ptr), false);
 	lst = lst->next;
-	ptr = NULL;
-	bracket = (int []){0, 1}[prev == open_par];
-	while (lst && is_syntaxe_ok(prev, lst->token))
+	pt = NULL;
+	bracket = (int []){0, 1}[p == open_par];
+	while (lst && is_syntaxe_ok(p, lst->token))
 	{
 		if (lst->token == open_par || lst->token == closing_par)
 			bracket += (int []){-1, 1}[lst->token == open_par];
-		prev = lst->token;
-		ptr = lst->ptr;
+		p = lst->token;
+		pt = lst->ptr;
 		lst = lst->next;
 	}
 	if (bracket < 0)
 		return (ft_printf("%s%s`%c'\n", exe, SYNTAXE, ')'), false);
 	if (lst)
 		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, lst->ptr), false);
-	if ((is_cntl_op(prev) && prev != semicolon) || is_redir(prev) || (ptr && ptr[0] == '&'))
-		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, ptr), false);
+	if ((is_cntl_op(p) && p != semicolon) || is_redir(p) || (pt && *pt == '&'))
+		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, pt), false);
 	return (true);
 }

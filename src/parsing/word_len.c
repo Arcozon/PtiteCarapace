@@ -51,7 +51,6 @@ int	word_len(char *str, bool (*is_sep)(char ), int len)
 	i = 0;
 	while (i < len && str[i])
 	{
-		//i += pass_whitespace(str + i) - (str + i);
 		if (!i && is_sep(str[i]))
 		{
 			if (*str == '(' || *str == ')' || *str == ';')
@@ -85,54 +84,17 @@ int	dollar_len(char *str)
 	return (i);
 }
 
-int	arc_is_var_name(char c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9') || c == '_');
-}
-
-int  len_var_name(char *str)
-{
-	int  len;
-
-	len = 0;
-	if (str[len] == '?')
-		return (1);
-	if (str[len] >= '0' && str[len] <= '9')
-			return (0);
-	while (arc_is_var_name(str[len]))
-			++len;
-	return (len);
-}
-
-int  len_dollar(char *str, int *i, char **env)
-{
-	int  len_vname;
-	int  len_vcontent;
-
-	++*i;
-	len_vname = len_var_name(str + *i);
-	if (!len_vname)
-			return (1);
-	len_vcontent = 0;
-	while (*env)
-	{
-		if (!ge_strncmp_weq(str + *i, *env, len_vname))
-		{
-			len_vcontent = ft_strlen(*env + len_vname + 1);
-			break ;
-		}
-		++env;
-	}
-	*i += len_vname;
-	return (len_vcontent);
-}
-
-bool	dollar_sep_quote(char c);
-
 int	get_wlen(char *ptr, int len)
 {
 	int	wlen;
+
+	if (*ptr == '~')
+	{
+		if (is_white_space(*(ptr + 1) || !*(ptr + 1)))
+			return (1);
+		if (*(ptr + 1) == '/')
+			return (2);
+	}
 	if (*ptr == '$')
 		wlen = dollar_len(ptr);
 	else if (*ptr == '\'' || *ptr == '"')
