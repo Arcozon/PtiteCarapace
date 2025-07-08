@@ -1,17 +1,7 @@
-~ exp at exec
-* at exec
-
 alias error msg
 
 export PATH=  -> error execve [fixed, can be better]
 
-check redir order
-
-Syntaxe : pas un logop('\0' | ; && ||) avant une par -> error
- expand ~ en meme temps que $, seulement en dehors des quotes
-
 Custom prompt pour les quotes, pipes lines, opp, par open
 
 cat ; cat ->ctrl C fcked (cant recreate)
-
-DONE: close history fd in childs, free str
