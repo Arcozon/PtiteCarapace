@@ -41,7 +41,6 @@ void	exec_rc(char *str, t_ms *ms)
 	lst = lexer(str);
 	if (check_syntaxe(lst, MS_RC))
 	{
-		replace_tilde(lst, expand(ms->env.tab, "HOME", 4));
 		optimize_lst(&lst);
 		exec_start(ms, &lst);
 	}

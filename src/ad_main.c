@@ -69,36 +69,6 @@ enum e_token	get_token(char *str)
 	return (word);
 }
 
-char	*cpy_without_quote(char *str)
-{
-	int		len;
-	char	*dup;
-	int		i;
-	char	*ptr;
-
-	if (!str)
-		return (0);
-	len = ft_strlen(str);
-	dup = malloc(sizeof(char) * (len + 1));
-	if (!dup)
-		return (0);
-	i = 0;
-	while (*str)
-	{
-		if (*str != '\'' && *str != '\"')
-			dup[i++] = *(str++);
-		else
-		{
-			ptr = ft_strchr(str + 1, *str);
-			while (++str != ptr)
-				dup[i++] = *str;
-			str++;
-		}
-	}
-	dup[i] = 0;
-	return (dup);
-}
-
 void	optimize_lst(t_snippet **head)
 {
 	t_snippet	*ptr;
@@ -115,15 +85,7 @@ void	optimize_lst(t_snippet **head)
 			ptr = tmp;
 		}
 		else
-		{
-			// if (ft_strchr(ptr->ptr, '\'') || ft_strchr(ptr->ptr, '"'))
-			// {
-			// 	tmp = cpy_without_quote(ptr->ptr);
-			// 	free(ptr->ptr);
-			// 	ptr->ptr = tmp;
-			// }
 			ptr = ptr->next;
-		}
 	}
 }
 
@@ -192,13 +154,9 @@ size_t	write_snip(char *str, char *quote, int len)
 		else if (*quote == str[i])
 			*quote = 0;
 		if (str[i] == ' ' && !*quote)
-		{
 			return (write(STDOUT_FILENO, str, i));
-			return (write(STDOUT_FILENO, str, i), write(2, str, i));
-		}
 		i++;
 	}
-	// return (write(STDOUT_FILENO, str, i), write(2, str, i));
 	return (write(STDOUT_FILENO, str, i));
 }
 
@@ -262,26 +220,36 @@ void	expand_token(char *ptr, t_ms *ms, int len, char scope)
 	int		wlen;
 	int		i;
 	char	quote;
+	char	*home;
 
 	put_to_zero(&i, &quote);
 	while (*ptr && i < len)
 	{
 		wlen = get_wlen(ptr, len);
-		// arc_get_wlen(ptr, len, ms->env.tab);
-		// fprintf(stderr, "[%d] %.*s\n", wlen, wlen, ptr);
 		if (*ptr == '"')
 			expand_token(ptr + 1, ms, wlen - 2, *ptr);
 		else
 		{
-			if (*ptr == '$' && wlen != 1 && ft_strncmp("$$", ptr, 2))
+			if (!scope && *ptr == '~' && (is_white_space(*(ptr + 1)) || *(ptr + 1) == '/' || !*(ptr + 1)))
+			{
+				home = expand(ms->env.tab, "HOME", 4);
+				if (!home)
+					home = getenv("HOME");
+				ft_putstr_fd(home, STDOUT_FILENO);
+				if (*(ptr + 1) == '/')
+					write(STDOUT_FILENO, "/", 1);
+			}
+			else if (*ptr == '$' && wlen != 1 && ft_strncmp("$$", ptr, 2))
 			{
 				if (wlen == 2 && !ft_strncmp("$?", ptr, wlen))
 					ft_putnbr_fd(ms->status, STDOUT_FILENO);
 				else
 					dollar_exp(expand(ms->env.tab, ptr + 1, wlen - 1), scope, &quote);
 			}
-			else
+			else if (!scope)
 				write_without_quote(ptr, wlen);
+			else
+				write(STDOUT_FILENO, ptr, wlen);
 		}
 		ptr += wlen;
 		i += wlen;
@@ -373,7 +341,7 @@ int	main(int ac, char **av, char **envp)
 				replace_aliases(&lst, &ms.table);
 				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
 				replace_wildcards(&lst);// cette fonction 
-				replace_tilde(lst, expand(ms.env.tab, "HOME", 4));
+//				replace_tilde(lst, expand(ms.env.tab, "HOME", 4));
 				exec_start(&ms, &lst);
 			}
 			else

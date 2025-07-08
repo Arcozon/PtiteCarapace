@@ -51,7 +51,7 @@ S_SRC_PROMPT =  cpy_prompt.c  prompt.c
 D_SRC_PROMPT =  prompt/
 SRC_PROMPT   =  $(addprefix $(D_SRC_PROMPT), $(S_SRC_PROMPT))
 
-S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c  new_snip.c  snip_utils.c  tilde.c  word_len.c
+S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c  new_snip.c  snip_utils.c  word_len.c
 S_SRC_PARSING += wildcard/manage_files.c  wildcard/wildcard.c wildcard/split_pattern.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))
@@ -86,9 +86,11 @@ MINISHELLRC = .minishellrc
 
 .DEFAULT_GOAL := all
 
-all:	$(MINISHELLRC) counter.sh set_counter $(NAME)
+COUNTER	=	/tmp/counter.sh
+
+all:	$(MINISHELLRC) $(COUNTER) set_counter $(NAME)
 	@rm -rf /tmp/ms_counter
-	@rm $(COUNTER)
+	@rm -rf $(COUNTER)
 
 $(NAME):	$(OBJ) 
 	@$(CC) -o $@ $^ $(F_LIB)
@@ -97,7 +99,7 @@ $(NAME):	$(OBJ)
 
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)
-	@./counter.sh $< $(TOTAL)
+	@$(COUNTER) $< $(TOTAL)
 	@$(CC) $(FLAGS) $(F_INC) -c $< -o $@ 
 
 clean:
@@ -127,7 +129,7 @@ set_counter:
 	@count=$$( $(MAKE) -n $(NAME) | grep "Wall" | wc -l );\
 		printf "$$(($(TOTAL) - $$count))" > /tmp/ms_counter
 
-counter.sh:
+$(COUNTER):
 	@printf '#! /bin/bash\n\
 \n\
 file=$$1\n\
@@ -138,5 +140,5 @@ counter_file="/tmp/ms_counter"\n\
 count=$$(cat "$$counter_file")\n\
 count=$$((count + 1))\n\
 echo "[$$count/$$total]: 🔧 Compiling $$file"\n\
-echo $$count > "$$counter_file"\n' > counter.sh
-	chmod +x counter.sh
+echo $$count > "$$counter_file"\n' > $@
+	@chmod +x $@

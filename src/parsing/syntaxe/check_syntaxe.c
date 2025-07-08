@@ -24,6 +24,8 @@ bool	is_cntl_op(enum e_token token)
 
 bool	is_syntaxe_ok(enum e_token prev, enum e_token token)
 {
+	if (token == open_par && !is_cntl_op(prev))
+		return (false);
 	if (prev == open_par && (token == closing_par || is_cntl_op(token)))
 		return (false);
 	if (prev == semicolon && token == closing_par)

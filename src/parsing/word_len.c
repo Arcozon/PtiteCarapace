@@ -133,6 +133,13 @@ bool	dollar_sep_quote(char c);
 int	get_wlen(char *ptr, int len)
 {
 	int	wlen;
+	if (*ptr == '~')
+	{
+		if (is_white_space(*(ptr + 1) || !*(ptr + 1)))
+			return (1);
+		if (*(ptr + 1) == '/')
+			return (2);
+	}
 	if (*ptr == '$')
 		wlen = dollar_len(ptr);
 	else if (*ptr == '\'' || *ptr == '"')
