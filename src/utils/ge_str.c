@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:22:57 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:22:54 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:34:59 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
 	ft_memcpy(res, path, len);
 	if (insert_slash)
 		res[len] = '/';
-	ft_memcpy(res + len + insert_slash, exe, len);
+	ft_memcpy(res + len + insert_slash, exe, len_exe);
 	res[len + insert_slash + len_exe] = '\0';
 	return (res);
 }

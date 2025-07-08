@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:20:19 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:30:17 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int	main(int ac, char **av, char **envp)
 			{
 				replace_aliases(&lst, &ms.table);
 				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
-				replace_wildcards(&lst);// cette fonction 
+				// replace_wildcards(&lst);// cette fonction 
 				exec_start(&ms, &lst);
 			}
 			else
