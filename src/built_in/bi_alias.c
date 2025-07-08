@@ -6,14 +6,14 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:12:25 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/05 09:32:13 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:30:48 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "arcoms.h"
 
-int	show_aliases(t_hash_table *table)
+int	show_aliases(t_hash_table *table, int fdout)
 {
 	int		i;
 	t_pair	*ptr;
@@ -24,7 +24,7 @@ int	show_aliases(t_hash_table *table)
 		ptr = table->bucket[i];
 		while (ptr)
 		{
-			ft_printf("%s='%s'\n", ptr->key, ptr->value);
+			ga_fprintf(fdout, "%s='%s'\n", ptr->key, ptr->value);
 			ptr = ptr->next;
 		}
 		i++;
@@ -38,10 +38,8 @@ int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 	char	*dup;
 	t_pair	*new;
 
-	(void)ac;
-	(void)fds;
 	if (ac == 1)
-		return (show_aliases(&ms->table));
+	return (show_aliases(&ms->table, fds[PIPE_WRITE]));
 	i = 0;
 	while (++i < ac)
 	{
@@ -56,4 +54,5 @@ int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 		set_pair(&ms->table, new);
 	}
 	return (0);
+	(void)ac;
 }

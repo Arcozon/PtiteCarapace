@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 10:35:17 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:44:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void		set_sigchild_handler(int fds_to_close[2]);
 
 //Parsing 
 
-int			get_cmd_line_fd(int	*fd, char *prompt, int history_fd);
+int			get_cmd_line_fd(int	*fd, t_ms *ms);
 
 void		parse_rc(t_ms *ms);
 void		parse_rc_file(t_ms *ms, char *filename);
@@ -180,7 +180,7 @@ bool		closed_word(char const buffer[], char *quote_ptr, int *bracket_ptr);
 bool		is_opened(char *str);
 int			find_closing_bracket(char *opening_bracket);
 int			dollar_len(char *str_dollar);
-void		expand_env_var(char **env, char *varname, int len);
+// void		expand_env_var(char **env, char *varname, int len);
 
 void		expand_token(char *ptr, t_ms *ms, int len, char scope);
 t_snippet	*lexer(char *str);

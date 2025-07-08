@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:01:44 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 13:07:05 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:52:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,10 @@ static bool	fill_history(int fd, char **ptr_oldcmd)
 int	ms_get_history_fd(char **ptr_oldcmd)
 {
 	static int	fd;
-	char		*tmp;
 
 	if (!fd)
 	{
-		tmp = getenv("HOME");
-		if (!tmp)
-			return (-1);
-		tmp = ft_strsjoin((char *[]){tmp, "/", MS_HISTORY, NULL});
-		if (!tmp)
-			return (-1);
-		fd = open(tmp, O_RDWR | O_CREAT | O_APPEND, 00666);
-		free(tmp);
+		fd = open(MS_HISTORY, O_RDWR | O_CREAT | O_APPEND, 00666);
 		if (fd < 0)
 			return (-1);
 		fill_history(fd, ptr_oldcmd);

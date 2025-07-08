@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 19:41:55 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:45:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,23 @@ int	arco_ms_rdl(char *prompt, int fd, bool first)
 	return (0);
 }
 
-void	arco_rdl_child(int pipe_fds[2], char *prompt, int fd_to_close)
+void	arco_rdl_child(int pipe_fds[2], t_ms *ms)
 {
 	int	arl_status;
 
 	g_sig = 0;
 	set_sigchild_handler(pipe_fds);
 	rl_getc_function = getc;
-	arl_status = arco_ms_rdl(prompt, pipe_fds[1], true);
+	arl_status = arco_ms_rdl(ms->prompt, pipe_fds[1], true);
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
-	close(fd_to_close);
 	if (g_sig == SIGINT)
 		arl_status = MS_RL_RESTART_READ;
-	// fprintf(stderr, "-[%d]-", g_sig);
+	free_ms(ms);
 	exit(arl_status);
 }
 
-int	get_cmd_line_fd(int	*fd, char *prompt, int history_fd)
+int	get_cmd_line_fd(int	*fd, t_ms *ms)
 {
 	int		pipe_fds[2];
 	int		status;
@@ -96,8 +95,7 @@ int	get_cmd_line_fd(int	*fd, char *prompt, int history_fd)
 	if (pid < 0)
 		return (close(pipe_fds[0]), close(pipe_fds[1]), -1);
 	if (!pid)
-		arco_rdl_child(pipe_fds, prompt, history_fd);
-	// rdl_child(pipe_fds, pid, prompt, history_fd);
+		arco_rdl_child(pipe_fds, ms);
 	close(pipe_fds[1]);
 	status = 0;
 	while (waitpid(pid, &status, 0) != pid)
@@ -105,7 +103,5 @@ int	get_cmd_line_fd(int	*fd, char *prompt, int history_fd)
 		g_sig = SIGINT; // ?
 	}
 	*fd = pipe_fds[0];
-	// fprintf(stderr, "-{%d|%d}-\n", WEXITSTATUS(status), get_exit_value(status));
 	return (get_exit_value(status));
-	(void)history_fd;
 }

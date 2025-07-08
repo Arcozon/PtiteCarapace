@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/05 13:20:33 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:47:45 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,7 +335,6 @@ int	main(int ac, char **av, char **envp)
 	if (!av[0])
 		av[0] = "minishell";
 	ms.pname = _basename(av[0]);
-	(void)ac;(void)av;(void)envp;
 
 	parse_rc_file(&ms, MS_RC);
 
@@ -346,25 +345,17 @@ int	main(int ac, char **av, char **envp)
 	{
 		ms.status = update_sig(ms.status);
 		make_prompt(ms.prompt, &ms);
-		// if (signal(SIGINT, ms_handler) == SIG_ERR)
-		// 	bi_exit(1, NULL, NULL, &ms);
 		set_sig(ROUTINE, &ms);
-		ret_val = get_cmd_line_fd(&fd, ms.prompt, ms.history_fd);
-		// printf("ici|%d|\n", ret_val);//, getpid());
+		ret_val = get_cmd_line_fd(&fd, &ms);
 		if (ret_val == MS_RL_CTRLD)// || signal(SIGINT, SIG_IGN) == SIG_ERR)
 			(close(fd), bi_exit(1, NULL, NULL, &ms));
 		else if (ret_val == MS_RL_RESTART_READ)
 		{
-			// write(1, "a", 1);
-			// printf("la");
 			close(fd);
 			continue ;
 		}
-		//str = gnl(fd);
 		str = get_next_null_arco(fd);
 		close(fd);
-		if (!str)
-			bi_exit(1, NULL, NULL, &ms);
 		if (g_sig)
 			ms.status = update_sig(ms.status);
 		if (*str)
@@ -380,9 +371,9 @@ int	main(int ac, char **av, char **envp)
 			{
 				// print_snippet_list(lst);
 				replace_aliases(&lst, &ms.table);
-				replace_tilde(lst, expand(ms.env.tab, "HOME", 4));
-				replace_wildcards(&lst);// cette fonction 
 				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
+				replace_wildcards(&lst);// cette fonction 
+				replace_tilde(lst, expand(ms.env.tab, "HOME", 4));
 				exec_start(&ms, &lst);
 			}
 			else
@@ -391,5 +382,6 @@ int	main(int ac, char **av, char **envp)
 		free(str);
 		str = NULL;
 	}
+	(void)ac;(void)av;(void)envp;
 	return (0);
 }

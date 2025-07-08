@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/06 15:19:51 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/08 15:05:45 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,10 +88,12 @@ MINISHELLRC = .minishellrc
 
 all:	$(MINISHELLRC) counter.sh set_counter $(NAME)
 	@rm -rf /tmp/ms_counter
+	@rm $(COUNTER)
 
 $(NAME):	$(OBJ) 
 	@$(CC) -o $@ $^ $(F_LIB)
 	@echo "\033[1;32m$@ linked!\033[0m"
+
 
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)

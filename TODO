@@ -7,14 +7,20 @@ ReadlineChild : double ctrlC FIXED
 
 T_ms: ajouter fd_history, alias, prompt
 
-env init, set PWD oLD PWD SHLVL PROMPT_FORMAT
+env init, set PWD OLDPWD SHLVL
 
-pb sur la detection d alias ??
+alias error msg
 
-alias use fds[2]
+export PATH=    -> error execve [fixed, can be better]
 
 check redir order
 
-enlever les getenv
+Syntaxe : pas un logop('\0' | ; && ||) avant une par -> error
+ expand ~ en meme temps que $, seulement en dehors des quotes
 
-export PATH=    -> error execve [fixed, can be better]
+Custom prompt pour les quotes, pipes lines, opp, par open
+
+newline ctrl C\ pendant l exec
+-- ^\Quit (core dumped)
+
+cat ; cat ->ctrl C fcked
