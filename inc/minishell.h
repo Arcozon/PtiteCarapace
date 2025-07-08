@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:06:24 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/08 19:29:52 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void		parse_rc_file(t_ms *ms, char *filename);
 char		*expand(char **env, char *var_name, int len);
 void		alias(t_hash_table *table, char *str);
 bool		is_statement_open(char *str);
-bool		check_alias_chars(char *str);
+int			check_alias_chars(char *str);
 bool		get_fd(int *fd);
 void		free_table(t_hash_table *table);
 int			_hash(char *key, int len);

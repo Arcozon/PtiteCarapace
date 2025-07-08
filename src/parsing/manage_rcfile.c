@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 14:51:45 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 19:31:51 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	is_statement_open(char *str)
 	return (quote || bracket > 0);
 }
 
-bool	check_alias_chars(char *str)
+int	check_alias_chars(char *str)
 {
 	int	i;
 
@@ -63,38 +63,12 @@ bool	check_alias_chars(char *str)
 	while (str[i] && str[i] != '=')
 	{
 		if (ft_strchr(FORBIDDEN_CHAR_ALIAS, str[i]))
-			return (false);
+			return (1);
 		i++;
 	}
-	if (str[i] != '=' || is_statement_open(str + i + 1))
-		return (false);
-	return (true);
-}
-
-bool	is_alias_cmd(char *str, char **ptr)
-{
-	if (ft_strncmp(str, ALIAS, ALIAS_LEN))
-		return (false);
-	str += ALIAS_LEN;
-	str = pass_whitespace(str);
-	if (ft_isdigit(*str) || !check_alias_chars(str))
-		return (false);
-	*ptr = ft_strdup(str);
-	if (!*ptr)
-		return (false);
-	return (true);
-}
-
-void	alias(t_hash_table *table, char *str)
-{
-	char	*ptr;
-	t_pair	*new;
-
-	if (is_alias_cmd(str, &ptr))
-	{
-		new = create_pair(ptr);
-		if (!new)
-			return ;
-		set_pair(table, new);
-	}
+	if (str[i] != '=')
+		return (2);
+	else if (is_statement_open(str + i + 1))
+		return (3);
+	return (0);
 }

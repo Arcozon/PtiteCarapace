@@ -39,16 +39,33 @@ char	*str_without_quote(char *str)
 	return (new_str);
 }
 
-static bool	replace(t_snippet **head, t_snippet **snip, t_hash_table *table)
+static bool	update_lst(t_snippet **head, t_snippet **s, void *new_lst)
+{
+	void		*ptr;
+
+	ptr = (*s)->next;
+	if (new_lst)
+		insert_snip(*s, new_lst);
+	pop_snip(head, *s);
+	*s = ptr;
+	return (true);
+}
+
+static bool	replace(t_snippet **head, t_snippet **s, t_hash_table *t, bool *b)
 {
 	t_pair		*pair;
 	t_snippet	*new_lst;
 	char		*tmp;
-	void		*ptr;
 
-	pair = get_pair(table, (*snip)->ptr, ft_strlen((*snip)->ptr));
+	pair = get_pair(t, (*s)->ptr, ft_strlen((*s)->ptr));
 	if (!pair)
+	{
+		*s = (*s)->next;
 		return (true);
+	}
+	if (!pair->value || !*pair->value)
+		return (update_lst(head, s, NULL));
+	*b = true;
 	tmp = str_without_quote(pair->value);
 	if (!tmp)
 		return (false);
@@ -56,34 +73,34 @@ static bool	replace(t_snippet **head, t_snippet **snip, t_hash_table *table)
 	free(tmp);
 	if (!new_lst)
 		return (false);
-	ptr = get_last_snip(new_lst);
-	insert_snip(*snip, new_lst);
-	pop_snip(head, *snip);
-	*snip = ptr;
-	return (true);
+	return (update_lst(head, s, new_lst));
 }
 
 bool	replace_aliases(t_snippet **head, t_hash_table *table)
 {
 	t_snippet	*lst;
-	int			bracket;
-	int			prev;
+	bool		tmp;
+	int			p;
 
-	bracket = 0;
-	prev = -1;
+	p = -1;
 	lst = *head;
+	tmp = false;
 	while (lst)
 	{
-		if (lst->token == open_par)
-			bracket++;
-		else if (lst->token == closing_par)
-			bracket--;
-		if (lst->token == word
-			&& (prev == -1 || is_cntl_op(prev) || prev == open_par))
-			if (!replace(head, &lst, table))
+		if (lst->token == word && (is_cntl_op(p) || p == open_par || !tmp))
+		{
+			if (!replace(head, &lst, table, &tmp))
 				return (false);
-		prev = lst->token;
-		lst = lst->next;
+			if (!lst)
+				break ;
+		}
+		else
+		{
+			p = lst->token;
+			if (is_cntl_op(p))
+				tmp = false;
+			lst = lst->next;
+		}
 	}
 	return (true);
 }

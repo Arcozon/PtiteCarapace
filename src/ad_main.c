@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:30:17 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 19:35:50 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,15 +159,14 @@ int	main(int ac, char **av, char **envp)
 			lst = lexer(str);
 			free(str);
 			str = NULL;
+			replace_aliases(&lst, &ms.table);
 			if (!lst)
-			{
 				continue ;
-			}
 			if (check_syntaxe(lst, _basename(av[0])))
 			{
-				replace_aliases(&lst, &ms.table);
+				if (!lst)
+					continue ;
 				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
-				// replace_wildcards(&lst);// cette fonction 
 				exec_start(&ms, &lst);
 			}
 			else

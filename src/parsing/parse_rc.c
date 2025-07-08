@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:31:37 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 11:08:12 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 19:08:56 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,7 @@
 #include "arcoms.h"
 #include "get_next_line.h"
 
-void	parse_rc(t_ms *ms)
-{
-	char	*str;
-	int		len;
-	int		fd;
-
-	if (!get_fd(&fd))
-		return ;
-	str = get_next_line(fd);
-	while (str)
-	{
-		len = ft_strlen(str);
-		if (len > 0 && str[len - 1] == '\n')
-			str[len - 1] = 0;
-		alias(&ms->table, str);
-		free(str);
-		str = get_next_line(fd);
-	}
-}
-
-void	exec_rc(char *str, t_ms *ms)
+bool	exec_rc(char *str, t_ms *ms)
 {
 	t_snippet	*lst;
 
@@ -43,9 +23,10 @@ void	exec_rc(char *str, t_ms *ms)
 	{
 		optimize_lst(&lst);
 		exec_start(ms, &lst);
+		return (true);
 	}
-	else
-		free_snip_lst(lst);
+	free_snip_lst(lst);
+	return (false);
 }
 
 void	parse_rc_file(t_ms *ms, char *filename)
@@ -64,13 +45,16 @@ void	parse_rc_file(t_ms *ms, char *filename)
 	{
 		if (is_statement_open(str) || *str == '#')
 		{
+			if (*str != '#')
+				ga_fprintf(2, "%s: %s: line %i opened\n", ms->pname, filename, line);
 			(free(str), str = get_next_line(fd));
 			continue ;
 		}
 		len = ft_strlen(str);
 		if (len > 0 && str[len - 1] == '\n')
 			str[len - 1] = 0;
-		exec_rc(str, ms);
+		if (!exec_rc(str, ms))
+			ga_fprintf(2, "%s: %s: line %i syntax error\n", ms->pname, filename, line);
 		(free(str), str = get_next_line(fd));
 	}
 	close(fd);

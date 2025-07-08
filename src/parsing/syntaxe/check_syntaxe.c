@@ -63,7 +63,7 @@ bool	check_syntaxe(t_snippet *lst, char *exe)
 		return (ft_printf("%s%s`%c'\n", exe, SYNTAXE, ')'), false);
 	if (lst)
 		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, lst->ptr), false);
-	if ((is_cntl_op(p) && p != semicolon) || is_redir(p) || (pt && *pt == '&'))
+	if ((is_cntl_op(p) && p != semicolon) || is_redir(p))
 		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, pt), false);
 	return (true);
 }
