@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arco_prompt.c                                      :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 10:59:15 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 17:12:19 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:09:06 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	fill_prompt_host(t_aprompt *mprompt)
 
 void	fill_mprompt(t_aprompt *mprompt, t_ms *ms)
 {
-
 	mprompt->status = ms->status;
 	mprompt->format = find_content_var(PROMPT_FORMAT_VNAME, ms->env.tab);
 	fill_prompt_pwd(mprompt, ms->env.tab);

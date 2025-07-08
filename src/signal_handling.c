@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 10:43:25 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:13:58 by malfwa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	sig_exec(int sig)
 	if (sig == SIGQUIT || sig == SIGINT)
 		g_sig = sig;
 }
-
 
 void	set_sig(enum e_sig mode, t_ms *ms)
 {
