@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/08 15:05:45 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/08 15:28:17 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,20 +84,24 @@ TOTAL := $(shell echo $(SRC) | wc -w)
 
 MINISHELLRC = .minishellrc
 
+MS_COUNTER = /tmp/ms_counter
+
 .DEFAULT_GOAL := all
 
-all:	$(MINISHELLRC) counter.sh set_counter $(NAME)
-	@rm -rf /tmp/ms_counter
-	@rm $(COUNTER)
+# all:	$(MINISHELLRC) $(COUNTER_SH) set_counter $(NAME)
+all:	$(MINISHELLRC) set_counter $(NAME)
+	@rm -rf $(MS_COUNTER) $(COUNTER_SH)
 
 $(NAME):	$(OBJ) 
 	@$(CC) -o $@ $^ $(F_LIB)
 	@echo "\033[1;32m$@ linked!\033[0m"
 
+COUNTER_CMD = bash -c 'count=$$(cat $(MS_COUNTER));(( count++ )) ;echo "[$$count/$$2]: 🔧 Compiling $$1"; echo $$count > $(MS_COUNTER)'
 
+# 	@./counter.sh $< $(TOTAL)
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)
-	@./counter.sh $< $(TOTAL)
+	@$(COUNTER_CMD) "counter" $< $(TOTAL)
 	@$(CC) $(FLAGS) $(F_INC) -c $< -o $@ 
 
 clean:
@@ -107,7 +111,7 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean
-	$(MAKE) all
+	@$(MAKE) all
 
 DEPS = $(addprefix $(D_BUILD), $(SRC:.c=.d))
 -include $(DEPS)
@@ -122,21 +126,21 @@ $(MINISHELLRC):
 
 .PHONY: re fclean clean all set_counter
 
-
 set_counter:
 	@count=$$( $(MAKE) -n $(NAME) | grep "Wall" | wc -l );\
-		printf "$$(($(TOTAL) - $$count))" > /tmp/ms_counter
+		printf "$$(($(TOTAL) - $$count))" > $(MS_COUNTER)
 
-counter.sh:
-	@printf '#! /bin/bash\n\
-\n\
-file=$$1\n\
-total=$$2\n\
-\n\
-counter_file="/tmp/ms_counter"\n\
-\n\
-count=$$(cat "$$counter_file")\n\
-count=$$((count + 1))\n\
-echo "[$$count/$$total]: 🔧 Compiling $$file"\n\
-echo $$count > "$$counter_file"\n' > counter.sh
-	chmod +x counter.sh
+# $(COUNTER_SH):
+# 	@printf '#! /bin/bash\n\
+# \n\
+# file=$$1\n\
+# total=$$2\n\
+# \n\
+# counter_file="$(MS_COUNTER)"\n\
+# \n\
+# count=$$(cat "$$counter_file")\n\
+# count=$$((count + 1))\n\
+# echo "[$$count/$$total]: 🔧 Compiling $$file"\n\
+# echo $$count > "$$counter_file"\n' > counter.sh
+# 	@chmod +x counter.sh
+
