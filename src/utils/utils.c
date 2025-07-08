@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 17:47:22 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:14:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static inline void	__attribute__((always_inline))
 		--size;
 	}
 }
+
 void	*ge_calloc(size_t size)
 {
 	char	*res;
@@ -118,8 +119,8 @@ int	ge_strcmp(char *s1, char *s2)
 {
 	while (*s1 && *s1 == *s2)
 	{
-		++s1; 
-		++s2;	
+		++s1;
+		++s2;
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
@@ -170,31 +171,19 @@ char	*ge_strchr(char *str, char c)
 char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
 {
 	const uint32_t	insert_slash = (len != 0);
+	const size_t	len_exe = ge_strlen(exe);
 	char			*res;
-	size_t			i;
-	size_t			j;
 
-	j = ge_strlen(path);
-	if (len > j)
-		len = j;
-	res = malloc((ge_strlen(exe) + len + insert_slash + 1) * sizeof(char));
+	if (len > ge_strlen(path))
+		len = ge_strlen(path);
+	res = malloc((len_exe + len + insert_slash + 1) * sizeof(char));
 	if (!res)
 		return (0);
-	i = 0;
-	while (i < len)
-	{
-		res[i] = path[i];
-		++i;
-	}
+	ft_memcpy(res, path, len);
 	if (insert_slash)
-		res[i++] = '/';
-	j = 0;
-	while (exe[j])
-	{
-		res[i + j] = exe[j];
-		++j;
-	}
-	res[i + j] = '\0';
+		res[len] = '/';
+	ft_memcpy(res + len + insert_slash, exe, len);
+	res[len + insert_slash + len_exe] = '\0';
 	return (res);
 }
 

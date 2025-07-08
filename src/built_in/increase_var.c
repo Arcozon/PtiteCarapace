@@ -6,11 +6,24 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:44:11 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 17:28:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:06:40 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+
+char	*find_content_var(char *vname, char **env)
+{
+	const uint64_t	len_vname = ft_strlen(vname);
+
+	while (*env)
+	{
+		if (!ge_strncmp_weq(vname, *env, len_vname))
+			return (*env + len_vname + 1);
+		++env;
+	}
+	return (0);
+}
 
 static char	*ft_strjoin_weq(const char *str1, const char *str2)
 {
@@ -35,7 +48,7 @@ static inline void	increase_env_var(t_env *env, char *to_inc)
 	int			val_inc;
 	char		*itoa_shlvl;
 	char		*to_export;
-	
+
 	val_inc = 0;
 	if (cto_inc)
 		val_inc = ft_atoi(cto_inc);

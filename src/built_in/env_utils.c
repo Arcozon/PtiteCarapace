@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 17:57:27 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:05:56 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,4 @@ uint64_t	init_env(t_env *env, char *envp[])
 	}
 	handle_shlvl(env);
 	return (NO_ERR);
-}
-
-char	*find_content_var(char *vname, char **env)
-{
-	const uint64_t	len_vname = ft_strlen(vname);
-
-	while (*env)
-	{
-		if (!ge_strncmp_weq(vname, *env, len_vname))
-			return (*env + len_vname + 1);
-		++env;
-	}
-	return (0);
 }

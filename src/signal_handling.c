@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 16:40:30 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:17:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,13 @@ uint8_t	update_sig(uint8_t	status)
 	if (g_sig)
 		status = g_sig + STT_SIG_BASE;
 	g_sig = 0;
-	return (status); 
+	return (status);
 }
 
 void	sig_routine(int sig)
 {
 	if (sig == SIGINT)
-	{
-		// write(STDOUT_FILENO, "\n", 1);
-		// rl_replace_line("", 0);
-		// rl_on_new_line();
-		// rl_redisplay();
 		g_sig = sig;
-	}
 }
 
 void	sig_exec(int sig)
@@ -43,14 +37,15 @@ void	sig_exec(int sig)
 	g_sig = sig;
 }
 
-
 void	set_sig(enum e_sig mode, t_ms *ms)
 {
-	const __sighandler_t	handle_sigint[] = {sig_routine, sig_exec, sig_exec, SIG_DFL};
-	const __sighandler_t	handle_sigquit[] = {SIG_IGN, sig_exec, SIG_IGN, SIG_DFL};
-	struct sigaction	s_setsig;
+	const __sighandler_t	handle_sigint[] = {sig_routine, sig_exec,
+		sig_exec, SIG_DFL};
+	const __sighandler_t	handle_sigquit[] = {SIG_IGN, sig_exec,
+		SIG_IGN, SIG_DFL};
+	struct sigaction		s_setsig;
 
-	if (mode < 0 || mode > DEFLT_SIG )
+	if (mode < 0 || mode > DEFLT_SIG)
 	{
 		write(2, "Sig ?\n", 7);
 		return ;

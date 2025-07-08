@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:56:02 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 17:59:43 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 18:05:30 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static inline int	errors_export(char *pname, int error, char *identifier)
 			ga_fprintf(2, "%s: export: write error: No space left on device\n",
 				pname);
 		else if (error == E_NOSPACE)
-			ga_fprintf(2, "%s: export:  malloc error\n", pname);		
+			ga_fprintf(2, "%s: export:  malloc error\n", pname);
 	}
 	return (error != 0);
 }
