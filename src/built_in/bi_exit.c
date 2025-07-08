@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 11:29:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/28 12:30:36 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:19:08 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	bi_exit(int ac, char **av, int fds[2], t_ms *ms)
 	int		valid;
 
 	valid = 1;
-	write(2, "exit\n", 5);
+	if (!find_content_var(MSSUBSH_VNAME, ms->env.tab))
+		write(2, "exit\n", 5);
 	if (ac > 1)
 		rvalue = exit_atoi(av[1], &valid);
 	else

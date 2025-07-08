@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/07 15:46:38 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:47:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,24 +209,13 @@ uint64_t	cmd_dup(t_cmd *cmd)
 	return (cmd->errors);
 }
 
-// struct termios orig_termios;
-
-// __attribute__((constructor))
-// void	save_term(void)
-// {
-// 	tcgetattr(STDIN_FILENO, &orig_termios);
-// }
-
 uint64_t	ms_fork(int *pid, t_ms *ms)
 {
 	*pid = fork();
 	if (*pid < 0)
 		ms->errors |= E_FORK;
-	// if (!*pid)
-	// {
-	// 	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);	//WHAT THE FUCK AM I DOING ?
-	// 	set_sig(DEFLT_SIG, ms);
-	// }
+	if (!*pid)
+		close_fd(&ms->history_fd);
 	return (ms->errors);
 }
 
@@ -251,7 +240,10 @@ void	cmd_waitpid(t_cmd *cmd)
 	rstatus = 0;
 	while (waitpid(cmd->pid, &rstatus, 0) != cmd->pid)
 		;
-	cmd->rstatus = WEXITSTATUS(rstatus);
+	if (WIFSIGNALED(rstatus))
+		cmd->rstatus = WTERMSIG(rstatus);
+	else
+		cmd->rstatus = WEXITSTATUS(rstatus);
 }
 
 int	is_end_ofesc_seq(char c)

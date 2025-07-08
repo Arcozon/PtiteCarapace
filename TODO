@@ -1,13 +1,7 @@
 ~ exp at exec
 * at exec
 
-ReadlineChild : double ctrlC FIXED
-			free T_ms
-			Init status dans get_cmd_line_fd
-
-T_ms: ajouter fd_history, alias, prompt
-
-env init, set PWD OLDPWD SHLVL
+env init, set PWD OLDPWD
 
 alias error msg
 
@@ -20,7 +14,6 @@ Syntaxe : pas un logop('\0' | ; && ||) avant une par -> error
 
 Custom prompt pour les quotes, pipes lines, opp, par open
 
-newline ctrl C\ pendant l exec
--- ^\Quit (core dumped)
+cat ; cat ->ctrl C fcked (cant recreate)
 
-cat ; cat ->ctrl C fcked
+close history fd in childs

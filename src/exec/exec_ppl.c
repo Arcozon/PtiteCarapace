@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:44:45 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/06 13:58:41 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:22:08 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ uint64_t	pipe_ms(int pipes[2], t_ms *ms)
 
 uint64_t	launch_part_ppl(t_base *node, t_ms *ms, int p_in, int pipes[2])
 {
+	handle_submslvl(&ms->env);
 	swap_fds(&node->cmd.fd_in, p_in);
 	swap_fds(&node->cmd.fd_out, pipes[PIPE_WRITE]);
 	if (node->e_type == SUB)

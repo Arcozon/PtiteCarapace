@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/06 12:38:05 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:17:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exec_simple_cmd_fork(t_cmd *cmd, t_ms *ms)
 	if (!cmd->pid)
 	{
 		ms->errors |= find_exe(&cmd->path_exe, &cmd->builtin,
-				cmd->argv_cmd[0], find_content_var("PATH", ms->env.tab));
+				cmd->argv_cmd[0], find_content_var(PATH_VNAME, ms->env.tab));
 		if (ms->errors)
 			ms_exit(ms->errors, ms);
 		if (!cmd->path_exe && cmd->argv_cmd[0])

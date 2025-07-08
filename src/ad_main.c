@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 14:47:45 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 17:45:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,9 +362,10 @@ int	main(int ac, char **av, char **envp)
 		{
 			ms_add_history(str, ms.history_fd, &ms.prev_cmdline);
 			lst = lexer(str);
+			free(str);
+			str = NULL;
 			if (!lst)
 			{
-				free(str);
 				continue ;
 			}
 			if (check_syntaxe(lst, _basename(av[0])))

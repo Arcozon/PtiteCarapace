@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 10:43:25 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:40:30 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,39 @@ void	sig_routine(int sig)
 
 void	sig_exec(int sig)
 {
-	if (sig == SIGQUIT || sig == SIGINT)
-		g_sig = sig;
+	if (sig == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
+	else if (sig == SIGINT)
+		write(2, "\n", 1);
+	g_sig = sig;
 }
 
 
 void	set_sig(enum e_sig mode, t_ms *ms)
 {
+	const __sighandler_t	handle_sigint[] = {sig_routine, sig_exec, sig_exec, SIG_DFL};
+	const __sighandler_t	handle_sigquit[] = {SIG_IGN, sig_exec, SIG_IGN, SIG_DFL};
 	struct sigaction	s_setsig;
 
+	if (mode < 0 || mode > DEFLT_SIG )
+	{
+		write(2, "Sig ?\n", 7);
+		return ;
+	}
 	s_setsig.sa_flags = 0;
 	sigemptyset(&s_setsig.sa_mask);
-	s_setsig.sa_handler = sig_exec;
-	if (mode == ROUTINE)
-		s_setsig.sa_handler = sig_routine;
-	else if (mode == DEFLT_SIG)
-		s_setsig.sa_handler = SIG_DFL;
+	s_setsig.sa_handler = handle_sigint[mode];
 	if (sigaction(SIGINT, &s_setsig, 0))
-		(ms_perror(ms->pname, "Signal setting SIGINT"),
-			ms_exit(ms->status, ms));
-	s_setsig.sa_handler = SIG_IGN;
-	if (mode == EXEC)
-		s_setsig.sa_handler = sig_exec;
-	else if (mode == DEFLT_SIG)
-		s_setsig.sa_handler = SIG_DFL;
+	{
+		ms_perror(ms->pname, "Signal setting SIGINT");
+		ms_exit(ms->status, ms);
+	}
+	s_setsig.sa_handler = handle_sigquit[mode];
 	if (sigaction(SIGQUIT, &s_setsig, 0))
-		(ms_perror(ms->pname, "Signal setting SIGQUIT"),
-			ms_exit(ms->status, ms));
+	{
+		ms_perror(ms->pname, "Signal setting SIGQUIT");
+		ms_exit(ms->status, ms);
+	}
 }
 
 void	capture_signal_hdoc(int status, t_ms *ms)
