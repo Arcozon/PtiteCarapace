@@ -6,12 +6,28 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:12:25 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:13:18 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/09 16:43:47 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "arcoms.h"
+
+bool	check_alias_chars(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		if (ft_strchr(FORBIDDEN_CHAR_ALIAS, str[i]))
+			return (false);
+		i++;
+	}
+	if (str[i] != '=' || is_statement_open(str + i + 1))
+		return (false);
+	return (true);
+}
 
 int	show_aliases(t_hash_table *table, int fdout)
 {

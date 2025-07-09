@@ -6,13 +6,13 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 17:11:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 18:27:11 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:12:37 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
-void	cpystatus_prompt(char prompt[PROMPT_SIZE], t_aprompt *mprompt,
+void	cpystatus_prompt(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt,
 	bool left)
 {
 	if (mprompt->i_res < PROMPT_SIZE - RESERVED_P_SIZE)
@@ -40,7 +40,7 @@ void	cpystatus_prompt(char prompt[PROMPT_SIZE], t_aprompt *mprompt,
 	}
 }
 
-void	strstopcpy_prompt(char prompt[PROMPT_SIZE], t_aprompt *mprompt,
+void	strstopcpy_prompt(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt,
 	char *tocpy, char stop)
 {
 	uint32_t	i;
@@ -58,7 +58,7 @@ void	strstopcpy_prompt(char prompt[PROMPT_SIZE], t_aprompt *mprompt,
 }
 
 void	prompt_handle_bslasgh_2(char prompt[PROMPT_SIZE],
-	t_aprompt *mprompt, const char mode)
+	t_mprompt1 *mprompt, const char mode)
 {
 	if (mode == '[')
 		strstopcpy_prompt(prompt, mprompt, "\1", 0);
@@ -87,7 +87,7 @@ void	prompt_handle_bslasgh_2(char prompt[PROMPT_SIZE],
 }
 
 
-void	prompt_handle_bslash(char prompt[PROMPT_SIZE], t_aprompt *mprompt)
+void	prompt_handle_bslash(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt)
 {
 	const char	mode = mprompt->format[++mprompt->i_format];
 
@@ -102,11 +102,11 @@ void	prompt_handle_bslash(char prompt[PROMPT_SIZE], t_aprompt *mprompt)
 		cpystatus_prompt(prompt, mprompt, true);
 	else if (mode == 's')
 		cpystatus_prompt(prompt, mprompt, false);
-	if (ft_strchr(PROMPT_CHARSET_ARCO, (int)mode))
+	if (ft_strchr(PROMPT_CHARSET, (int)mode))
 		++mprompt->i_format;
 }
 
-void	cpy_prompt(char prompt[PROMPT_SIZE], t_aprompt *mprompt)
+void	cpy_prompt(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt)
 {
 	while (mprompt->i_res < PROMPT_SIZE - RESERVED_P_SIZE
 		&& mprompt->format[mprompt->i_format])

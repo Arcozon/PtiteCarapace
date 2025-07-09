@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:21:12 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/03 18:34:37 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:12:01 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <stdint.h>
 # include <wait.h>
 
-typedef struct s_arc_prompt	t_aprompt;
+typedef struct s_mprompt1	t_mprompt1;
+typedef struct s_mprompt2	t_mprompt2;
 
 typedef struct s_ms			t_ms;
 

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:47 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 17:18:44 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:02:55 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define SHLVL_VNAME			"SHLVL"
 # define MSSUBSH_VNAME			"MS_SUBSHELL"
 # define PROMPT_FORMAT_VNAME	"PROMPT_FORMAT"
+# define PROMPT2_FORMAT_VNAME	"PROMPT2_FORMAT"
 # define HOME_VNAME				"HOME"
 # define USER_VNAME				"USER"
 # define PATH_VNAME				"PATH"

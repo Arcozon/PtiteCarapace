@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/08 18:26:10 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/09 16:38:23 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ S_SRC_GNL =  get_next_line.c  get_next_line_utils.c  gnl_utils.c  utils.c
 D_SRC_GNL =  gnl/
 SRC_GNL   =  $(addprefix $(D_SRC_GNL), $(S_SRC_GNL))
 
-S_SRC_PROMPT =  cpy_prompt.c  prompt.c
+S_SRC_PROMPT =  cpy_prompt.c  prompt.c  prompt2.c
 D_SRC_PROMPT =  prompt/
 SRC_PROMPT   =  $(addprefix $(D_SRC_PROMPT), $(S_SRC_PROMPT))
 

@@ -6,14 +6,14 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/08 18:24:38 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:12:25 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "arcoms.h"
 
-void	fill_prompt_pwd(t_aprompt *mprompt, char **env)
+void	fill_prompt_pwd(t_mprompt1 *mprompt, char **env)
 {
 	const char	*home_cont = find_content_var(HOME_VNAME, env);
 	uint32_t	len_home;
@@ -37,7 +37,7 @@ void	fill_prompt_pwd(t_aprompt *mprompt, char **env)
 	}
 }
 
-void	fill_prompt_host(t_aprompt *mprompt)
+void	fill_prompt_host(t_mprompt1 *mprompt)
 {
 	int	fdhost;
 	int	i;
@@ -59,7 +59,7 @@ void	fill_prompt_host(t_aprompt *mprompt)
 	close(fdhost);
 }
 
-void	fill_mprompt(t_aprompt *mprompt, t_ms *ms)
+void	fill_mprompt(t_mprompt1 *mprompt, t_ms *ms)
 {
 	mprompt->status = ms->status;
 	mprompt->format = find_content_var(PROMPT_FORMAT_VNAME, ms->env.tab);
@@ -71,7 +71,7 @@ void	fill_mprompt(t_aprompt *mprompt, t_ms *ms)
 
 void	make_prompt(char prompt[PROMPT_SIZE], t_ms *ms)
 {
-	t_aprompt	m_prompt;
+	t_mprompt1	m_prompt;
 
 	ft_bzero(prompt, PROMPT_SIZE);
 	ft_bzero(&m_prompt, sizeof(m_prompt));

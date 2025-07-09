@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:06:24 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/09 16:44:18 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 # define MINISHELL_H
 
 # define SYNTAXE ": syntax error near unexpected token "
-# define PROMPT_CHARSET "uhHwW$\\"
 # define SEP "| &<>;()"
 # define OPENER "'\""
 # define HOSTNAME_FILE	"/etc/hostname"
-# define PROMPT "minishell> "
 # define MS_HISTORY ".ms_history"
 # define MS_RC ".minishellrc"
-# define ALIAS "alias"
-# define ALIAS_LEN 5
 # define FORBIDDEN_CHAR_ALIAS " \t\n\v\r\f/!@#$*&():"
 # define BUF_SIZE 511
 
@@ -133,9 +129,7 @@ int			get_cmd_line_fd(int	*fd, t_ms *ms);
 void		parse_rc(t_ms *ms);
 void		parse_rc_file(t_ms *ms, char *filename);
 char		*expand(char **env, char *var_name, int len);
-void		alias(t_hash_table *table, char *str);
 bool		is_statement_open(char *str);
-bool		check_alias_chars(char *str);
 bool		get_fd(int *fd);
 void		free_table(t_hash_table *table);
 int			_hash(char *key, int len);
