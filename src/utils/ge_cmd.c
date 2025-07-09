@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:10:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:23:19 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 12:30:31 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	cmd_waitpid(t_cmd *cmd)
 	while (waitpid(cmd->pid, &rstatus, 0) != cmd->pid)
 		;
 	if (WIFSIGNALED(rstatus))
-		cmd->rstatus = WTERMSIG(rstatus);
+		cmd->rstatus = WTERMSIG(rstatus) + STT_SIG_BASE;
 	else
 		cmd->rstatus = WEXITSTATUS(rstatus);
+	ga_fprintf(2, "[%d|%d]\n", cmd->rstatus, rstatus);
 }
