@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:33:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 16:48:44 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:09:54 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ struct s_mprompt1
 {
 	char		*format;
 	uint32_t	i_format;
-	
+
 	uint32_t	i_res;
 
 	char		*pwd;
@@ -63,7 +63,7 @@ struct s_mprompt2
 {
 	char		*format;
 	uint32_t	i_format;
-	
+
 	uint32_t	i_res;
 
 	const char	*c_missing;

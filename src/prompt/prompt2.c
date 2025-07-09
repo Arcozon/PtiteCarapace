@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:24:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 16:48:32 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 17:10:55 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	strstopcpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt,
 void	prompt2_handle_bslash(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt)
 {
 	const char	mode = mprompt->format[++mprompt->i_format];
-	
+
 	if (mode == '[')
 		strstopcpy_prompt2(prompt, mprompt, "\1", 0);
 	else if (mode == ']')
@@ -44,7 +44,7 @@ void	prompt2_handle_bslash(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt)
 	else if (mode == 'a')
 		strstopcpy_prompt2(prompt, mprompt, "\a", 0);
 	else if (mode == 'l')
-		strstopcpy_prompt2(prompt, mprompt,mprompt->c_missing, 0);
+		strstopcpy_prompt2(prompt, mprompt, mprompt->c_missing, 0);
 	else if (mode == 'L')
 		strstopcpy_prompt2(prompt, mprompt, mprompt->str_missing, 0);
 	else if (mode == 'M')
@@ -83,7 +83,8 @@ void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms, enum e_missing missing)
 	mprompt->format = find_content_var(PROMPT2_FORMAT_VNAME, ms->env.tab);
 }
 
-void	make_prompt2(char prompt2[PROMPT_SIZE], t_ms *ms, enum e_missing missing)
+void	make_prompt2(char prompt2[PROMPT_SIZE],
+	t_ms *ms, enum e_missing missing)
 {
 	t_mprompt2	m_prompt;
 
