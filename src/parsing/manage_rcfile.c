@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 14:51:45 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 12:33:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	get_fd(int *fd)
 {
 	char	*tmp;
 
-	tmp = ("HOME");
+	tmp = ("HOME"); // ?
 	if (!tmp)
 		return (false);
 	tmp = ft_strsjoin((char *[]){tmp, "/", MS_RC, NULL});

@@ -1,7 +1,5 @@
 alias error msg
 
-export PATH=  -> error execve [fixed, can be better]
-
 Custom prompt pour les quotes, pipes lines, opp, par open
 
 cat ; cat ->ctrl C fcked (cant recreate)

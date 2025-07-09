@@ -10,6 +10,7 @@
 		"get_next_line.h": "c",
 		"prompt.h": "c",
 		"cerrno": "c",
-		"signal_handling.h": "c"
+		"signal_handling.h": "c",
+		"types.h": "c"
 	}
 }

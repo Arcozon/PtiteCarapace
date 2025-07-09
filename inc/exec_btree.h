@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/04 11:28:21 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 12:54:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define EXEC_BTREE_H
 
 # include "types.h"
+
+# define PTR_CMD_NOT_FOUND	0
+# define PTR_NO_SUCH_FILE	1
 
 # define STT_CMD_NOT_FOUND	127
 # define STT_SIG_BASE		0x80
@@ -73,6 +76,7 @@ t_builin_fct	is_a_builtin(char *av0);
 uint64_t		find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 					char *av0, char *path);
 uint64_t		execve_cmd(t_cmd *cmd, t_ms *ms);
+uint32_t		is_non_executable(char *path_exe);
 
 void			launch_subsh(t_base *node, t_ms *ms, int to_close);
 void			exec_scol(t_base *node, t_ms *ms);

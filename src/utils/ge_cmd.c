@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:10:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/09 12:30:31 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 13:03:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,11 @@ void	cmd_waitpid(t_cmd *cmd)
 		cmd->rstatus = WTERMSIG(rstatus) + STT_SIG_BASE;
 	else
 		cmd->rstatus = WEXITSTATUS(rstatus);
-	ga_fprintf(2, "[%d|%d]\n", cmd->rstatus, rstatus);
+	// ga_fprintf(2, "[%d|%d]\n", cmd->rstatus, rstatus);
+}
+
+uint32_t	is_non_executable(char *path_exe)
+{
+	return (path_exe == PTR_CMD_NOT_FOUND
+		|| path_exe == (char *)PTR_NO_SUCH_FILE);
 }

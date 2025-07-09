@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:35:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 18:24:05 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 13:02:25 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	free_tabstr(char ***tab)
 
 void	free_cmd(t_cmd *cmd)
 {
-	if (cmd->argv_cmd && cmd->path_exe != cmd->argv_cmd[0])
+	if (cmd->argv_cmd && !is_non_executable(cmd->path_exe) && cmd->path_exe != cmd->argv_cmd[0])
 		free(cmd->path_exe);
 	cmd->path_exe = 0;
 	free_tabstr(&(cmd->argv_cmd));
