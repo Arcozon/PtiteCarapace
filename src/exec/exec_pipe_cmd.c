@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 12:59:43 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 13:14:31 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ uint64_t	execve_cmd(t_cmd *cmd, t_ms *ms)
 		{
 			execve(cmd->path_exe, cmd->argv_cmd, ms->env.tab);
 			cmd->rstatus = 126;
-			ms_perror(ms->pname, cmd->path_exe);
+			if (!ft_is_file_lnk(cmd->path_exe))
+				print_error_2(ms->pname, cmd->path_exe, "Is not a file");
+			else
+				ms_perror(ms->pname, cmd->path_exe);
 		}
 		ms_exit(cmd->rstatus, ms);
 	}

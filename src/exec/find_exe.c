@@ -6,14 +6,14 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 13:03:20 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 13:12:27 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
 
 // 0 is not file
-uint8_t	ft_is_file_lnk(const char *path_file)
+uint32_t	ft_is_file_lnk(const char *path_file)
 {
 	struct stat	bufstat;
 
