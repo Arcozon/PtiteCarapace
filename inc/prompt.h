@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:33:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 16:35:40 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:48:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@
 
 # define COLOR_SUCCESS	"\1[1;38;2;40;170;60m\2"
 # define COLOR_FAILURE	"\1[1;38;2;220;26;26m\2"
+
+enum e_missing
+{
+	m_squote,
+	m_dquote,
+	m_par,
+	m_pipe,
+	m_and,
+	m_or
+};
 
 struct s_mprompt1
 {
@@ -63,7 +73,5 @@ struct s_mprompt2
 
 void	make_prompt(char prompt[PROMPT_SIZE], t_ms *ms);
 void	cpy_prompt(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt);
-void	strstopcpy_prompt(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt,
-			char *tocpy, char stop);
 
 #endif

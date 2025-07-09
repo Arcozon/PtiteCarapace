@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 16:27:35 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/09 17:05:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,71 @@ void	ms_rdl(char *prompt, int fd)
 	}
 	free(ptr);
 }
+
+// bool	is_opened(char *str)
+// {
+// 	static char	quote;
+// 	static int	bracket;
+// 	char		c;
+// 	char		d;
+
+// 	c = 0;
+// 	d = 0;
+// 	if (!str)
+// 		return (quote || bracket > 0);
+// 	while (*str)
+// 	{
+// 		if ((quote == '\'' && *str == '\'') || (quote == '\"' && *str == '\"'))
+// 			quote = '\0';
+// 		else if (!quote && (*str == '\'' || *str == '\"'))
+// 			quote = *str;
+// 		else if (!quote && (*str == '(' || *str == ')'))
+// 			bracket += (int []){-1, 1}[*str == '('];
+// 		d = c;
+// 		c = *str;
+// 		str++;
+// 	}
+// 	return (quote || bracket > 0 || c == '|' || (c == '&' && d == '&'));
+// }
+
+// int	wm_interpret(int missing)
+// {
+// 	return (!(missing == m_squote || missing == m_dquote));
+// }
+
+// void	wc_handle_quotes(int *missing, char quote)
+// {
+// 	if (*missing == m_dquote && quote == '"')
+// 		*missing = -1;
+// 	else if (*missing == m_squote && quote == '\'')
+// 		*missing = -1;
+// 	else if (!wm_interpret(*missing))
+// 	{
+// 		if (quote == '\'')
+// 			*missing == m_squote;
+// 		else
+// 			*missing == m_dquote;
+// 	}
+// }	
+
+// int	what_missing(char *str)
+// {
+// 	int	missing;
+// 	int	i;
+
+// 	missing = -1;
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (!ft_strncmp(str[i], "&&", 2) && wm_interpret(missing))
+// 			missing = (++i, m_and);
+// 		else if (str[i] == '\'' || str[i] == '"')
+// 			wc_handle_quotes(&missing, str[i]);		
+// 		if (!ft_strncmp(str[i], "||", 2) && wm_interpret(missing))
+// 			missing = (++i, m_or);
+// 		else if (missing == m_or)
+// 	}
+// }
 
 int	arco_ms_rdl(char *prompt, int fd, bool first)
 {

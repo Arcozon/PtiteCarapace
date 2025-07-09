@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/09 16:44:18 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:47:23 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # define SYNTAXE ": syntax error near unexpected token "
 # define SEP "| &<>;()"
 # define OPENER "'\""
-# define HOSTNAME_FILE	"/etc/hostname"
 # define MS_HISTORY ".ms_history"
 # define MS_RC ".minishellrc"
 # define FORBIDDEN_CHAR_ALIAS " \t\n\v\r\f/!@#$*&():"
@@ -26,16 +25,6 @@
 # include <limits.h>
 # include <unistd.h>
 # include "libftprintf.h"
-
-// typedef struct s_prompt
-// {
-// 	char		*hostname;
-// 	char		cwd[PATH_MAX];
-// 	char		*prompt;
-// 	char const	*cwd_basename;
-// 	char const	*user;
-// 	char const	*prompt_raw;
-// }	t_prompt;
 
 typedef struct s_pair
 {

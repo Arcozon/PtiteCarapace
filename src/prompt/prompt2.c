@@ -6,21 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:24:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 16:41:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:48:32 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-enum e_missing
-{
-	m_squote,
-	m_dquote,
-	m_par,
-	m_pipe,
-	m_and,
-	m_or
-};
 
 void	strstopcpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt,
 	const char *tocpy, char stop)
