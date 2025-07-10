@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:44:45 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/08 17:22:08 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 18:11:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ uint64_t	launch_ppl(t_base *node, t_ms *ms)
 	while (node->e_type == PPL)
 	{
 		if (pipe_ms(pipes, ms))
-			ppl_exit(last_pipe , pipes, ms->errors, ms);
+			ppl_exit(last_pipe, pipes, ms->errors, ms);
 		if (launch_part_ppl(node->left, ms, last_pipe, pipes))
-			ppl_exit(last_pipe , pipes, ms->errors, ms);
+			ppl_exit(last_pipe, pipes, ms->errors, ms);
 		last_pipe = pipes[PIPE_READ];
 		node = node->right;
 	}

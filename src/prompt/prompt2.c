@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:24:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 17:30:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 18:09:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,13 @@ void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms,
 		" pipe ", " and  ", "  or  "};
 	static char	*missing_char[] = {" '", " \"", " (", " |", "&&", "||"};
 
-	mprompt->c_missing = missing_char[missing];
-	mprompt->str_missing = missing_str[missing];
+	if (missing >= 0 && missing <= 5)
+	{
+		mprompt->c_missing = missing_char[missing];
+		mprompt->str_missing = missing_str[missing];
+	}
+	else
+		ga_fprintf(2, "tf %d\n", missing);
 	mprompt->pname = ms->pname;
 	mprompt->format = find_content_var(PROMPT2_FORMAT_VNAME, ms->env.tab);
 	mprompt->line = line;

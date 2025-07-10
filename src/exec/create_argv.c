@@ -6,11 +6,12 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 17:17:57 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 18:12:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
+
 void print_snippet_list(t_snippet *head);
 
 uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)

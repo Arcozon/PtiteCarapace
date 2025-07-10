@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:38:31 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 18:10:05 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	arco_ms_rdl_miss(char *prompt, int fd, t_ms *ms, uint32_t line)
 		trim_trailling_ws(tmp);
 		ft_putstr_fd(tmp, fd);
 	}
-	if (((!line && ptr && !*ptr) || is_opened(ptr)))
+	if ((line && ptr && !*ptr) || is_opened(ptr)) // check
 	{
 		make_prompt2(ms->prompt2, ms, what_missing(ptr), line);
 		free(ptr);
