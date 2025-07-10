@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "get_next_line.h"
 
-int	expand_in_pipe(char *str, t_ms *ms, bool one_block)
+int	expand_in_pipe(char *str, t_ms *ms, bool one_block, bool *test)
 {
 	int	stdout_fd;
 	int	pipe_fds[2];
@@ -23,7 +23,7 @@ int	expand_in_pipe(char *str, t_ms *ms, bool one_block)
 		return (-1);
 	if (dup2(pipe_fds[1], STDOUT_FILENO) < 0)
 		return (close(stdout_fd), close(pipe_fds[0]), close(pipe_fds[1]), -1);
-	expand_token(str, ms, ft_strlen(str), (char)one_block);
+	*test = expand_token(str, ms, ft_strlen(str), (char)one_block);
 	write(STDOUT_FILENO, "\0", 1);
 	close(pipe_fds[1]);
 	dup2(stdout_fd, STDOUT_FILENO);
@@ -31,7 +31,7 @@ int	expand_in_pipe(char *str, t_ms *ms, bool one_block)
 	return (pipe_fds[0]);
 }
 
-bool	get_snips_expanded(t_snippet **new_lst, int fd, enum e_token token)
+bool	get_snips_expanded(t_snippet **new_lst, int fd, enum e_token token, bool test)
 {
 	char	*str;
 
@@ -40,7 +40,7 @@ bool	get_snips_expanded(t_snippet **new_lst, int fd, enum e_token token)
 	{
 		if (*str && str[ft_strlen(str) - 1] == '\n')
 			str[ft_strlen(str) - 1] = 0;
-		if (!add_to_snip_lst(new_lst, token, str))
+		if ((*str || test) && !add_to_snip_lst(new_lst, token, str))
 			return (free_snip_lst(*new_lst), false);
 		str = get_next_null_arco(fd);
 	}
@@ -87,6 +87,8 @@ bool	expand_snip(t_snippet **store, t_snippet *exp, t_ms *ms, bool one_blk)
 	t_snippet	*tmp;
 	t_snippet	*next;
 	int			fd;
+	bool		test;
+	bool		t = false;
 
 	new_lst = 0;
 	if (!exp)
@@ -95,9 +97,11 @@ bool	expand_snip(t_snippet **store, t_snippet *exp, t_ms *ms, bool one_blk)
 	{
 		next = exp->next;
 		tmp = NULL;
-		fd = expand_in_pipe(exp->ptr, ms, one_blk);
-		if (!get_snips_expanded(&tmp, fd, exp->token))
+		fd = expand_in_pipe(exp->ptr, ms, one_blk, &test);
+		if (!get_snips_expanded(&tmp, fd, exp->token, test))
 			return (close(fd), false);
+		if (!t)
+			t = test;
 		close(fd);
 		*get_addr_last(&new_lst) = tmp;
 		free(exp->ptr);

@@ -62,18 +62,21 @@ void	write_token(t_ms *ms, char *ptr, int wlen, char scope)
 		write(STDOUT_FILENO, ptr, wlen);
 }
 
-void	expand_token(char *ptr, t_ms *ms, int len, char scp)
+bool	expand_token(char *ptr, t_ms *ms, int len, char scp)
 {
 	int		wlen;
 	int		i;
 	char	q;
+	bool	test;
+
+	test = scp;
 
 	put_to_zero(&i, &q);
 	while (*ptr && i < len)
 	{
 		wlen = get_wlen(ptr, len);
 		if (*ptr == '"')
-			expand_token(ptr + 1, ms, wlen - 2, *ptr);
+			test = expand_token(ptr + 1, ms, wlen - 2, *ptr);
 		else
 		{
 			if (*ptr == '$' && wlen != 1 && ft_strncmp("$$", ptr, 2))
@@ -89,4 +92,5 @@ void	expand_token(char *ptr, t_ms *ms, int len, char scp)
 		ptr += wlen;
 		i += wlen;
 	}
+	return (test);
 }

@@ -186,7 +186,7 @@ int			find_closing_bracket(char *opening_bracket);
 int			dollar_len(char *str_dollar);
 // void		expand_env_var(char **env, char *varname, int len);
 
-void		expand_token(char *ptr, t_ms *ms, int len, char scope);
+bool		expand_token(char *ptr, t_ms *ms, int len, char scope);
 t_snippet	*lexer(char *str);
 void		optimize_lst(t_snippet **head);
 
