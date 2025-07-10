@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:44:10 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 10:43:25 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:36:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ enum e_sig
 extern int	g_sig;
 //extern volatile sig_atomic_t g_sig;
 
-uint8_t	update_sig(uint8_t	status);
+uint8_t	update_sig(uint8_t status);
 void	capture_signal_hdoc(int status, t_ms *ms);
-void	set_sig(enum e_sig	mode, t_ms *ms);
+void	set_sig(enum e_sig mode, t_ms *ms);
 
 #endif

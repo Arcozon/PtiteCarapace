@@ -6,12 +6,12 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:15:31 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/04 13:01:10 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:35:36 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_ARCO_H
-# define GET_NEXT_LINE_ARCO_H
+#ifndef ARCO_GET_NEXT_LINE_H
+# define ARCO_GET_NEXT_LINE_H
 
 # include <unistd.h>
 # include <stdlib.h>

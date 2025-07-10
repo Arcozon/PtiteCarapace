@@ -6,12 +6,13 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:49:29 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/04 19:08:48 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:41:16 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
+#include "arcoms.h"
 
 int	expand_in_pipe(char *str, t_ms *ms, bool one_block)
 {

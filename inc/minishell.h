@@ -6,12 +6,20 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/09 16:47:23 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:40:26 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <stdbool.h>
+# include <limits.h>
+# include <unistd.h>
+
+# include "libftprintf.h"
+// # include "arcoms.h"
+# include "types.h"
 
 # define SYNTAXE ": syntax error near unexpected token "
 # define SEP "| \t\v\n\r\f&<>;()"
@@ -20,11 +28,6 @@
 # define MS_RC ".minishellrc"
 # define FORBIDDEN_CHAR_ALIAS " \t\n\v\r\f/!@#$*&():"
 # define BUF_SIZE 511
-
-# include <stdbool.h>
-# include <limits.h>
-# include <unistd.h>
-# include "libftprintf.h"
 
 typedef struct s_pair
 {
@@ -70,9 +73,6 @@ typedef struct s_hash_table
 {
 	t_pair	*bucket[TABLE_SIZE];
 }	t_hash_table;
-
-# include "arcoms.h"
-
 
 //Snippet
 
@@ -147,9 +147,7 @@ int			ft_strlen_without_q(char *str);
 int			ft_strncmp_without_q(char *s_w_q, char *cmp, int len_w_q);
 char		*ft_strnstr_without_q(const char *big, const char *l, size_t len);
 
-
 //snip
-
 
 t_snippet	*new_snip(enum e_token token, char *ptr);
 t_snippet	*get_last_snip(t_snippet *lst);

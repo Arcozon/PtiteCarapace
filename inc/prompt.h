@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:33:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 12:34:44 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:37:02 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define PROMPT_CHARSET			"[]nae?\\uhHwWMsS"
 # define BASE_PROMPT_FORMAT		"\\M>\\?$ "
 
+# define MISSING_SPECIAL "|;()"
 # define PROMPT2_CHARSET		"[]ae\\loOM"
 # define BASE_PROMPT2_FORMAT	">\\?$\\[\033[0m\\] "
 
@@ -74,6 +75,14 @@ struct s_mprompt2
 
 void	make_prompt(char prompt[PROMPT_SIZE], t_ms *ms);
 void	cpy_prompt(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt);
+
 void	make_prompt2(char prompt2[PROMPT_SIZE],
-	t_ms *ms, enum e_missing missing, uint32_t line);
+			t_ms *ms, enum e_missing missing, uint32_t line);
+void	strstopcpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt,
+			const char *tocpy, char stop);
+void	putnbcpy_prompt2(char prompt[PROMPT_SIZE],
+			t_mprompt2 *mprompt, uint32_t line);
+
+int		what_missing(char *str);
+
 #endif

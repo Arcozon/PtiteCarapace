@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:18:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 13:12:25 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:37:08 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ uint64_t		find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 uint64_t		execve_cmd(t_cmd *cmd, t_ms *ms);
 uint32_t		is_non_executable(char *path_exe);
 uint32_t		ft_is_file_lnk(const char *path_file);
-
 
 void			launch_subsh(t_base *node, t_ms *ms, int to_close);
 void			exec_scol(t_base *node, t_ms *ms);

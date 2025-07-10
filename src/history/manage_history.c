@@ -6,15 +6,12 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:01:44 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 14:52:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:41:52 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/history.h>
-#include "get_next_line.h"
-#include "libftprintf.h"
 #include "minishell.h"
-#include <fcntl.h>
+#include "arcoms.h"
 
 void	trim_trailling_ws(char *str)
 {

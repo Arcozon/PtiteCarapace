@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:04:47 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:06:50 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/10 17:41:35 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "arcoms.h"
 
 char	*expand(char **env, char *var_name, int len)
 {

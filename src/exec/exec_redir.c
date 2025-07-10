@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:20:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 14:34:46 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:18:00 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ uint64_t	open_redir(t_cmd *cmd, t_ms *ms)
 	if (!cmd->redirs)
 		return (NO_ERR);
 	expand_snip(&cmd->redirs, cmd->redirs, ms, true);
-	fprintf(stderr, "%p \n", cmd->sn_argv);
 	while (!cmd->errors && cmd->redirs)
 	{
 		if (cmd->redirs->token == redir_in)

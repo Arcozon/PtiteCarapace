@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 20:33:18 by amouflet          #+#    #+#             */
-/*   Updated: 2025/07/08 18:33:03 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:38:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	ft_fill_tab(char **tab, char const *s, unsigned int *i, char c)
 	while (s && s[(*i)] == c && s[(*i)] != 0)
 		(*i)++;
 	j = 0;
-	// len = 0;
 	len = get_len(s + *i, c);
 	*tab = malloc(sizeof(char) * (len + 1));
 	if (*tab == NULL)

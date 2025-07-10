@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   free_ms.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:14:22 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 17:14:47 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/10 17:41:04 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "arcoms.h"
 
 void	free_ms(t_ms *ms)
 {

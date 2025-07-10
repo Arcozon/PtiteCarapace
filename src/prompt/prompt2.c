@@ -6,52 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:24:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 14:26:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:30:24 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-void	strstopcpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt,
-	const char *tocpy, char stop)
-{
-	uint32_t	i;
-
-	if (!tocpy)
-		return ;
-	i = 0;
-	while (mprompt->i_res < PROMPT_SIZE - RESERVED_P_SIZE
-		&& tocpy[i] && tocpy[i] != stop)
-	{
-		prompt[mprompt->i_res] = tocpy[i];
-		++mprompt->i_res;
-		++i;
-	}
-}
-
-int	_10pow_log10(uint32_t nb)
-{
-	int	pow;
-
-	pow = 1;
-	while (nb / 10 / pow)
-		pow *= 10;
-	return (pow);
-}
-
-void	putnbcpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt, uint32_t line)
-{
-	uint32_t	pow10;
-
-	pow10 = _10pow_log10(line);
-	while (mprompt->i_res < PROMPT_SIZE - RESERVED_P_SIZE
-		&& pow10)
-	{
-		prompt[mprompt->i_res] = (line / pow10) % 10 + '0';
-		++mprompt->i_res;
-		pow10 /= 10;
-	}
-}
 
 void	prompt2_handle_bslash(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt)
 {
@@ -97,17 +56,18 @@ void	cpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt)
 	prompt[mprompt->i_res] = 0;
 }
 
-void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms, enum e_missing missing, uint32_t line)
+void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms,
+	enum e_missing missing, uint32_t line)
 {
-	static char	*missing_str[] = {"squote", "dquote", "open par",
-		"pipe", "and", "or"};
-	static char	*missing_char[] = {"'", "\"", "(", "|", "&&", "||"};
+	static char	*missing_str[] = {"squote", "dquote", " par  ",
+		" pipe ", " and  ", "  or  "};
+	static char	*missing_char[] = {" '", " \"", " (", " |", "&&", "||"};
 
 	mprompt->c_missing = missing_char[missing];
 	mprompt->str_missing = missing_str[missing];
 	mprompt->pname = ms->pname;
 	mprompt->format = find_content_var(PROMPT2_FORMAT_VNAME, ms->env.tab);
-	(void)line;
+	mprompt->line = line;
 }
 
 void	make_prompt2(char prompt2[PROMPT_SIZE],
