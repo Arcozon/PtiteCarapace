@@ -11,6 +11,8 @@
 		"prompt.h": "c",
 		"cerrno": "c",
 		"signal_handling.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"limits.h": "c",
+		"stdbool.h": "c"
 	}
 }

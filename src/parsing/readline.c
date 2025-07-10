@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 09:59:26 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:21:31 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,34 +42,6 @@ void	ms_rdl(char *prompt, int fd)
 	free(ptr);
 }
 
-// bool	is_opened(char *str)
-// {
-// 	static char	quote;
-// 	static int	bracket;
-// 	char		c;
-// 	char		d;
-
-// 	c = 0;
-// 	d = 0;
-// 	if (!str)
-// 		return (quote || bracket > 0);
-// 	while (*str)
-// 	{
-// 		if ((quote == '\'' && *str == '\'') || (quote == '\"' && *str == '\"'))
-// 			quote = '\0';
-// 		else if (!quote && (*str == '\'' || *str == '\"'))
-// 			quote = *str;
-// 		else if (!quote && (*str == '(' || *str == ')'))
-// 			bracket += (int []){-1, 1}[*str == '('];
-// 		d = c;
-// 		c = *str;
-// 		str++;
-// 	}
-// 	return (quote || bracket > 0 || c == '|' || (c == '&' && d == '&'));
-// }
-
-
-
 int	arco_ms_rdl(char *prompt, int fd, bool first)
 {
 	char	*ptr;
@@ -91,9 +63,37 @@ int	arco_ms_rdl(char *prompt, int fd, bool first)
 		free(ptr);
 		return (arco_ms_rdl(PROMPT_UNCLOSED, fd, false));
 	}
-	free(ptr);
-	return (0);
+	return (free(ptr), 0);
 }
+
+int	what_missing(char *str);
+
+// int	arco_ms_rdl(char *prompt, int fd, uint32_t line, enum e_missing missing)
+// {
+// 	enum e_missing	new_missing;
+// 	char	*ptr;
+// 	char	*tmp;
+
+// 	ft_putchar_fd('\n', fd);
+// 	rl_on_new_line();
+// 	ptr = readline(prompt);
+// 	if (!ptr)
+// 		return ((int []){MS_RL_RESTART_READ, MS_RL_CTRLD}[line == 0]);
+// 	if (ptr && *ptr)
+// 	{
+// 		tmp = pass_whitespace(ptr);
+// 		trim_trailling_ws(tmp);
+// 		ft_putstr_fd(tmp, fd);
+// 	}
+// 	if (((!line && ptr && !*ptr) || is_opened(ptr)))
+// 	{
+// 		new_missing = what_missing()
+// 		free(ptr);
+// 		return (arco_ms_rdl(PROMPT_UNCLOSED, fd, line + 1, missing));
+// 	}
+// 	free(ptr);
+// 	return (0);
+// }
 
 void	arco_rdl_child(int pipe_fds[2], t_ms *ms)
 {

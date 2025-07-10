@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:24:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 12:33:35 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:26:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms, enum e_missing missing, uint32
 	mprompt->str_missing = missing_str[missing];
 	mprompt->pname = ms->pname;
 	mprompt->format = find_content_var(PROMPT2_FORMAT_VNAME, ms->env.tab);
+	(void)line;
 }
 
 void	make_prompt2(char prompt2[PROMPT_SIZE],
