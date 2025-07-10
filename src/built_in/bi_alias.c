@@ -6,14 +6,14 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:12:25 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/09 16:43:47 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 17:59:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "arcoms.h"
 
-bool	check_alias_chars(char *str)
+bool	check_alias_chars(char *str, char *pname)
 {
 	int	i;
 
@@ -21,11 +21,18 @@ bool	check_alias_chars(char *str)
 	while (str[i] && str[i] != '=')
 	{
 		if (ft_strchr(FORBIDDEN_CHAR_ALIAS, str[i]))
+		{
+			ga_fprintf(2, "%s: alias: `%s': invalid alias name\n",
+				pname, str);
 			return (false);
+		}
 		i++;
 	}
 	if (str[i] != '=' || is_statement_open(str + i + 1))
+	{
+		ga_fprintf(2, "%s: alias: `%s': invalid alias name\n", pname, str);
 		return (false);
+	}
 	return (true);
 }
 
@@ -50,17 +57,22 @@ int	show_aliases(t_hash_table *table, int fdout)
 
 int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 {
+	int		error;
 	int		i;
 	char	*dup;
 	t_pair	*new;
 
+	error = 0;
 	if (ac == 1)
 		return (show_aliases(&ms->table, fds[PIPE_WRITE]));
 	i = 0;
 	while (++i < ac)
 	{
-		if (ft_isdigit(*av[i]) || !check_alias_chars(av[i]))
+		if (ft_isdigit(*av[i]) || !check_alias_chars(av[i], ms->pname))
+		{
+			error = 1;
 			continue ;
+		}	
 		dup = ft_strdup(av[i]);
 		if (!dup)
 			return (1);
@@ -69,6 +81,5 @@ int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 			return (free(dup), 1);
 		set_pair(&ms->table, new);
 	}
-	return (0);
-	(void)ac;
+	return (error);
 }

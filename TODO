@@ -1,11 +1,9 @@
 alias error msg
 
-Custom prompt pour les quotes, pipes lines, opp, par open
-
 cat ; cat ->ctrl C fcked (cant recreate)
 
 test dinamic tab
 
 enlever le gnl
 
-pb quand '\n'
+pb quand '\n' dans .msrc
