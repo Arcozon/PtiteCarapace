@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:33:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 17:09:54 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:34:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define PROMPT_CHARSET			"[]nae?\\uhHwWMsS"
 # define BASE_PROMPT_FORMAT		"\\M>\\?$ "
 
-# define PROMPT2_CHARSET		"[]ae\\lLM"
+# define PROMPT2_CHARSET		"[]ae\\loOM"
 # define BASE_PROMPT2_FORMAT	">\\?$\\[\033[0m\\] "
 
 # define COLOR_SUCCESS	"\1[1;38;2;40;170;60m\2"
@@ -66,6 +66,7 @@ struct s_mprompt2
 
 	uint32_t	i_res;
 
+	uint32_t	line;
 	const char	*c_missing;
 	const char	*str_missing;
 	char		*pname;
@@ -73,5 +74,6 @@ struct s_mprompt2
 
 void	make_prompt(char prompt[PROMPT_SIZE], t_ms *ms);
 void	cpy_prompt(char prompt[PROMPT_SIZE], t_mprompt1 *mprompt);
-
+void	make_prompt2(char prompt2[PROMPT_SIZE],
+	t_ms *ms, enum e_missing missing, uint32_t line);
 #endif

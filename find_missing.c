@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 09:59:34 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 11:50:32 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 11:56:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,15 @@ int	what_missing(char *str)
 		else if (!ft_strncmp(&str[i], "||", 2))
 			missing = (++i, m_or);
 		else if (str[i] == '(')
+		{
+			missing = -1;
 			++par_depth;
+		}
 		else if (str[i] ==')')
+		{
+			missing = -1;
 			--par_depth;
+		}
 		else if (str[i] == '|')
 			missing = m_pipe;
 		else if (!ft_is_space(str[i]))
@@ -138,7 +144,7 @@ int	what_missing(char *str)
 int main(int ac, char **av)
 {
 	if (ac < 2)
-		p_missing(what_missing("||"));
+		p_missing(what_missing("''|()"));
 	else
 	{
 		for (int i = 1; i < ac; ++i)

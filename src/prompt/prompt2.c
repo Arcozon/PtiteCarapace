@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:24:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 17:10:55 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/10 12:33:35 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,30 @@ void	strstopcpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt,
 	}
 }
 
+int	_10pow_log10(uint32_t nb)
+{
+	int	pow;
+
+	pow = 1;
+	while (nb / 10 / pow)
+		pow *= 10;
+	return (pow);
+}
+
+void	putnbcpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt, uint32_t line)
+{
+	uint32_t	pow10;
+
+	pow10 = _10pow_log10(line);
+	while (mprompt->i_res < PROMPT_SIZE - RESERVED_P_SIZE
+		&& pow10)
+	{
+		prompt[mprompt->i_res] = (line / pow10) % 10 + '0';
+		++mprompt->i_res;
+		pow10 /= 10;
+	}
+}
+
 void	prompt2_handle_bslash(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt)
 {
 	const char	mode = mprompt->format[++mprompt->i_format];
@@ -43,10 +67,12 @@ void	prompt2_handle_bslash(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt)
 		strstopcpy_prompt2(prompt, mprompt, "\1\033", 0);
 	else if (mode == 'a')
 		strstopcpy_prompt2(prompt, mprompt, "\a", 0);
-	else if (mode == 'l')
+	else if (mode == 'o')
 		strstopcpy_prompt2(prompt, mprompt, mprompt->c_missing, 0);
-	else if (mode == 'L')
+	else if (mode == 'O')
 		strstopcpy_prompt2(prompt, mprompt, mprompt->str_missing, 0);
+	else if (mode == 'l')
+		putnbcpy_prompt2(prompt, mprompt, mprompt->line);
 	else if (mode == 'M')
 		strstopcpy_prompt2(prompt, mprompt, mprompt->pname, 0);
 	if (ft_strchr(PROMPT2_CHARSET, (int)mode))
@@ -71,7 +97,7 @@ void	cpy_prompt2(char prompt[PROMPT_SIZE], t_mprompt2 *mprompt)
 	prompt[mprompt->i_res] = 0;
 }
 
-void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms, enum e_missing missing)
+void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms, enum e_missing missing, uint32_t line)
 {
 	static char	*missing_str[] = {"squote", "dquote", "open par",
 		"pipe", "and", "or"};
@@ -84,13 +110,13 @@ void	fill_mprompt2(t_mprompt2 *mprompt, t_ms *ms, enum e_missing missing)
 }
 
 void	make_prompt2(char prompt2[PROMPT_SIZE],
-	t_ms *ms, enum e_missing missing)
+	t_ms *ms, enum e_missing missing, uint32_t line)
 {
 	t_mprompt2	m_prompt;
 
 	ft_bzero(prompt2, PROMPT_SIZE);
 	ft_bzero(&m_prompt, sizeof(m_prompt));
-	fill_mprompt2(&m_prompt, ms, missing);
+	fill_mprompt2(&m_prompt, ms, missing, line);
 	if (!m_prompt.format)
 		m_prompt.format = BASE_PROMPT2_FORMAT;
 	cpy_prompt2(prompt2, &m_prompt);
