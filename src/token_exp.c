@@ -56,7 +56,7 @@ void	write_token(t_ms *ms, char *ptr, int wlen, char scope)
 	if (!scope && *ptr == '~'
 		&& (is_white_space(ptr[1]) || ptr[1] == '/' || !ptr[1]))
 		tilde_expansion(ms, ptr[1]);
-	else if (!scope)
+	else if (!scope || scope == 1)
 		write_without_quote(ptr, wlen);
 	else
 		write(STDOUT_FILENO, ptr, wlen);
