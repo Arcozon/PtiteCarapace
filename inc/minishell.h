@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # define SYNTAXE ": syntax error near unexpected token "
-# define SEP "| &<>;()"
+# define SEP "| \t\v\n\r\f&<>;()"
 # define OPENER "'\""
 # define MS_HISTORY ".ms_history"
 # define MS_RC ".minishellrc"
