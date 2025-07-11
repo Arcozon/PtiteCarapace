@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 18:10:05 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 11:17:29 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	arco_rdl_child(int pipe_fds[2], t_ms *ms)
 	g_sig = 0;
 	set_sigchild_handler(pipe_fds);
 	rl_getc_function = getc;
-	// arl_status = arco_ms_rdl(ms->prompt, pipe_fds[1], true);
 	arl_status = arco_ms_rdl_miss(ms->prompt, pipe_fds[1], ms, 0);
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
@@ -124,7 +123,7 @@ int	get_cmd_line_fd(int	*fd, t_ms *ms)
 	status = 0;
 	while (waitpid(pid, &status, 0) != pid)
 	{
-		g_sig = SIGINT; // ?
+		;
 	}
 	*fd = pipe_fds[0];
 	return (get_exit_value(status));

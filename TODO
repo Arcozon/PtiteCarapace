@@ -5,3 +5,10 @@ test dinamic tab
 enlever le gnl
 
 pb quand '\n' dans .msrc
+
+[alias l=] [l] l est pas change en '' dans la 2eme cmd line
+
+alias pas detecter si pas premier mot (<FILE [ALIAS], [ALIAS] est pas change)
+
+[alias redir='<']
+[redir] -> minishell: <: No such file or directory (devrait avoir syntaxe error)
