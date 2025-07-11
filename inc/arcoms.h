@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 18:15:54 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 19:31:32 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # include "make_tree.h"
 # include "exec_btree.h"
 
-# include "arco_get_next_line.h"
+# include "get_next_null.h"
 # include "get_next_line.h"
 # include "ga_printf.h"
 

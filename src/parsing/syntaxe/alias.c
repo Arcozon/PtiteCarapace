@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alias.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:33 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/22 21:10:11 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/11 19:25:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static bool	replace(t_snippet **head, t_snippet **s, t_hash_table *t, bool *b)
 {
 	t_pair		*pair;
 	t_snippet	*new_lst;
-	char		*tmp;
 
 	pair = get_pair(t, (*s)->ptr, ft_strlen((*s)->ptr));
 	if (!pair)
@@ -66,11 +65,7 @@ static bool	replace(t_snippet **head, t_snippet **s, t_hash_table *t, bool *b)
 	if (!pair->value || !*pass_whitespace(pair->value))
 		return (update_lst(head, s, NULL));
 	*b = true;
-	tmp = str_without_quote(pair->value);
-	if (!tmp)
-		return (false);
-	new_lst = lexer(tmp);
-	free(tmp);
+	new_lst = lexer(pair->value);
 	if (!new_lst)
 		return (false);
 	return (update_lst(head, s, new_lst));

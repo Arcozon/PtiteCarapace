@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 20:49:29 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 17:58:11 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 19:28:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,37 +82,6 @@ t_snippet	**get_addr_last(t_snippet **lst)
 		lst = &((*lst)->next);
 	return (lst);
 }
-
-// bool	expand_snip(t_snippet **store, t_snippet *exp, t_ms *ms, bool one_blk)
-// {
-// 	t_snippet	*new_lst;
-// 	t_snippet	*tmp;
-// 	t_snippet	*next;
-// 	int			fd;
-// 	bool		test;
-// 	bool		t = false;
-
-// 	new_lst = 0;
-// 	if (!exp)
-// 		return (true);
-// 	while (exp)
-// 	{
-// 		next = exp->next;
-// 		tmp = NULL;
-// 		fd = expand_in_pipe(exp->ptr, ms, one_blk, &test);
-// 		if (!get_snips_expanded(&tmp, fd, exp->token, test))
-// 			return (close(fd), false);
-// 		if (!t)
-// 			t = test;
-// 		close(fd);
-// 		*get_addr_last(&new_lst) = tmp;
-// 		free(exp->ptr);
-// 		free(exp);
-// 		exp = next;
-// 	}
-// 	*store = new_lst;
-// 	return (true);
-// }
 
 bool	expand_snip(t_snippet **store, t_snippet *exp, t_ms *ms, bool one_blk)
 {

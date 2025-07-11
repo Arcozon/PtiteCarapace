@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 17:48:38 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 19:35:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void		set_sigchild_handler(int fds_to_close[2]);
 
 //Parsing 
 
+void	arco_rdl_child(int pipe_fds[2], t_ms *ms);
 int			get_cmd_line_fd(int	*fd, t_ms *ms);
 
 void		parse_rc_file(t_ms *ms, char *filename);
@@ -160,7 +161,6 @@ bool		add_in_list(char buffer[], t_list **head);
 int			read_null_terminated(int fd, char *buffer, int buffer_size);
 bool		closed_word(char const buffer[], char *quote_ptr, int *bracket_ptr);
 
-bool		is_opened(char *str);
 int			find_closing_bracket(char *opening_bracket);
 int			dollar_len(char *str_dollar);
 // void		expand_env_var(char **env, char *varname, int len);

@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/11 12:35:09 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/11 19:34:07 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,12 +51,12 @@ S_SRC_PROMPT =  cpy_prompt.c  prompt.c  prompt2.c  cpy_prompt2.c  find_missing.c
 D_SRC_PROMPT =  prompt/
 SRC_PROMPT   =  $(addprefix $(D_SRC_PROMPT), $(S_SRC_PROMPT))
 
-S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  snippet.c  new_snip.c  snip_utils.c  word_len.c
+S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  readline_child.c snippet.c  new_snip.c  snip_utils.c  snip_utils2.c word_len.c
 S_SRC_PARSING += wildcard/manage_files.c  wildcard/strnstr_without_quote.c  wildcard/wildcard.c wildcard/split_pattern.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))
 
-SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  arco_get_next_null.c  token_exp.c  exp_utils.c
+SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  get_next_null.c  get_next_null_utils.c  token_exp.c  exp_utils.c
 SRC	+= history/manage_history.c
 SRC	+= signal/handler.c
 SRC	+= ad_utils/utils.c  ad_utils/sep_func.c
