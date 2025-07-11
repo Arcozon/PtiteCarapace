@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:33:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 17:37:02 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:17:16 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 # define PROMPT_CHARSET			"[]nae?\\uhHwWMsS"
 # define BASE_PROMPT_FORMAT		"\\M>\\?$ "
 
-# define MISSING_SPECIAL "|;()"
+# define MISSING_SPECIAL 		"|;()"
+
 # define PROMPT2_CHARSET		"[]ae\\loOM"
-# define BASE_PROMPT2_FORMAT	">\\?$\\[\033[0m\\] "
+# define BASE_PROMPT2_FORMAT	"[\\o]> "
 
 # define COLOR_SUCCESS	"\1[1;38;2;40;170;60m\2"
 # define COLOR_FAILURE	"\1[1;38;2;220;26;26m\2"
