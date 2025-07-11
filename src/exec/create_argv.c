@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 13:31:29 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 14:35:40 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 {
 	if (!cmd->sn_argv)
 		return (NO_ERR);
-	ga_fprintf(2, "[%s][%s]\n", cmd->sn_argv->ptr, cmd->sn_argv->next ? cmd->sn_argv->next->ptr : 0);
 	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms, false);
-	ga_fprintf(2, "[%s][%s]\n", cmd->sn_argv->ptr, cmd->sn_argv->next ? cmd->sn_argv->next->ptr : 0);
 	replace_wildcards(&cmd->sn_argv);
 	return (ms->errors);
 }
