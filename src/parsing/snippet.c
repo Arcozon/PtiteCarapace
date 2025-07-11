@@ -38,8 +38,8 @@ bool	get_snips_expanded(t_snippet **new_lst, int fd, enum e_token token, bool te
 	str = get_next_null_arco(fd);
 	while (str)
 	{
-		if (*str && str[ft_strlen(str) - 1] == '\n')
-			str[ft_strlen(str) - 1] = 0;
+	//	if (*str && str[ft_strlen(str) - 1] == '\n')
+	//		str[ft_strlen(str) - 1] = 0;
 		if ((*str || test) && !add_to_snip_lst(new_lst, token, str))
 			return (free_snip_lst(*new_lst), false);
 		str = get_next_null_arco(fd);
