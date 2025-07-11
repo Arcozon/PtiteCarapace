@@ -1,17 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_rcfile.c                                    :+:      :+:    :+:   */
+/*   sep_func.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 23:00:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 16:44:19 by gaeudes          ###   ########.fr       */
+/*   Created: 2025/06/22 17:34:45 by malfwa            #+#    #+#             */
+/*   Updated: 2025/07/11 20:30:11 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "get_next_line.h"
+#include "arcoms.h"
+
+bool	dollar_n_sep(char c)
+{
+	if (ft_strchr(SEP, c) || c == '$')
+		return (true);
+	return (false);
+}
+
+bool	dollar_sep_quote(char c)
+{
+	if (ft_strchr(SEP, c) || c == '$' || c == '\'' || c == '\"')
+		return (true);
+	return (false);
+}
+
+bool	simple_sep(char c)
+{
+	if (ft_strchr(SEP, c))
+		return (true);
+	return (false);
+}
 
 bool	is_statement_open(char *str)
 {

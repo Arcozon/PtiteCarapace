@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:19:30 by amouflet          #+#    #+#             */
-/*   Updated: 2025/07/11 19:38:18 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 19:45:11 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #  define BUFFER_SIZE __BUFFER_SIZE__
 # endif /*BUFFER_SIZE*/
 
-# if (BUFFER_SIZE < 0)
+# if (BUFFER_SIZE <= 0)
 #  undef BUFFER_SIZE
 #  define BUFFER_SIZE __BUFFER_SIZE__
 # endif

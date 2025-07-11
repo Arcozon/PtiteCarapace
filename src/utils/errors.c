@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 10:03:15 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 13:29:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 19:54:00 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,4 @@ void	print_code_error(uint64_t errors, char *pname)
 		print_error_1(pname, "Malloc error");
 	if (errors & E_FORK)
 		print_error_1(pname, "Fork error");
-}
-
-void	ms_exit(int rstatus, t_ms *ms)
-{
-	print_code_error(ms->errors, ms->pname);
-	free_ms(ms);
-	exit(rstatus);
 }

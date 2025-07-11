@@ -6,11 +6,10 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:01:44 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:41:52 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:33:57 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "arcoms.h"
 
 void	trim_trailling_ws(char *str)

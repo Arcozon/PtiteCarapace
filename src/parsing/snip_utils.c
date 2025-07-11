@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   snip_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:25:53 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 16:25:55 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/11 20:04:49 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "arcoms.h"
 
 t_snippet	*get_last_snip(t_snippet *lst)
 {

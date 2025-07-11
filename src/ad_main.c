@@ -6,16 +6,10 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 19:29:13 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:34:11 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdlib.h>
-// #include <readline/history.h>
-// #include <readline/readline.h>
-// #include "get_next_line.h"
-#include "minishell.h"
-// #include "libftprintf.h"
 #include "arcoms.h"
 
 __attribute__((constructor)) void	check_for_interractive_mode(void)
@@ -23,6 +17,10 @@ __attribute__((constructor)) void	check_for_interractive_mode(void)
 	if (!isatty(STDIN_FILENO)
 		|| !isatty(STDOUT_FILENO)
 		|| !isatty(STDERR_FILENO))
+		exit(EXIT_FAILURE);
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
+		exit(EXIT_FAILURE);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		exit(EXIT_FAILURE);
 }
 

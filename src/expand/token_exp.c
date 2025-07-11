@@ -6,11 +6,10 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:03:17 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 17:57:18 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:34:14 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "arcoms.h"
 
 void	dollar_exp(char *ptr, char scope, char *quote)
@@ -47,18 +46,6 @@ int	add_to_both(char **a, int *b, int to_add)
 	*a += to_add;
 	*b += to_add;
 	return (true);
-}
-
-void	tilde_expansion(t_ms *ms, char c)
-{
-	char	*home;
-
-	home = expand(ms->env.tab, HOME_VNAME, 4);
-	if (!home)
-		home = getenv(HOME_VNAME);
-	ft_putstr_fd(home, STDOUT_FILENO);
-	if (c == '/')
-		write(STDOUT_FILENO, "/", 1);
 }
 
 int	write_token(t_ms *ms, char *ptr, int wlen, char scope)

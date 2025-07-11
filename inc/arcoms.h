@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 19:31:32 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <termios.h>
+# include <dirent.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <signal.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 
-# include "minishell.h"
+# include "parsing.h"
 
-# include "utils.h"
-# include "types.h"
-# include "errors.h"
+# include "snippet.h"
 
 # include "prompt.h"
 # include "env.h"
@@ -38,12 +37,15 @@
 # include "make_tree.h"
 # include "exec_btree.h"
 
-# include "get_next_null.h"
+# include "libftprintf.h"
 # include "get_next_line.h"
 # include "ga_printf.h"
+# include "utils.h"
+# include "types.h"
+# include "errors.h"
 
-# define MS_RL_CTRLD		1
-# define MS_RL_RESTART_READ	2
+# define MS_HISTORY ".ms_history"
+# define MS_RC ".minishellrc"
 
 # define PIPE_READ	0
 # define PIPE_WRITE	1

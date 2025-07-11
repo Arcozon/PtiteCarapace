@@ -6,11 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 19:28:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 19:29:01 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:31:23 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "arcoms.h"
 
 enum e_token	get_token(char *str)
 {
@@ -55,6 +55,19 @@ void	optimize_lst(t_snippet **head)
 		else
 			ptr = ptr->next;
 	}
+}
+
+t_snippet	*new_snip(enum e_token token, char *ptr)
+{
+	t_snippet	*new;
+
+	new = malloc(sizeof(t_snippet));
+	if (!new)
+		return (NULL);
+	new->token = token;
+	new->ptr = ptr;
+	new->next = NULL;
+	return (new);
 }
 
 t_snippet	*lexer(char *str)

@@ -6,15 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 22:59:32 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:19:47 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:03:26 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "libftprintf.h"
-#include <stdint.h>
-
-#define PRIME 53
+#include "arcoms.h"
 
 int	_hash(char *key, int len)
 {
@@ -27,7 +23,7 @@ int	_hash(char *key, int len)
 		return (0);
 	while (key[i] && i < len)
 	{
-		hash_val = hash_val * PRIME + key[i];
+		hash_val = hash_val * PRIME_HASH + key[i];
 		i++;
 	}
 	return (hash_val & (TABLE_SIZE - 1));

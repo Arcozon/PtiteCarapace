@@ -6,11 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:39:22 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/05 13:15:08 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:21:03 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "arcoms.h"
 
 int	find_closing_bracket(char *opening_bracket)
 {

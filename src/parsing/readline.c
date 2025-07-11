@@ -6,12 +6,20 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 19:36:01 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:34:01 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "arcoms.h"
+
+int	get_exit_value(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (WTERMSIG(status));
+	return (0);
+}
 
 int	get_cmd_line_fd(int	*fd, t_ms *ms)
 {

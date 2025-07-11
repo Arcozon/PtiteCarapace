@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   strnstr_without_quote.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:50:24 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 16:51:55 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/11 20:21:12 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "arcoms.h"
 
 int	ft_strlen_without_q(char *str)
 {

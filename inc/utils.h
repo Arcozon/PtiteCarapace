@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 13:06:32 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:26:35 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define UTILS_H
 
 # include "types.h"
+
+# define SEP "| \t\v\n\r\f&<>;()"
+# define OPENER "'\""
 
 void		cmd_waitpid(t_cmd *cmd);
 void		ms_exit(int rstatus, t_ms *ms);
@@ -32,6 +35,9 @@ char		*ge_strdup(const char *str);
 int			ge_strcmp(char *s1, char *s2);
 int			get_ac(char **av);
 
+int			ft_strlen_without_q(char *str);
+int			ft_strncmp_without_q(char *s_w_q, char *cmp, int len_w_q);
+char		*ft_strnstr_without_q(const char *big, const char *l, size_t len);
 char		*ft_substrjoin_with_slash(char *path, char *exe, size_t len);
 int			ge_strncmp_weq(char *name, char *env_var, size_t n);
 size_t		ft_varnamelen(const char var[]);
@@ -41,7 +47,18 @@ int			is_end_ofesc_seq(char c);
 char		*ge_strchr(char *str, char c);
 uint32_t	findslash(const char *str);
 
+void		free_table(t_hash_table *table);
 void		free_ms(t_ms *ms);
 void		free_node(t_base **pnode);
+void		free_snip_lst(t_snippet *lst);
+void		free_env(t_env *env);
+void		free_snip_lst(t_snippet *lst);
+
+char		*pass_whitespace(char *str);
+char		*_basename(char *str);
+void		print_until(char *str, char c, int fd);
+bool		dollar_n_sep(char c);
+bool		simple_sep(char c);
+bool		dollar_sep_quote(char c);
 
 #endif

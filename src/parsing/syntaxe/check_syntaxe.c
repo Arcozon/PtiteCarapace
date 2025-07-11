@@ -6,11 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 17:35:26 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:39:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:13:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "arcoms.h"
 
 bool	is_redir(enum e_token token)
 {
@@ -47,7 +47,7 @@ bool	check_syntaxe(t_snippet *lst, char *exe)
 
 	p = lst->token;
 	if (is_cntl_op(p) || p == closing_par)
-		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, lst->ptr), false);
+		return (ft_printf("%s%s`%s'\n", exe, ERR_SYNTAXE, lst->ptr), false);
 	lst = lst->next;
 	pt = NULL;
 	bracket = (int []){0, 1}[p == open_par];
@@ -60,10 +60,10 @@ bool	check_syntaxe(t_snippet *lst, char *exe)
 		lst = lst->next;
 	}
 	if (bracket < 0)
-		return (ft_printf("%s%s`%c'\n", exe, SYNTAXE, ')'), false);
+		return (ft_printf("%s%s`%c'\n", exe, ERR_SYNTAXE, ')'), false);
 	if (lst)
-		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, lst->ptr), false);
+		return (ft_printf("%s%s`%s'\n", exe, ERR_SYNTAXE, lst->ptr), false);
 	if ((is_cntl_op(p) && p != semicolon) || is_redir(p))
-		return (ft_printf("%s%s`%s'\n", exe, SYNTAXE, pt), false);
+		return (ft_printf("%s%s`%s'\n", exe, ERR_SYNTAXE, pt), false);
 	return (true);
 }

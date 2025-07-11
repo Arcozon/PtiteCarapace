@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:10:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:06:51 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:33:45 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "types.h"
 # include "exec_btree.h"
-# include "minishell.h"
+# include "parsing.h"
 
 # define F_USELESS	0b000
 # define F_S_REDIR	0b001
@@ -28,28 +28,6 @@
 static const int	g_lexer_id[] = {F_WORD, F_S_REDIR, F_S_REDIR, F_HEREDOC,
 	F_S_REDIR, F_USELESS, F_USELESS, F_USELESS,
 	F_USELESS, F_USELESS, F_USELESS};
-
-// enum e_token
-// {
-// 	word,
-// 	redir_in,
-// 	redir_out,
-// 	here_doc,
-// 	append,
-// 	pipe_delim,
-// 	or,
-// 	and,
-// 	semicolon,
-// 	open_par,
-// 	closing_par
-// };
-
-// struct s_node
-// {
-// 	enum e_token	token;
-// 	char			*ptr;
-// 	t_snippet		*next;
-// };
 
 struct s_base
 {

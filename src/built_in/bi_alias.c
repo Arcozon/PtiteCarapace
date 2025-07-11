@@ -6,11 +6,10 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:12:25 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 16:52:49 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:33:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "arcoms.h"
 
 bool	check_alias_chars(char *str, char *pname)

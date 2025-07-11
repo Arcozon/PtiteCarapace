@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:12:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/05 17:37:24 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:13:29 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # define E_PIPE		0b100000
 # define E_DUP		0b1000000
 
-# define ERR_CMD_NOT_FOUND "command not found"
+# define ERR_CMD_NOT_FOUND	"command not found"
+# define ERR_SYNTAXE		": syntax error near unexpected token "
 
 void	ms_perror(char *pname, char *context);
 void	ms_c_perror(char *pname, char *err_msg, char *context);

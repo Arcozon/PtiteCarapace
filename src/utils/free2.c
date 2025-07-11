@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_utils.c                                       :+:      :+:    :+:   */
+/*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 22:59:40 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/21 22:59:42 by malfwa           ###   ########.fr       */
+/*   Created: 2025/07/11 20:10:04 by gaeudes           #+#    #+#             */
+/*   Updated: 2025/07/11 20:10:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <stdlib.h>
+#include "arcoms.h"
 
 void	remove_pair(t_hash_table *table, t_pair *pair)
 {

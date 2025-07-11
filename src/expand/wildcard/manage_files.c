@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   manage_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:49:39 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 16:51:09 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/11 20:05:31 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <sys/types.h>
-#include <dirent.h>
+#include "arcoms.h"
 
 t_list	*get_a_file(const char *name)
 {

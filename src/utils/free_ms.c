@@ -6,11 +6,10 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:14:22 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:41:04 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:34:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "arcoms.h"
 
 void	free_ms(t_ms *ms)
@@ -23,4 +22,11 @@ void	free_ms(t_ms *ms)
 	clear_history();
 	rl_clear_history();
 	free_table(&ms->table);
+}
+
+void	ms_exit(int rstatus, t_ms *ms)
+{
+	print_code_error(ms->errors, ms->pname);
+	free_ms(ms);
+	exit(rstatus);
 }

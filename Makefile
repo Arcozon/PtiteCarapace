@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/11 19:34:07 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/11 20:31:51 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME =  minishell
 include src/printf/libft/libft_vars.mk
 include src/printf/printf_vars.mk
 
-S_SRC_BUILTIN =  bi_cd.c  bi_echo.c  bi_clear.c bi_env.c  bi_export.c  bi_pwd.c
-S_SRC_BUILTIN += bi_unset.c  bi_exit.c  bi_alias.c  bi_status.c  increase_var.c  env_utils.c
+S_SRC_BUILTIN =  bi_cd.c  bi_echo.c  bi_clear.c bi_env.c  bi_export.c  bi_unset.c  bi_exit.c
+S_SRC_BUILTIN += bi_alias.c  bi_status.c  increase_var.c  env_utils.c  bi_pwd.c  hash.c 
 D_SRC_BUILTIN =  built_in/
 SRC_BUILTIN   =  $(addprefix $(D_SRC_BUILTIN), $(S_SRC_BUILTIN))
 
@@ -33,7 +33,7 @@ S_SRC_EXEC += create_argv.c  exec.c  exec_simple_cmd.c  exec_pipe_cmd.c  exec_op
 D_SRC_EXEC =  exec/
 SRC_EXEC   =  $(addprefix $(D_SRC_EXEC), $(S_SRC_EXEC))
 
-S_SRC_UTILS =  utils.c  free.c  free_ms.c  errors.c  ge_str.c  ge_strutils.c  ge_mem.c  ge_cmd.c
+S_SRC_UTILS =  errors.c  free2.c  free.c  free_ms.c  ge_cmd.c  ge_mem.c  ge_str.c  ge_strutils.c  sep_func.c  utils2.c  utils.c
 D_SRC_UTILS =  utils/
 SRC_UTILS   =  $(addprefix $(D_SRC_UTILS), $(S_SRC_UTILS))
 
@@ -43,7 +43,7 @@ S_SRC_GA_FPRINTF += conversion/x.c  conversion/p.c  conversion/percent.c  conver
 D_SRC_GA_FPRINTF =  ga_fprintf/
 SRC_GA_FRPINTF   = $(addprefix $(D_SRC_GA_FPRINTF), $(S_SRC_GA_FPRINTF))
 
-S_SRC_GNL =  get_next_line.c  get_next_line_utils.c  gnl_utils.c  utils.c
+S_SRC_GNL =  get_next_line.c  get_next_line_utils.c  get_next_null.c  get_next_null_utils.c
 D_SRC_GNL =  gnl/
 SRC_GNL   =  $(addprefix $(D_SRC_GNL), $(S_SRC_GNL))
 
@@ -51,15 +51,17 @@ S_SRC_PROMPT =  cpy_prompt.c  prompt.c  prompt2.c  cpy_prompt2.c  find_missing.c
 D_SRC_PROMPT =  prompt/
 SRC_PROMPT   =  $(addprefix $(D_SRC_PROMPT), $(S_SRC_PROMPT))
 
-S_SRC_PARSING =  hash.c  hash_utils.c  manage_rcfile.c  parse_rc.c  readline.c  readline_child.c snippet.c  new_snip.c  snip_utils.c  snip_utils2.c word_len.c
-S_SRC_PARSING += wildcard/manage_files.c  wildcard/strnstr_without_quote.c  wildcard/wildcard.c wildcard/split_pattern.c  syntaxe/alias.c  syntaxe/check_syntaxe.c
+S_SRC_EXPAND =  exp_utils.c  token_exp.c  wildcard/wildcard.c  wildcard/manage_files.c  wildcard/strnstr_without_quote.c  wildcard/split_pattern.c
+D_SRC_EXPAND =  expand/
+SRC_EXPAND   =  $(addprefix $(D_SRC_EXPAND), $(S_SRC_EXPAND))
+
+S_SRC_PARSING =  parse_rc.c  readline.c  readline_child.c snippet.c  snip_utils.c  snip_utils2.c  word_len.c
+S_SRC_PARSING += syntaxe/change_alias.c  syntaxe/check_syntaxe.c
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))
 
-SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  get_next_null.c  get_next_null_utils.c  token_exp.c  exp_utils.c
+SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  $(SRC_EXPAND)  signal_handling.c  ad_main.c
 SRC	+= history/manage_history.c
-SRC	+= signal/handler.c
-SRC	+= ad_utils/utils.c  ad_utils/sep_func.c
 SRC += $(addprefix printf/srcs/, $(SRC_PRINTF))
 SRC += $(addprefix printf/libft/, $(SRC_LIBFT))
 
@@ -88,7 +90,6 @@ MS_COUNTER = /tmp/ms_counter
 
 .DEFAULT_GOAL := all
 
-# all:	$(MINISHELLRC) $(COUNTER_SH) set_counter $(NAME)
 all:	$(MINISHELLRC) set_counter $(NAME)
 	@rm -rf $(MS_COUNTER) $(COUNTER_SH)
 
@@ -98,7 +99,6 @@ $(NAME):	$(OBJ)
 
 COUNTER_CMD = bash -c 'count=$$(cat $(MS_COUNTER));(( count++ )) ;echo "[$$count/$$2]: 🔧 Compiling $$1"; echo $$count > $(MS_COUNTER)'
 
-# 	@./counter.sh $< $(TOTAL)
 $(OBJ): $(D_BUILD)%.o:	$(D_SRC)%.c
 	@mkdir -p $(@D)
 	@$(COUNTER_CMD) "counter" $< $(TOTAL)
@@ -129,18 +129,4 @@ $(MINISHELLRC):
 set_counter:
 	@count=$$( $(MAKE) -n $(NAME) | grep "Wall" | wc -l );\
 		printf "$$(($(TOTAL) - $$count))" > $(MS_COUNTER)
-
-# $(COUNTER_SH):
-# 	@printf '#! /bin/bash\n\
-# \n\
-# file=$$1\n\
-# total=$$2\n\
-# \n\
-# counter_file="$(MS_COUNTER)"\n\
-# \n\
-# count=$$(cat "$$counter_file")\n\
-# count=$$((count + 1))\n\
-# echo "[$$count/$$total]: 🔧 Compiling $$file"\n\
-# echo $$count > "$$counter_file"\n' > counter.sh
-# 	@chmod +x counter.sh
 

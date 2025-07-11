@@ -6,15 +6,13 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:31:37 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 18:31:53 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:18:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "arcoms.h"
-#include "get_next_line.h"
 
-bool	exec_rc(char **str, t_ms *ms, int fd)
+bool	exec_rc(char **str, t_ms *ms, int fd, char *file)
 {
 	t_snippet	*lst;
 
@@ -23,7 +21,7 @@ bool	exec_rc(char **str, t_ms *ms, int fd)
 	*str = 0;
 	if (!lst)
 		return (true);
-	if (check_syntaxe(lst, MS_RC))
+	if (check_syntaxe(lst, file))
 	{
 		ms->msrc_fd = fd;
 		optimize_lst(&lst);
@@ -57,7 +55,7 @@ void	parse_rc_file(t_ms *ms, char *file)
 		len = ft_strlen(str);
 		if (len > 0 && str[len - 1] == '\n')
 			str[len - 1] = 0;
-		if (!exec_rc(&str, ms, fd))
+		if (!exec_rc(&str, ms, fd, file))
 			ga_fprintf(2, "%s: %s: line %i syntax error\n", ms->pname, file, l);
 		(free(str), str = get_next_line(fd));
 	}

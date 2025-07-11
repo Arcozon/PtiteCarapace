@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malfwa <admoufle@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:01:24 by malfwa            #+#    #+#             */
-/*   Updated: 2025/06/21 23:01:26 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/11 20:08:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,3 @@ char	*pass_whitespace(char *str)
 	return (str);
 }
 
-bool	is_child(pid_t pid)
-{
-	return (!pid);
-}
-
-int	get_exit_value(int status)
-{
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (WTERMSIG(status));
-	return (0);
-}

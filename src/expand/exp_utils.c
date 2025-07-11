@@ -6,11 +6,10 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:04:47 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 17:55:36 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:33:54 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "arcoms.h"
 
 char	*expand(char **env, char *var_name, int len)
@@ -72,4 +71,16 @@ int	write_without_quote(char *str, int len)
 		i += (str++, 1);
 	}
 	return (tmp);
+}
+
+void	tilde_expansion(t_ms *ms, char c)
+{
+	char	*home;
+
+	home = expand(ms->env.tab, HOME_VNAME, 4);
+	if (!home)
+		home = getenv(HOME_VNAME);
+	ft_putstr_fd(home, STDOUT_FILENO);
+	if (c == '/')
+		write(STDOUT_FILENO, "/", 1);
 }
