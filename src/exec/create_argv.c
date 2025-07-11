@@ -18,7 +18,6 @@ uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 	if (!cmd->sn_argv)
 		return (NO_ERR);
 	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms, false);
-	fprintf(stderr, "%p\n", cmd->sn_argv);
 	replace_wildcards(&cmd->sn_argv);// cette fonction 
 	return (ms->errors);
 }

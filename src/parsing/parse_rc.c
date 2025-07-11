@@ -19,6 +19,8 @@ bool	exec_rc(char *str, t_ms *ms)
 	t_snippet	*lst;
 
 	lst = lexer(str);
+	if (!lst)
+		return (true);
 	if (check_syntaxe(lst, MS_RC))
 	{
 		optimize_lst(&lst);
