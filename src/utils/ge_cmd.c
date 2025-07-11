@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:10:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 12:42:37 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:04:46 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,11 @@ uint32_t	is_non_executable(char *path_exe)
 {
 	return (path_exe == PTR_CMD_NOT_FOUND
 		|| path_exe == (char *)PTR_NO_SUCH_FILE);
+}
+
+uint64_t	pipe_ms(int pipes[2], t_ms *ms)
+{
+	if (pipe(pipes))
+		ms->errors = E_PIPE;
+	return (ms->errors);
 }

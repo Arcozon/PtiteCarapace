@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:18:16 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/06 15:21:11 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:06:32 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void		cmd_waitpid(t_cmd *cmd);
 void		ms_exit(int rstatus, t_ms *ms);
 uint64_t	ms_fork(int *pid, t_ms *ms);
 uint64_t	cmd_open(int *oldfd, char *fname, int mode, char *pname);
+uint64_t	pipe_ms(int pipes[2], t_ms *ms);
 uint64_t	cmd_dup(t_cmd *cmd);
 void		swap_fds(int *oldfd, int newfd);
 void		close_fd(int *fd);

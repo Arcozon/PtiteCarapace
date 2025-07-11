@@ -6,29 +6,12 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 12:39:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:03:23 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
-
-bool	get_fd(int *fd)
-{
-	char	*tmp;
-
-	tmp = ("HOME"); // ?
-	if (!tmp)
-		return (false);
-	tmp = ft_strsjoin((char *[]){tmp, "/", MS_RC, NULL});
-	if (!tmp)
-		return (false);
-	*fd = open(tmp, O_RDONLY);
-	free(tmp);
-	if (*fd < 0)
-		return (false);
-	return (true);
-}
 
 bool	is_statement_open(char *str)
 {

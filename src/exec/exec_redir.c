@@ -6,13 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:20:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 12:51:09 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:05:56 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-void print_snippet_list(t_snippet *head);
 
 void	next_snippet(t_snippet **snippet)
 {

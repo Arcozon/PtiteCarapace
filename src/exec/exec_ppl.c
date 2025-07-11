@@ -6,18 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:44:45 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 18:11:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:05:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-uint64_t	pipe_ms(int pipes[2], t_ms *ms)
-{
-	if (pipe(pipes))
-		ms->errors = E_PIPE;
-	return (ms->errors);
-}
 
 uint64_t	launch_part_ppl(t_base *node, t_ms *ms, int p_in, int pipes[2])
 {
@@ -59,7 +52,7 @@ uint64_t	launch_ppl(t_base *node, t_ms *ms)
 		node = node->right;
 	}
 	if (launch_part_ppl(node, ms, last_pipe, (int []){-1, -1}))
-		ppl_exit(last_pipe , pipes, ms->errors, ms);
+		ppl_exit(last_pipe, pipes, ms->errors, ms);
 	return (ms->errors);
 }
 

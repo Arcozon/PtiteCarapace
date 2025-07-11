@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 12:59:29 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:06:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_simple_cmd_fork(t_cmd *cmd, t_ms *ms)
 		{
 			print_error_2(ms->pname, cmd->argv_cmd[0],
 				(char *[]){ERR_CMD_NOT_FOUND,
-					strerror(errno)}[(uintptr_t)cmd->path_exe]);
+				strerror(errno)}[(uintptr_t)cmd->path_exe]);
 			ms_exit(STT_CMD_NOT_FOUND, ms);
 		}
 		if (!cmd->argv_cmd[0])

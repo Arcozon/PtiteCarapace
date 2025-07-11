@@ -6,11 +6,9 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:16:44 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 11:16:23 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 13:02:39 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-# include <stdio.h>
 
 #ifndef ARCOMS_H
 # define ARCOMS_H
