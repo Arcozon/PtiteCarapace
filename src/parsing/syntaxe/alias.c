@@ -63,7 +63,7 @@ static bool	replace(t_snippet **head, t_snippet **s, t_hash_table *t, bool *b)
 		*s = (*s)->next;
 		return (true);
 	}
-	if (!pair->value || !*pair->value)
+	if (!pair->value || !*pass_whitespace(pair->value))
 		return (update_lst(head, s, NULL));
 	*b = true;
 	tmp = str_without_quote(pair->value);
