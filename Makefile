@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/11 10:34:56 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/11 12:35:09 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ S_SRC_PARSING += wildcard/manage_files.c  wildcard/strnstr_without_quote.c  wild
 D_SRC_PARSING =  parsing/
 SRC_PARSING   =  $(addprefix $(D_SRC_PARSING), $(S_SRC_PARSING))
 
-SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  arco_get_next_line.c  token_exp.c  exp_utils.c
+SRC =  $(SRC_UTILS)  $(SRC_PROMPT)  $(SRC_GNL)  $(SRC_GA_FRPINTF)  $(SRC_EXEC)  $(SRC_BUILTIN)  $(SRC_PARSING)  signal_handling.c  ad_main.c  arco_get_next_null.c  token_exp.c  exp_utils.c
 SRC	+= history/manage_history.c
 SRC	+= signal/handler.c
 SRC	+= ad_utils/utils.c  ad_utils/sep_func.c

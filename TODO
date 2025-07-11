@@ -7,6 +7,7 @@ enlever le gnl
 mettre fd_msrc dans t_ms
 
 [alias l=] [l] l est pas change en '' dans la 2eme cmd line
+---> si le contenu de l alias est vide/replis de whitespace -> alias pas change
 
 # # alias pas detecter si pas premier mot (<FILE [ALIAS], [ALIAS] est pas change)
 # # [alias redir='<']
