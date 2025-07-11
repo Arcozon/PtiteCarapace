@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:08 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 11:17:29 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 12:35:48 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	get_cmd_line_fd(int	*fd, t_ms *ms)
 	status = 0;
 	while (waitpid(pid, &status, 0) != pid)
 	{
-		;
 	}
 	*fd = pipe_fds[0];
 	return (get_exit_value(status));

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 23:00:00 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/09 16:43:43 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 12:39:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,3 @@ bool	is_statement_open(char *str)
 	}
 	return (quote || bracket > 0);
 }
-
-

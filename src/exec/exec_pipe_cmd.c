@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:04:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/09 13:14:31 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 12:55:52 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	setup_ppl_cmd(t_cmd *cmd, t_ms *ms)
 				cmd->rstatus = STT_CMD_NOT_FOUND;
 				print_error_2(ms->pname, cmd->argv_cmd[0],
 					(char *[]){ERR_CMD_NOT_FOUND,
-						strerror(errno)}[(uintptr_t)cmd->path_exe]);
+					strerror(errno)}[(uintptr_t)cmd->path_exe]);
 				ms_exit(cmd->rstatus, ms);
 			}
 			execve_cmd(cmd, ms);
 		}
 	}
-	if (cmd->errors & E_OPEN && !cmd->argv_cmd[0]) // ?
+	if (cmd->errors & E_OPEN)
 		cmd->rstatus = 0;
 	ms_exit(cmd->rstatus, ms);
 }

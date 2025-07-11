@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 11:16:41 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 12:41:14 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ uint32_t	ft_is_file_lnk(const char *path_file)
 	if (stat(path_file, &bufstat) < 0)
 		return (0);
 	return (((bufstat.st_mode & __S_IFMT)
-		& (__S_IFREG | __S_IFLNK)) != 0);
+			& (__S_IFREG | __S_IFLNK)) != 0);
 }
 
 uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
@@ -52,10 +52,10 @@ uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
 
 t_builin_fct	is_a_builtin(char *av0)
 {
-	static const t_builin_fct	fct_builtin[] = {bi_echo, bi_clear, bi_exit, bi_cd,
-		bi_pwd, bi_env, bi_export, bi_unset, bi_alias, bi_status, 0};
-	static char					*str_builtin[] = {"echo", "clear", "exit", "cd", "pwd",
-		"env", "export", "unset", "alias", "status", 0};
+	static const t_builin_fct	fct_builtin[] = {bi_echo, bi_clear, bi_exit,
+		bi_cd, bi_pwd, bi_env, bi_export, bi_unset, bi_alias, bi_status, 0};
+	static char					*str_builtin[] = {"echo", "clear", "exit",
+		"cd", "pwd", "env", "export", "unset", "alias", "status", 0};
 	uint64_t					i;
 
 	if (!av0)

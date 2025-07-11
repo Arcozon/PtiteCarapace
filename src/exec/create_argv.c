@@ -6,20 +6,18 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:33:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 18:12:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 12:43:05 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arcoms.h"
-
-void print_snippet_list(t_snippet *head);
 
 uint64_t	expand_sn_argv(t_cmd *cmd, t_ms *ms)
 {
 	if (!cmd->sn_argv)
 		return (NO_ERR);
 	expand_snip(&cmd->sn_argv, cmd->sn_argv, ms, false);
-	replace_wildcards(&cmd->sn_argv);// cette fonction 
+	replace_wildcards(&cmd->sn_argv);
 	return (ms->errors);
 }
 
