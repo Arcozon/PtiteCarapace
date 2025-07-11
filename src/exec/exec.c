@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:09:21 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/10 18:12:14 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 10:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_start(t_ms *ms, t_snippet **lexer)
 {
 	ms->status = update_sig(ms->status);
 	if (make_base(lexer, &ms->exec_tree))
-		WAIT //err
+		ms_exit(ms->errors | E_MLC, ms);
 	set_sig(EXEC, ms);
 	exec_heredoc(ms->exec_tree, ms);
 	if (g_sig)

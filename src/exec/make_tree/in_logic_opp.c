@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:06:35 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/24 13:08:13 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 10:27:34 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ uint64_t	in_pipe(t_snippet **lexer, t_base *left, t_base **to_store)
 		return (in_sub(goto_next(lexer), &(node->right)));
 	else if (lis_cmd(*lexer))
 		return (in_cmd(lexer, &(node->right)));
-	else
-		WAIT
 	return (0);
 }
 
@@ -43,8 +41,6 @@ uint64_t	in_and(t_snippet **lexer, t_base *left, t_base **to_store)
 		return (in_sub(goto_next(lexer), &(node->right)));
 	else if (lis_cmd(*lexer))
 		return (in_cmd(lexer, &(node->right)));
-	else
-		WAIT
 	return (0);
 }
 
@@ -61,8 +57,6 @@ uint64_t	in_or(t_snippet **lexer, t_base *left, t_base **to_store)
 		return (in_sub(goto_next(lexer), &(node->right)));
 	else if (lis_cmd(*lexer))
 		return (in_cmd(lexer, &(node->right)));
-	else
-		WAIT
 	return (0);
 }
 
@@ -81,7 +75,5 @@ uint64_t	in_scol(t_snippet **lexer, t_base *left, t_base **to_store)
 		return (in_sub(goto_next(lexer), &(node->right)));
 	else if (lis_cmd(*lexer))
 		return (in_cmd(lexer, &(node->right)));
-	else
-		WAIT
 	return (0);
 }

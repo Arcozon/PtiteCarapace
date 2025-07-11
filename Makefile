@@ -6,7 +6,7 @@
 #    By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/02 16:22:31 by malfwa            #+#    #+#              #
-#    Updated: 2025/07/10 17:33:25 by gaeudes          ###   ########.fr        #
+#    Updated: 2025/07/11 10:34:56 by gaeudes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ S_SRC_HDOC = heredoc.c  expand_heredoc.c  heredoc_noexp.c
 D_SRC_HDOC =  heredoc/
 SRC_HDOC   =  $(addprefix $(D_SRC_HDOC), $(S_SRC_HDOC))
 
-S_SRC_MKTREE =  debug_base.c  in_logic_opp.c  make_base.c  make_utils2.c  make_utils.c
+S_SRC_MKTREE =  in_logic_opp.c  make_base.c  make_utils2.c  make_utils.c
 D_SRC_MKTREE =  make_tree/
 SRC_MKTREE   =  $(addprefix $(D_SRC_MKTREE), $(S_SRC_MKTREE))
 
