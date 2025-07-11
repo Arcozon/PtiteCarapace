@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/08 18:30:17 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 19:13:51 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,61 +121,129 @@ __attribute__((constructor)) void	check_for_interractive_mode(void)
 		exit(EXIT_FAILURE);
 }
 
-int	main(int ac, char **av, char **envp)
+void	init_ms(t_ms *ms, char *av[], int ac, char *envp[])
 {
-	char			*str;
-	int				fd;
-	int				ret_val;
-	t_snippet		*lst;
-	t_ms			ms;
+	int	i;
 
-	ge_bzero(&ms, sizeof(ms));
-	ms.errors |= init_env(&ms.env, envp);
+	i = 1;
+	ge_bzero(ms, sizeof(*ms));
+	ms->errors |= init_env(&ms->env, envp);
 	if (!av[0])
 		av[0] = "minishell";
-	ms.pname = _basename(av[0]);
-	parse_rc_file(&ms, MS_RC);
-	ms.history_fd = ms_get_history_fd(&ms.prev_cmdline);
-	while (1)
+	ms->pname = _basename(av[0]);
+	ms->msrc_fd = -1;
+	ms->history_fd = -1;
+	if (ac > 1)
 	{
-		ms.status = update_sig(ms.status);
-		make_prompt(ms.prompt, &ms);
-		set_sig(ROUTINE, &ms);
-		ret_val = get_cmd_line_fd(&fd, &ms);
-		if (ret_val == MS_RL_CTRLD) // || signal(SIGINT, SIG_IGN) == SIG_ERR)
-			(close(fd), bi_exit(1, NULL, NULL, &ms));
+		while (i < ac)
+		{
+			parse_rc_file(ms, av[i]);
+			++i;
+		}
+		ms_exit(ms->status, ms);
+	}
+	parse_rc_file(ms, MS_RC);
+	ms->history_fd = ms_get_history_fd(&ms->prev_cmdline);
+}
+
+char	*get_cmd_line(t_ms *ms)
+{
+	char	*cmd_line;
+	int		fd;
+	int		ret_val;
+
+	cmd_line = NULL;
+	while (!cmd_line)
+	{
+		ms->status = update_sig(ms->status);
+		make_prompt(ms->prompt, ms);
+		set_sig(ROUTINE, ms);
+		ret_val = get_cmd_line_fd(&fd, ms);
+		if (ret_val == MS_RL_CTRLD)
+			(close(fd), bi_exit(1, NULL, NULL, ms));
 		else if (ret_val == MS_RL_RESTART_READ)
 		{
 			close(fd);
 			continue ;
 		}
-		str = get_next_null_arco(fd);
+		cmd_line = get_next_null_arco(fd);
 		close(fd);
-		if (g_sig)
-			ms.status = update_sig(ms.status);
-		if (*str)
+	}
+	ms->status = update_sig(ms->status);
+	return (cmd_line);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	char			*cmd_line;
+	t_snippet		*lst;
+	t_ms			ms;
+
+	init_ms(&ms, av, ac, envp);
+	while (1 && !ms.errors)
+	{
+		cmd_line = get_cmd_line(&ms);
+		if (*cmd_line)
 		{
-			ms_add_history(str, ms.history_fd, &ms.prev_cmdline);
-			lst = lexer(str);
-			free(str);
-			str = NULL;
-			if (!lst)
+			ms_add_history(cmd_line, ms.history_fd, &ms.prev_cmdline);
+			lst = lexer(cmd_line);
+			replace_aliases(&lst, &ms.table);
+			cmd_line = (free(cmd_line), NULL);
+			if (lst && check_syntaxe(lst, _basename(ms.pname)))
 			{
-				continue ;
-			}
-			if (check_syntaxe(lst, _basename(av[0])))
-			{
-				replace_aliases(&lst, &ms.table);
-				optimize_lst(&lst);// et celle ci seront a appeler dans l'exec
-				// replace_wildcards(&lst);// cette fonction 
+				optimize_lst(&lst);
 				exec_start(&ms, &lst);
 			}
 			else
 				free_snip_lst(lst);
 		}
-		free(str);
-		str = NULL;
+		cmd_line = (free(cmd_line), NULL);
 	}
-	(void)ac;
-	return (0);
+	ms_exit(ms.errors, &ms);
 }
+
+// int	main(int ac, char **av, char **envp)
+// {
+// 	char			*str;
+// 	int				fd;
+// 	int				ret_val;
+// 	t_snippet		*lst;
+// 	t_ms			ms;
+
+// 	init_ms(&ms, av, ac, envp);
+// 	while (1 && !ms.errors)
+// 	{
+// 		ms.status = update_sig(ms.status);
+// 		make_prompt(ms.prompt, &ms);
+// 		set_sig(ROUTINE, &ms);
+// 		ret_val = get_cmd_line_fd(&fd, &ms);
+// 		if (ret_val == MS_RL_CTRLD)
+// 			(close(fd), bi_exit(1, NULL, NULL, &ms));
+// 		else if (ret_val == MS_RL_RESTART_READ)
+// 		{
+// 			close(fd);
+// 			continue ;
+// 		}
+// 		str = get_next_null_arco(fd);
+// 		close(fd);
+// 		ms.status = update_sig(ms.status);
+// 		if (*str)
+// 		{
+// 			ms_add_history(str, ms.history_fd, &ms.prev_cmdline);
+// 			lst = lexer(str);
+// 			replace_aliases(&lst, &ms.table);
+// 			str = (free(str), NULL);
+// 			if (!lst)
+// 				continue ;
+// 			if (check_syntaxe(lst, _basename(ms.pname)))
+// 			{
+// 				optimize_lst(&lst);
+// 				exec_start(&ms, &lst);
+// 			}
+// 			else
+// 				free_snip_lst(lst);
+// 		}
+// 		str = (free(str), NULL);
+// 	}
+// 	ms_exit(ms.errors, &ms);
+// }

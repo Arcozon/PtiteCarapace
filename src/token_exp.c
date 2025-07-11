@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:03:17 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:41:26 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:57:18 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,21 @@ void	dollar_exp(char *ptr, char scope, char *quote)
 		write_without_quote(ptr, ft_strlen(ptr));
 }
 
-void	put_to_zero(int *i, char *quote)
+void	put_to_zero(int *i, char *quote, int *wlen)
 {
 	if (i)
 		*i = 0;
 	if (quote)
 		*quote = 0;
+	if (wlen)
+		*wlen = 0;
+}
+
+int	add_to_both(char **a, int *b, int to_add)
+{
+	*a += to_add;
+	*b += to_add;
+	return (true);
 }
 
 void	tilde_expansion(t_ms *ms, char c)
@@ -52,29 +61,31 @@ void	tilde_expansion(t_ms *ms, char c)
 		write(STDOUT_FILENO, "/", 1);
 }
 
-void	write_token(t_ms *ms, char *ptr, int wlen, char scope)
+int	write_token(t_ms *ms, char *ptr, int wlen, char scope)
 {
 	if (!scope && *ptr == '~'
 		&& (is_white_space(ptr[1]) || ptr[1] == '/' || !ptr[1]))
 		tilde_expansion(ms, ptr[1]);
-	else if (!scope)
-		write_without_quote(ptr, wlen);
+	else if (!scope || scope == 1)
+		return (write_without_quote(ptr, wlen));
 	else
 		write(STDOUT_FILENO, ptr, wlen);
+	return (0);
 }
 
-void	expand_token(char *ptr, t_ms *ms, int len, char scp)
+bool	expand_token(char *ptr, t_ms *ms, int len, char scp)
 {
-	int		wlen;
-	int		i;
-	char	q;
+	int			wlen;
+	int			i;
+	char		q;
+	uint32_t	test;
 
-	put_to_zero(&i, &q);
-	while (*ptr && i < len)
+	(put_to_zero(&i, &q, &wlen), test = scp);
+	while (*ptr && i < len && add_to_both(&ptr, &i, wlen))
 	{
 		wlen = get_wlen(ptr, len);
 		if (*ptr == '"')
-			expand_token(ptr + 1, ms, wlen - 2, *ptr);
+			test += expand_token(ptr + 1, ms, wlen - 2, *ptr);
 		else
 		{
 			if (*ptr == '$' && wlen != 1 && ft_strncmp("$$", ptr, 2))
@@ -85,9 +96,8 @@ void	expand_token(char *ptr, t_ms *ms, int len, char scp)
 					dollar_exp(expand(ms->env.tab, ptr + 1, wlen - 1), scp, &q);
 			}
 			else
-				write_token(ms, ptr, wlen, scp);
+				test += write_token(ms, ptr, wlen, scp);
 		}
-		ptr += wlen;
-		i += wlen;
 	}
+	return (test);
 }

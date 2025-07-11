@@ -55,11 +55,14 @@ int	word_len(char *str, bool (*is_sep)(char ), int len)
 		{
 			if (*str == '(' || *str == ')' || *str == ';')
 				return (1);
-			if (*str == '<' || *str == '>' || *str == '|' || *str == '&')
+			if (*str == '<' || *str == '>' || *str == '|')
 				return ((int []){1, 2}[str[0] == str[1]]);
+			if (str[0] == '&' && str[1] == '&')
+				return (2);
 			i++;
 		}
-		while (str[i] && !is_sep(str[i]) && !ft_strchr(OPENER, str[i]))
+		while (str[i] && ((!is_sep(str[i]) && !ft_strchr(OPENER, str[i]))
+				|| (str[i] == '&' && str[i + 1] != '&')))
 			i++;
 		if (!str[i] || is_sep(str[i]) || (is_sep(str[i]) && *str == '$'))
 			return (i);

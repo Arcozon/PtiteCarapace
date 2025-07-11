@@ -14,3 +14,5 @@ mettre fd_msrc dans t_ms
 # # [redir] -> minishell: <: No such file or directory (devrait avoir syntaxe error)
 
 empty manage_rcfile.c
+
+init msrc_fd et hoistory fd a -1

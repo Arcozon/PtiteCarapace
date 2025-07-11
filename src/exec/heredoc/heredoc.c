@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:40 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/25 12:05:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 19:15:02 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,13 @@ int	clean_heredoc(t_x_hdoc hdoc, t_ms *ms)
 	close_fd(&(hdoc.pipes[1][PIPE_WRITE]));
 	if (hdoc.errors || g_sig == SIGINT || ms->errors)
 	{
+		if (hdoc.errors & E_WRITE)
+			ga_fprintf(2, "%s: heredoc: write error\n", ms->pname);
 		if (g_sig == SIGINT)
 		{
 			hdoc.errors &= ~E_READ;
 			write(2, "\n", 1);
 		}
-		(void)ms;
 		close_fd(&(hdoc.pipes[0][PIPE_READ]));
 	}
 	return (hdoc.pipes[0][PIPE_READ]);
@@ -87,10 +88,10 @@ int	one_heredoc(char *delim, char **env, t_ms *ms)
 {
 	t_x_hdoc	hdoc;
 
+	signal(SIGINT, SIG_DFL);
 	if (init_x_hdoc(&hdoc, delim, env, ms))
 		return (clean_heredoc(hdoc, ms));
-	hdoc.errors |= read_stdin_no_exp(&hdoc,
-			hdoc.pipes[hdoc.to_expand][PIPE_WRITE]);
+	read_stdin_no_exp(&hdoc, hdoc.pipes[hdoc.to_expand][PIPE_WRITE]);
 	if (hdoc.errors)
 		return (clean_heredoc(hdoc, ms));
 	if (hdoc.to_expand)

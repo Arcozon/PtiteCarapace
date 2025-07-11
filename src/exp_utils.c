@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:04:47 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:41:35 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:55:36 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,31 @@ size_t	write_snip(char *str, char *quote, int len)
 	return (write(STDOUT_FILENO, str, i));
 }
 
-void	write_without_quote(char *str, int len)
+int	write_without_quote(char *str, int len)
 {
 	int		i;
 	int		len_to_write;
 	char	*ptr;
+	int		tmp;
 
 	if (!str)
-		return ;
+		return (0);
 	i = 0;
+	tmp = 0;
 	while (*str && i < len)
 	{
 		if (*str != '\'')
 			ft_putchar_fd(*str, STDOUT_FILENO);
 		else
 		{
-			str++;
+			tmp += (str++, 1);
 			ptr = ft_strchr(str, '\'');
 			len_to_write = ptr - str;
 			i += len_to_write + 2;
 			write(STDOUT_FILENO, str, len_to_write);
 			str = ptr;
 		}
-		str++;
-		i++;
+		i += (str++, 1);
 	}
+	return (tmp);
 }

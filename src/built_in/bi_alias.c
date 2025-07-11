@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:12:25 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:59:28 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 16:52:49 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ int	show_aliases(t_hash_table *table, int fdout)
 	return (0);
 }
 
+int	len_before_eq(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	return (i);
+}
+
 int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 {
 	int		error;
@@ -68,11 +80,11 @@ int	bi_alias(int ac, char **av, int fds[2], t_ms *ms)
 	i = 0;
 	while (++i < ac)
 	{
-		if (ft_isdigit(*av[i]) || !check_alias_chars(av[i], ms->pname))
+		if (!check_alias_chars(av[i], ms->pname))
 		{
 			error = 1;
 			continue ;
-		}	
+		}
 		dup = ft_strdup(av[i]);
 		if (!dup)
 			return (1);

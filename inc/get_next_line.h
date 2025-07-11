@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amouflet <amouflet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:19:30 by amouflet          #+#    #+#             */
-/*   Updated: 2025/06/23 09:58:41 by malfwa           ###   ########.fr       */
+/*   Updated: 2025/07/11 18:16:17 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_stash
 }	t_buf;
 
 char	*get_next_line(int fd);
-char	*get_next_null(int fd);
 bool	is_line_terminated(char *line, int i);
 //char	*get_line(int fd, char *stash, char **line, t_buf *lst);
 //int		check_stash(char **stash, char	**line, char *new_stash, int i);

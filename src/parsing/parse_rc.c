@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:31:37 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/09 16:42:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 18:31:53 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,51 @@
 #include "arcoms.h"
 #include "get_next_line.h"
 
-void	exec_rc(char *str, t_ms *ms)
+bool	exec_rc(char **str, t_ms *ms, int fd)
 {
 	t_snippet	*lst;
 
-	lst = lexer(str);
+	lst = lexer(*str);
+	free(*str);
+	*str = 0;
+	if (!lst)
+		return (true);
 	if (check_syntaxe(lst, MS_RC))
 	{
+		ms->msrc_fd = fd;
 		optimize_lst(&lst);
 		exec_start(ms, &lst);
+		ms->msrc_fd = -1;
+		return (true);
 	}
-	else
-		free_snip_lst(lst);
+	free_snip_lst(lst);
+	return (false);
 }
 
-void	parse_rc_file(t_ms *ms, char *filename)
+void	parse_rc_file(t_ms *ms, char *file)
 {
-	int			line;
+	static int	l;
 	char		*str;
 	int			len;
-	int			fd;
+	const int	fd = open(file, O_RDONLY);
 
-	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return ;
+		return ((void)ms_perror(ms->pname, file));
 	str = get_next_line(fd);
-	line = 0;
-	while (str && ++line)
+	while (str && ++l)
 	{
 		if (is_statement_open(str) || *str == '#')
 		{
+			if (*str != '#')
+				ga_fprintf(2, "%s: %s: line %i opened\n", ms->pname, file, l);
 			(free(str), str = get_next_line(fd));
 			continue ;
 		}
 		len = ft_strlen(str);
 		if (len > 0 && str[len - 1] == '\n')
 			str[len - 1] = 0;
-		exec_rc(str, ms);
+		if (!exec_rc(&str, ms, fd))
+			ga_fprintf(2, "%s: %s: line %i syntax error\n", ms->pname, file, l);
 		(free(str), str = get_next_line(fd));
 	}
 	close(fd);

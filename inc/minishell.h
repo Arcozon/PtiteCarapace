@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/10 17:40:26 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 17:48:38 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void		set_sigchild_handler(int fds_to_close[2]);
 
 int			get_cmd_line_fd(int	*fd, t_ms *ms);
 
-void		parse_rc(t_ms *ms);
 void		parse_rc_file(t_ms *ms, char *filename);
 char		*expand(char **env, char *var_name, int len);
 bool		is_statement_open(char *str);
@@ -132,7 +131,6 @@ bool		is_cntl_op(enum e_token token);
 bool		is_syntaxe_ok(enum e_token prev, enum e_token token);
 bool		check_syntaxe(t_snippet *lst, char *exe);
 bool		replace_aliases(t_snippet **head, t_hash_table *table);
-bool		replace_tilde(t_snippet *lst, char *home);
 
 int			closing_match(char *ptr);
 int			find_closing_bracket(char *opening_bracket);
@@ -167,11 +165,11 @@ int			find_closing_bracket(char *opening_bracket);
 int			dollar_len(char *str_dollar);
 // void		expand_env_var(char **env, char *varname, int len);
 
-void		expand_token(char *ptr, t_ms *ms, int len, char scope);
+bool		expand_token(char *ptr, t_ms *ms, int len, char scope);
 t_snippet	*lexer(char *str);
 void		optimize_lst(t_snippet **head);
 
-void		write_without_quote(char *str, int len);
+int			write_without_quote(char *str, int len);
 size_t		write_snip(char *str, char *quote, int len);
 char		*expand(char **env, char *var_name, int len);
 
