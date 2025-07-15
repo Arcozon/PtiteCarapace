@@ -2,6 +2,7 @@
 --memcheck:track-origins=yes
 --memcheck:leak-check=full
 --memcheck:show-leak-kinds=all
+--memcheck:show-reachable=no
 --memcheck:track-fds=yes
 --memcheck:show-error-list=yes
 -q

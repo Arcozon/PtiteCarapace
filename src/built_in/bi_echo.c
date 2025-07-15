@@ -6,11 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 12:40:54 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:57:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
 #define ECHO_WRITE_ERR 1
 
@@ -18,10 +18,10 @@ int	write_echo(char *str, int fd_out, char *pname)
 {
 	ssize_t	len;
 
-	len = ft_strlen(str);
+	len = ge_strlen(str);
 	if (write(fd_out, str, len) != len)
 	{
-		print_error(pname, "echo: write error: No space left on device");
+		print_error_1(pname, "echo: write error: No space left on device");
 		return (ECHO_WRITE_ERR);
 	}
 	return (0);
@@ -49,7 +49,7 @@ int	bi_echo(int ac, char **av, int fds[2], t_ms *ms)
 {
 	int	dash_n;
 
-	av = skip_dash_n(av, &dash_n);
+	av = skip_dash_n(++av, &dash_n);
 	while (*av)
 	{
 		if (write_echo(*av, fds[PIPE_WRITE], ms->pname) == ECHO_WRITE_ERR)

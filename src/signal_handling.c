@@ -6,46 +6,59 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:49:50 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
 int	g_sig = 0;
+
+uint8_t	update_sig(uint8_t	status)
+{
+	if (g_sig)
+		status = g_sig + STT_SIG_BASE;
+	g_sig = 0;
+	return (status);
+}
 
 void	sig_routine(int sig)
 {
 	if (sig == SIGINT)
-	{
-		// reset buffer
 		g_sig = sig;
-	}
 }
 
 void	sig_exec(int sig)
 {
-	if (sig == SIGQUIT || sig == SIGINT)
-		g_sig = sig;
+	if (sig == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
+	else if (sig == SIGINT)
+		write(2, "\n", 1);
+	g_sig = sig;
 }
 
 void	set_sig(enum e_sig mode, t_ms *ms)
 {
-	struct sigaction	s_setsig;
+	const __sighandler_t	handle_sigint[] = {sig_routine, sig_exec,
+		sig_exec, SIG_DFL};
+	const __sighandler_t	handle_sigquit[] = {SIG_IGN, sig_exec,
+		SIG_IGN, SIG_DFL};
+	struct sigaction		s_setsig;
 
+	if (mode < 0 || mode > DEFLT_SIG)
+	{
+		write(2, "Sig ?\n", 7);
+		return ;
+	}
 	s_setsig.sa_flags = 0;
 	sigemptyset(&s_setsig.sa_mask);
-	s_setsig.sa_handler = sig_exec;
-	if (mode == ROUTINE)
-		s_setsig.sa_handler = sig_routine;
+	s_setsig.sa_handler = handle_sigint[mode];
 	if (sigaction(SIGINT, &s_setsig, 0))
 	{
 		ms_perror(ms->pname, "Signal setting SIGINT");
 		ms_exit(ms->status, ms);
 	}
-	s_setsig.sa_handler = SIG_IGN;
-	if (mode == EXEC)
-		s_setsig.sa_handler = sig_exec;
+	s_setsig.sa_handler = handle_sigquit[mode];
 	if (sigaction(SIGQUIT, &s_setsig, 0))
 	{
 		ms_perror(ms->pname, "Signal setting SIGQUIT");
@@ -62,8 +75,7 @@ void	capture_signal_hdoc(int status, t_ms *ms)
 	{
 		tcgetattr(STDIN_FILENO, &tmp);
 		orig = tmp;
-		tmp.c_cc[VQUIT] = _POSIX_VDISABLE;
-		tmp.c_lflag |= ICANON | ECHO ;
+		tmp.c_lflag |= ICANON | ECHO | ISIG;
 		tcsetattr(STDIN_FILENO, TCSANOW, &tmp);
 		set_sig(HEREDOC, ms);
 	}

@@ -6,18 +6,36 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:59:57 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
+
+void	hdoc_read(t_x_hdoc *hdoc)
+{
+	hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
+	if (hdoc->br <= 0)
+		return ;
+	if (hdoc->c == '\x1c')
+	{
+		hdoc_read(hdoc);
+		return ;
+	}
+	if (hdoc->c == ESC)
+	{
+		while (hdoc->br == 1 && !is_end_ofesc_seq(hdoc->c))
+			hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
+		hdoc_read(hdoc);
+	}
+}
 
 void	expected_limiter(t_x_hdoc *hdoc)
 {
 	write(2, "\n", 1);
-	write(2, hdoc->pname, ft_strlen(hdoc->pname));
+	write(2, hdoc->pname, ge_strlen(hdoc->pname));
 	write(2, ": warning: here-document delimited by end-of-file (wanted `", 59);
-	write(2, hdoc->limiter, ft_strlen(hdoc->limiter));
+	write(2, hdoc->limiter, ge_strlen(hdoc->limiter));
 	write(2, "')\n", 3);
 }
 
@@ -29,7 +47,7 @@ int	read_start_line(int fd, t_x_hdoc *hdoc, char *c, int *br)
 	i_l = 0;
 	while (1)
 	{
-		*br = read(STDIN_FILENO, c, 1);
+		hdoc_read(hdoc);
 		if (*br < 0)
 			return (hdoc->errors |= E_READ, -1);
 		if (!*br && i_l == 0)
@@ -37,12 +55,14 @@ int	read_start_line(int fd, t_x_hdoc *hdoc, char *c, int *br)
 		else if (!*br)
 			continue ;
 		heredoc_handle_dollar(*c, hdoc);
-		if (!hdoc->limiter[i_l] && *c == '\n')
-			return (0);
+		if (*c == '\n')
+			break ;
 		if (*c != hdoc->limiter[i_l])
 			break ;
 		++i_l;
 	}
+	if (!hdoc->limiter[i_l])
+		return (0);
 	if (write(fd, hdoc->limiter, i_l) != (ssize_t)i_l)
 		hdoc->errors |= E_WRITE;
 	return (1);
@@ -75,7 +95,7 @@ void	heredoc_handle_dollar(char c, t_x_hdoc *hdoc)
 
 int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdout)
 {
-	while (1)
+	while (!hdoc->errors)
 	{
 		if (hdoc->br < 0)
 			return (hdoc->errors |= E_READ, -1);
@@ -89,7 +109,7 @@ int	read_stdin_no_exp(t_x_hdoc *hdoc, int fdout)
 				return (0);
 		}
 		else
-			hdoc->br = read(STDIN_FILENO, &hdoc->c, 1);
+			hdoc_read(hdoc);
 		if (hdoc->br == 1)
 		{
 			if (write(fdout, &hdoc->c, 1) != 1)

@@ -6,20 +6,21 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:43:09 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 16:23:55 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
 t_base	*mlc_base(int type)
 {
 	t_base	*new;
 
-	new = ft_calloc(sizeof(t_base));
+	new = ge_calloc(sizeof(t_base));
 	if (!new)
 		return (0);
 	new->e_type = type;
+	new->cmd.pid = -1;
 	new->cmd.fd_in = -1;
 	new->cmd.fd_out = -1;
 	return (new);

@@ -6,20 +6,20 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:53:15 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:54:14 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
 uint64_t	realloc_env(t_env *env)
 {
 	char	**new_env;
 
-	new_env = ft_calloc(sizeof(char *) * (env->ttsize * 2 + 1));
+	new_env = ge_calloc(sizeof(char *) * (env->ttsize * 2 + 1));
 	if (!new_env)
 		return (E_MLC);
-	ft_memcpy(new_env, env->tab, env->ttsize);
+	ge_memcpy(new_env, env->tab, (env->ttsize + 1) * sizeof(char *));
 	free(env->tab);
 	env->tab = new_env;
 	env->ttsize *= 2;
@@ -39,21 +39,9 @@ void	remove_var_env(t_env *env, size_t to_remove)
 
 static inline char	__attribute__((always_inline))	*dup_var(char *var)
 {
-	uint64_t	i;
-	char		*new;
-
-	i = 0;
-	while (var[i])
-		if (var[i++] == '=')
-			return (ft_strdup(var));
-	new = malloc(sizeof(char) * (i + 2));
-	if (!new)
-		return (0);
-	new[i + 1] = 0;
-	new[i] = '=';
-	while (i--)
-		new[i] = var[i];
-	return (new);
+	if (ft_strchr(var, '='))
+		return (ge_strdup(var));
+	return (ft_strjoin(var, "="));
 }
 
 uint64_t	add_var_env(t_env *env, char *to_add)
@@ -70,7 +58,7 @@ uint64_t	add_var_env(t_env *env, char *to_add)
 	while (to_add[len_var] != '=')
 		++len_var;
 	i = 0;
-	while (env->tab[i] && ft_strncmp_weq(to_add, env->tab[i], len_var))
+	while (env->tab[i] && ge_strncmp_weq(to_add, env->tab[i], len_var))
 		++i;
 	if (i != env->last_mty)
 	{
@@ -89,7 +77,7 @@ uint64_t	init_env(t_env *env, char *envp[])
 {
 	env->last_mty = 0;
 	env->ttsize = BASE_ENV_SIZE;
-	env->tab = ft_calloc(sizeof(char *) * (BASE_ENV_SIZE + 1));
+	env->tab = ge_calloc(sizeof(char *) * (env->ttsize + 1));
 	if (!env->tab)
 		return (E_MLC);
 	while (*envp)
@@ -98,5 +86,6 @@ uint64_t	init_env(t_env *env, char *envp[])
 			return (E_MLC);
 		++envp;
 	}
+	handle_shlvl(env);
 	return (NO_ERR);
 }

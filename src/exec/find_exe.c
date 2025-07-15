@@ -6,21 +6,21 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:32:04 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:56:30 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
-char	*find_path(char **env)
+// 0 is not file
+uint32_t	ft_is_file_lnk(const char *path_file)
 {
-	while (*env)
-	{
-		if (!ft_strncmp_weq("PATH", *env, 4))
-			return (*env);
-		++env;
-	}
-	return (0);
+	struct stat	bufstat;
+
+	if (stat(path_file, &bufstat) < 0)
+		return (0);
+	return (((bufstat.st_mode & __S_IFMT)
+			& (__S_IFREG | __S_IFLNK)) != 0);
 }
 
 uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
@@ -29,7 +29,7 @@ uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
 	uint64_t	len;
 
 	start = 0;
-	while (path[start])
+	while (1)
 	{
 		len = 0;
 		while (path[start + len] && path[start + len] != ':')
@@ -37,23 +37,25 @@ uint64_t	find_exe_int_path(char **ptr_exe, char *av0, char *path)
 		*ptr_exe = ft_substrjoin_with_slash(path + start, av0, len);
 		if (!*ptr_exe)
 			return (E_MLC);
-		if (!access(*ptr_exe, F_OK))
+		if (!access(*ptr_exe, F_OK) && ft_is_file_lnk(*ptr_exe))
 			return (NO_ERR);
 		free(*ptr_exe);
 		start += len;
 		if (path[start])
 			++start;
+		else
+			break ;
 	}
-	*ptr_exe = 0;
+	*ptr_exe = PTR_CMD_NOT_FOUND;
 	return (NO_ERR);
 }
 
 t_builin_fct	is_a_builtin(char *av0)
 {
-	static const t_builin_fct	fct_builtin[] = {bi_echo, bi_exit, bi_cd,
-		bi_pwd, bi_env, bi_export, bi_unset, bi_alias, 0};
-	static char					*str_builtin[] = {"echo", "exit", "cd", "pwd",
-		"env", "export", "unset", "alias", 0};
+	static const t_builin_fct	fct_builtin[] = {bi_echo, bi_clear, bi_exit,
+		bi_cd, bi_pwd, bi_env, bi_export, bi_unset, bi_alias, bi_status, 0};
+	static char					*str_builtin[] = {"echo", "clear", "exit",
+		"cd", "pwd", "env", "export", "unset", "alias", "status", 0};
 	uint64_t					i;
 
 	if (!av0)
@@ -61,7 +63,7 @@ t_builin_fct	is_a_builtin(char *av0)
 	i = 0;
 	while (str_builtin[i])
 	{
-		if (!ft_strcmp(av0, str_builtin[i]))
+		if (!ge_strcmp(av0, str_builtin[i]))
 			return (fct_builtin[i]);
 		++i;
 	}
@@ -76,8 +78,9 @@ uint64_t	find_exe(char **ptr_exe, t_builin_fct *fct_blti,
 	*fct_blti = is_a_builtin(av0);
 	if (*fct_blti)
 		return (NO_ERR);
-	if (!path || ft_strchr(av0, '/'))
+	if (!path || !path[0] || ge_strchr(av0, '/'))
 	{
+		*ptr_exe = (char *)PTR_NO_SUCH_FILE;
 		if (!access(av0, F_OK))
 			*ptr_exe = av0;
 		return (NO_ERR);

@@ -6,11 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 17:32:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 12:46:38 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
 uint64_t	in_cmd(t_snippet **lexer, t_base **to_store)
 {
@@ -20,7 +20,7 @@ uint64_t	in_cmd(t_snippet **lexer, t_base **to_store)
 	if (!node)
 		return (E_MLC);
 	*to_store = node;
-	while (*lexer && is_cmd(*lexer))
+	while (*lexer && lis_cmd(*lexer))
 		store_cmd(lexer, &(node->cmd));
 	if (*lexer && (*lexer)->token == pipe_delim)
 		return (in_pipe(goto_next(lexer), node, to_store));
@@ -31,7 +31,7 @@ uint64_t	in_sub_handle_next(t_snippet **lexer, t_base **ptr_node_left)
 {
 	if ((*lexer)->token == open_par && in_sub(goto_next(lexer), ptr_node_left))
 		return (E_MLC);
-	else if (is_cmd(*lexer) && in_cmd(lexer, ptr_node_left))
+	else if (lis_cmd(*lexer) && in_cmd(lexer, ptr_node_left))
 		return (E_MLC);
 	else if ((*lexer)->token == and
 		&& in_and(goto_next(lexer), *ptr_node_left, ptr_node_left))
@@ -62,10 +62,12 @@ uint64_t	in_sub(t_snippet **lexer, t_base **to_store)
 			return (E_MLC);
 	}
 	if ((*lexer)->token != closing_par)
-		WAIT
+		return (E_MLC);
 	goto_next(lexer);
-	while (*lexer && is_cmd(*lexer))
+	while (*lexer && lis_redir(*lexer))
 		store_cmd(lexer, &(node->cmd));
+	if (*lexer && (*lexer)->token == pipe_delim)
+		return (in_pipe(goto_next(lexer), node, to_store));
 	return (0);
 }
 
@@ -76,10 +78,9 @@ uint64_t	make_base(t_snippet **lexer, t_base **to_store)
 	error = 0;
 	while (*lexer && !error)
 	{
-		WAIT
 		if ((*lexer)->token == open_par)
 			error = in_sub(goto_next(lexer), to_store);
-		else if (is_cmd(*lexer))
+		else if (lis_cmd(*lexer))
 			error = in_cmd(lexer, to_store);
 		else if ((*lexer)->token == and)
 			error = in_and(goto_next(lexer), *to_store, to_store);

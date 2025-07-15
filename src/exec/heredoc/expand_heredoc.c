@@ -6,11 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:52 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 18:02:10 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
 uint64_t	write_qmark_value(int fdout, uint8_t qmark_value)
 {
@@ -42,13 +42,13 @@ uint64_t	write_var_content(int fdout, t_x_hdoc *hdoc)
 		return (write_qmark_value(fdout, hdoc->qmark_value));
 	while (hdoc->env[i])
 	{
-		if (ft_strncmp_weq(hdoc->vname, hdoc->env[i], hdoc->i_vname) == 0)
+		if (ge_strncmp_weq(hdoc->vname, hdoc->env[i], hdoc->i_vname) == 0)
 			break ;
 		++i;
 	}
 	if (hdoc->env[i] && write(fdout, hdoc->env[i] + hdoc->i_vname + 1,
-			ft_strlen(hdoc->env[i] + hdoc->i_vname + 1))
-		!= (ssize_t)ft_strlen(hdoc->env[i] + hdoc->i_vname + 1))
+			ge_strlen(hdoc->env[i] + hdoc->i_vname + 1))
+		!= (ssize_t)ge_strlen(hdoc->env[i] + hdoc->i_vname + 1))
 		return (E_WRITE);
 	return (0);
 }

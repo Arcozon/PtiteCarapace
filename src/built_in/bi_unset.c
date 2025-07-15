@@ -6,11 +6,11 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:07:10 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/21 17:56:33 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
 
 int	bi_unset(int ac, char **av, int fds[2], t_ms *ms)
 {
@@ -23,7 +23,7 @@ int	bi_unset(int ac, char **av, int fds[2], t_ms *ms)
 		j = 0;
 		while (ms->env.tab[j])
 		{
-			if (!ft_strncmp_weq(av[i], ms->env.tab[j], ft_strlen(av[i])))
+			if (!ge_strncmp_weq(av[i], ms->env.tab[j], ge_strlen(av[i])))
 			{
 				remove_var_env(&ms->env, j);
 				break ;

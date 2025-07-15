@@ -6,11 +6,13 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:35:29 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/06/23 17:57:07 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arcoms.h"
+#include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	free_env(t_env *env)
 {
@@ -59,7 +61,8 @@ void	free_tabstr(char ***tab)
 
 void	free_cmd(t_cmd *cmd)
 {
-	if (cmd->argv_cmd && cmd->path_exe != cmd->argv_cmd[0])
+	if (cmd->argv_cmd && !is_non_executable(cmd->path_exe)
+		&& cmd->path_exe != cmd->argv_cmd[0])
 		free(cmd->path_exe);
 	cmd->path_exe = 0;
 	free_tabstr(&(cmd->argv_cmd));
@@ -84,11 +87,4 @@ void	free_node(t_base **pnode)
 		free_node(&((*pnode)->right));
 	free(node);
 	*pnode = 0;
-}
-
-void	free_ms(t_ms *ms)
-{
-	free_node(&(ms->exec_tree));
-	free_env(&ms->env);
-	//free_alias
 }
