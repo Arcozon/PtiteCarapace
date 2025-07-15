@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:56:02 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 10:59:48 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,16 @@ int	bi_export(int ac, char **av, int fds[2], t_ms *ms)
 	int	r_value;
 	int	i;
 
-	i = 1;
+	i = 0;
 	r_value = 0;
-	while (i < ac)
+	while (++i < ac)
 	{
 		if (check_identifier(av[i]) == E_NOVALID)
 			r_value = errors_export(ms->pname, E_NOVALID, av[i]);
+		else if (!ft_strchr(av[i], '='))
+			continue ;
 		else if (add_var_env(&ms->env, av[i]) == E_MLC)
 			return (errors_export(ms->pname, E_MLLCENV, 0));
-		++i;
 	}
 	return (r_value);
 	(void)fds;

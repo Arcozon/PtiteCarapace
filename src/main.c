@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ad_main.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:05:13 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 11:40:43 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	init_ms(t_ms *ms, char *av[], int ac, char *envp[])
 	}
 	parse_rc_file(ms, MS_RC);
 	ms->history_fd = ms_get_history_fd(&ms->prev_cmdline);
+	if (ms->errors || tcgetattr(STDOUT_FILENO, &ms->term_settings))
+		ms_exit(ms->errors, ms);
+	bi_unset(2, (char *[]){"unset", MSSUBSH_VNAME, 0}, 0, ms);
 }
 
 char	*get_cmd_line(t_ms *ms)
@@ -55,8 +58,9 @@ char	*get_cmd_line(t_ms *ms)
 	int		fd;
 	int		ret_val;
 
-	cmd_line = NULL;
-	while (!cmd_line)
+	ret_val = MS_RL_RESTART_READ;
+	tcsetattr(STDOUT_FILENO, TCSANOW, &ms->term_settings);
+	while (ret_val == MS_RL_RESTART_READ)
 	{
 		ms->status = update_sig(ms->status);
 		make_prompt(ms->prompt, ms);

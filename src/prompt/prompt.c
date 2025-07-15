@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:10:24 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 11:34:13 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	fill_prompt_pwd(t_mprompt1 *mprompt, char **env)
 	if (home_cont)
 		len_home = ft_strlen(home_cont);
 	mprompt->pwd = getcwd(0, 0);
+	if (!mprompt->pwd)
+		mprompt->pwd = find_content_var(PWD_VNAME, env);
 	if (mprompt->pwd)
 	{
 		mprompt->pwd_tilde = mprompt->pwd;
@@ -79,5 +81,6 @@ void	make_prompt(char prompt[PROMPT_SIZE], t_ms *ms)
 	if (!m_prompt.format)
 		m_prompt.format = BASE_PROMPT_FORMAT;
 	cpy_prompt(prompt, &m_prompt);
-	free(m_prompt.pwd);
+	if (m_prompt.pwd != find_content_var(PWD_VNAME, ms->env.tab))
+		free(m_prompt.pwd);
 }

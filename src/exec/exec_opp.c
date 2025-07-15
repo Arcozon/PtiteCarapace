@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:33:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 13:16:57 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	launch_subsh(t_base *node, t_ms *ms, int to_close)
 		ms_exit(ms->errors, ms);
 	if (!node->cmd.pid)
 	{
-		handle_submslvl(&ms->env);
 		set_sig(DEFLT_SIG, ms);
 		close_fd(&to_close);
 		if (open_redir(&node->cmd, ms))

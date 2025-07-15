@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:08:40 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 10:22:50 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	one_heredoc(char *delim, char **env, t_ms *ms)
 {
 	t_x_hdoc	hdoc;
 
-	signal(SIGINT, SIG_DFL);
 	if (init_x_hdoc(&hdoc, delim, env, ms))
 		return (clean_heredoc(hdoc, ms));
 	read_stdin_no_exp(&hdoc, hdoc.pipes[hdoc.to_expand][PIPE_WRITE]);

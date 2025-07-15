@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:43:09 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 10:52:28 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,14 @@ void	add_back_lexer(t_snippet **lexer, t_snippet *to_add)
 
 t_snippet	**goto_next(t_snippet **lexer)
 {
+	const int	lexer_id[] = {F_WORD, F_S_REDIR, F_S_REDIR, F_HEREDOC,
+		F_S_REDIR, F_USELESS, F_USELESS, F_USELESS,
+		F_USELESS, F_USELESS, F_USELESS};
 	t_snippet	*to_free;
 
 	to_free = *lexer;
 	*lexer = (*lexer)->next;
-	if (!g_lexer_id[to_free->token])
+	if (!lexer_id[to_free->token])
 	{
 		free(to_free->ptr);
 		free(to_free);
@@ -49,15 +52,18 @@ t_snippet	**goto_next(t_snippet **lexer)
 
 void	store_cmd(t_snippet **lexer, t_cmd *cmd)
 {
+	const int	lexer_id[] = {F_WORD, F_S_REDIR, F_S_REDIR, F_HEREDOC,
+		F_S_REDIR, F_USELESS, F_USELESS, F_USELESS,
+		F_USELESS, F_USELESS, F_USELESS};
 	t_snippet	*to_store;
 
 	to_store = *lexer;
 	goto_next(lexer);
 	to_store->next = 0;
-	if (g_lexer_id[to_store->token] == F_HEREDOC)
+	if (lexer_id[to_store->token] == F_HEREDOC)
 		add_back_lexer(&cmd->heredoc, to_store);
-	if (g_lexer_id[to_store->token] == F_S_REDIR)
+	if (lexer_id[to_store->token] == F_S_REDIR)
 		add_back_lexer(&cmd->redirs, to_store);
-	if (g_lexer_id[to_store->token] == F_WORD)
+	if (lexer_id[to_store->token] == F_WORD)
 		add_back_lexer(&cmd->sn_argv, to_store);
 }

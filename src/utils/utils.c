@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:13:53 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 11:43:07 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ uint64_t	ms_fork(int *pid, t_ms *ms)
 		ms->errors |= E_FORK;
 	if (!*pid)
 	{
+		handle_submslvl(&ms->env);
 		close_fd(&ms->history_fd);
 		if (ms->msrc_fd >= 0)
 			empty_gnl(ms->msrc_fd);

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:45:14 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 10:37:57 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,23 @@ void	sig_exec(int sig)
 	if (sig == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 19);
 	else if (sig == SIGINT)
+	{
 		write(2, "\n", 1);
+	}
 	g_sig = sig;
 }
 
 void	set_sig(enum e_sig mode, t_ms *ms)
 {
 	const __sighandler_t	handle_sigint[] = {sig_routine, sig_exec,
-		sig_exec, SIG_DFL};
+		sig_routine, SIG_DFL};
 	const __sighandler_t	handle_sigquit[] = {SIG_IGN, sig_exec,
 		SIG_IGN, SIG_DFL};
 	struct sigaction		s_setsig;
 
 	if (mode < 0 || mode > DEFLT_SIG)
 	{
-		write(2, "Sig ?\n", 7);
+		write(2, "Sig ?\n", 6);
 		return ;
 	}
 	s_setsig.sa_flags = 0;

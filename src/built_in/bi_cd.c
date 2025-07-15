@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 15:36:38 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 11:32:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,27 @@ int	print_newpwd(char *newpwd, int fdout, t_ms *ms)
 
 int	internal_cd(char *to_cd, int fdout, t_ms *ms, int to_print_newpwd)
 {
-	const char	*cont_pwd = find_content_var("PWD", ms->env.tab);
+	const char	*cont_pwd = find_content_var(PWD_VNAME, ms->env.tab);
 	char		*joined;
 	char		*pwd;
 
 	joined = 0;
 	if (!to_cd || !to_cd[0])
 		return (0);
-	if (!chdir(to_cd))
+	if (!chdir(to_cd) || !chdir(to_cd))
 	{
-		joined = ft_strjoin("OLDPWD=", (char *)cont_pwd);
+		joined = ft_strjoin(OLDPWD_VNAME"=", (char *)cont_pwd);
 		if (!joined || add_var_env(&ms->env, joined))
 			return (ms->errors |= E_MLC, 1);
 		joined = (free(joined), (char *)0);
 		pwd = getcwd(0, 0);
 		if (pwd)
-			joined = ft_strjoin("PWD=", pwd);
+			joined = ft_strjoin(PWD_VNAME"=", pwd);
 		if (!joined || add_var_env(&ms->env, joined))
 			return (free(pwd), ms->errors |= E_MLC, 1);
 		(free(pwd), free(joined));
 		if (to_print_newpwd)
-			return (print_newpwd(find_content_var("PWD", ms->env.tab),
+			return (print_newpwd(find_content_var(PWD_VNAME, ms->env.tab),
 					fdout, ms));
 		return (0);
 	}
@@ -54,19 +54,19 @@ int	internal_cd(char *to_cd, int fdout, t_ms *ms, int to_print_newpwd)
 
 int	cd_oldpwd(t_ms *ms, int fdout)
 {
-	const char	*oldpwd = find_content_var("OLDPWD", ms->env.tab);
+	const char	*oldpwd = find_content_var(OLDPWD_VNAME, ms->env.tab);
 
 	if (!oldpwd)
-		return (print_error_1(ms->pname, "cd: OLDPWD not set"), 1);
+		return (print_error_1(ms->pname, "cd: "OLDPWD_VNAME" not set"), 1);
 	return (internal_cd((char *)oldpwd, fdout, ms, 1));
 }
 
 int	cd_ac_eq_1(t_ms *ms, int fdout)
 {
-	const char	*home = find_content_var("HOME", ms->env.tab);
+	const char	*home = find_content_var(HOME_VNAME, ms->env.tab);
 
 	if (!home)
-		return (print_error_1(ms->pname, "cd: HOME not set"), 1);
+		return (print_error_1(ms->pname, "cd: "HOME_VNAME"not set"), 1);
 	return (internal_cd((char *)home, fdout, ms, 0));
 }
 

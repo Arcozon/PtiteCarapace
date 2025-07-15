@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 20:41:32 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:41:34 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 10:52:48 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ struct s_ms
 
 	t_env			env;
 	uint8_t			status;
-	uint64_t		errors;
 
 	int				msrc_fd;
 	int				history_fd;
 	char			*prev_cmdline;
+	struct termios	term_settings;
+
+	uint64_t		errors;
 };
 
 #endif

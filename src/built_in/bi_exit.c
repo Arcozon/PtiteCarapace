@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 11:29:37 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 10:57:44 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ long	exit_atoi(char *str, int *valid)
 		++i;
 	while (ft_isdigit(str[i]))
 	{
-		res = res * 10 + str[i++] - '0';
-		if (res > (uint64_t)LONG_MAX + (sign == -1))
+		if (res > (uint64_t)(LONG_MAX + (sign == -1) - str[i] + '0') / 10)
 			return (*valid = 0, 2);
+		res = res * 10 + str[i++] - '0';
 	}
 	if (!i || !ft_isdigit(str[i - 1]) || str[i])
 		return (*valid = 0, 2);

@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:10:17 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:43:39 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 10:50:33 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 
 # define M_A_REDIR	0b011
 # define M_IN_CMD	0b111
-
-static const int	g_lexer_id[] = {F_WORD, F_S_REDIR, F_S_REDIR, F_HEREDOC,
-	F_S_REDIR, F_USELESS, F_USELESS, F_USELESS,
-	F_USELESS, F_USELESS, F_USELESS};
 
 struct s_base
 {

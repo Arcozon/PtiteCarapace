@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:59:47 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:50:32 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/15 11:39:22 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define HOME_VNAME				"HOME"
 # define USER_VNAME				"USER"
 # define PATH_VNAME				"PATH"
+# define PWD_VNAME				"PWD"
+# define OLDPWD_VNAME			"OLDPWD"
 
 struct s_env
 {
