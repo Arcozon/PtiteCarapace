@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_exp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: admoufle <admoufle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:03:17 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:10:46 by admoufle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ bool	expand_token(char *ptr, t_ms *ms, int len, char scp)
 	uint32_t	test;
 
 	(put_to_zero(&i, &q, &wlen), test = scp);
-	while (*ptr && i < len && add_to_both(&ptr, &i, wlen))
+	while (add_to_both(&ptr, &i, wlen) && *ptr && i < len)
 	{
 		wlen = get_wlen(ptr, len);
 		if (*ptr == '"')
-			test += expand_token(ptr + 1, ms, wlen - 2, *ptr);
+			test += expand_dquote(ptr + 1, ms->env.tab, ms->status, wlen - 2);
 		else
 		{
 			if (*ptr == '$' && wlen != 1 && ft_strncmp("$$", ptr, 2))

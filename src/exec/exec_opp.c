@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_opp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: admoufle <admoufle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:33:25 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/15 13:16:57 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/17 18:53:42 by admoufle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,5 @@ void	exec_subsh(t_base *node, t_ms *ms)
 {
 	launch_subsh(node, ms, -1);
 	cmd_waitpid(&node->cmd);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &ms->term_settings);
 }

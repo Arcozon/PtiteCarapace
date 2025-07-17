@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: admoufle <admoufle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 18:04:47 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:10:50 by admoufle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,33 @@ void	tilde_expansion(t_ms *ms, char c)
 	ft_putstr_fd(home, STDOUT_FILENO);
 	if (c == '/')
 		write(STDOUT_FILENO, "/", 1);
+}
+
+int	expand_dquote(char *ptr, char **env, uint8_t status, int len)
+{
+	int		i;
+	int		wlen;
+	char	q;
+
+	i = 0;
+	q = 0;
+	while (i < len && ptr[i])
+	{
+		if (ptr[i] == '$' && ptr[i + 1] != '$')
+		{
+			wlen = get_wlen(ptr + i, len);
+			if (wlen == 1)
+				write(STDOUT_FILENO, "$", 1);
+			else if (wlen == 2 && !ft_strncmp("$?", ptr + i, wlen))
+				ft_putnbr_fd(status, STDOUT_FILENO);
+			else
+				dollar_exp(expand(env, ptr + i + 1, wlen - 1), '\"', &q);
+			i += wlen;
+		}
+		else if (ptr[i] == '$' && ptr[i + 1] == '$')
+			i += write(STDOUT_FILENO, "$$", 2);
+		else
+			write(STDOUT_FILENO, ptr + i++, 1);
+	}
+	return ('\"');
 }

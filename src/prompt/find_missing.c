@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_missing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: admoufle <admoufle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 09:59:34 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:43:03 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:12:51 by admoufle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ int	sub_what_missing(int *missing, int *i, char *str, int *par_depth)
 	{
 		*missing = m_and;
 		return (++*i, 1);
-	}	
+	}
 	else if (!ft_strncmp(&str[*i], "||", 2))
 	{
 		*missing = (++*i, m_or);
 		return (1);
-	}	
+	}
 	else if (str[*i] == '|')
 	{
 		*missing = m_pipe;
 		return (1);
-	}	
+	}
 	else if (str[*i] == '(' || str[*i] == ')')
 	{
 		*missing = -1;

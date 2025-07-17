@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: admoufle <admoufle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:27:06 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/17 18:53:11 by admoufle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	exec_simple_cmd_fork(t_cmd *cmd, t_ms *ms)
 			ms_exit(cmd->rstatus, ms);
 		execve_cmd(cmd, ms);
 	}
-	else
-		cmd_waitpid(cmd);
+	cmd_waitpid(cmd);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &ms->term_settings);
 }
 
 void	exec_simple_cmd(t_base *node, t_ms *ms)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ppl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: admoufle <admoufle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 12:44:45 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/15 13:16:54 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/17 18:52:21 by admoufle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,5 @@ void	exec_ppl(t_base *node, t_ms *ms)
 {
 	launch_ppl(node, ms);
 	node->cmd.rstatus = wait_ppl(node);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &ms->term_settings);
 }

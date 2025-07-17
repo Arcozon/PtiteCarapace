@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: admoufle <admoufle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 21:41:59 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 20:39:47 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:13:44 by admoufle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void		pop_non_matching_files(t_list **head, char **patterns, char *raw_p);
 void		take_off_hidden_files(t_list **head);
 t_list		*get_all_files(void);
 
+void		dollar_exp(char *ptr, char scope, char *quote);
+int			expand_dquote(char *ptr, char **env, uint8_t status, int len);
 bool		expand_token(char *ptr, t_ms *ms, int len, char scope);
 int			write_without_quote(char *str, int len);
 void		tilde_expansion(t_ms *ms, char c);
