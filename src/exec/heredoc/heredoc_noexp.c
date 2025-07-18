@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:31:27 by gaeudes           #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/18 14:58:58 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	read_start_line(int fd, t_x_hdoc *hdoc, char *c, int *br)
 			break ;
 		++i_l;
 	}
-	if (!hdoc->limiter[i_l])
+	if (!hdoc->limiter[i_l] && *c == '\n')
 		return (0);
 	if (write(fd, hdoc->limiter, i_l) != (ssize_t)i_l)
 		hdoc->errors |= E_WRITE;
