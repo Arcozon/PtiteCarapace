@@ -1,5 +1,5 @@
 #! /usr/bin/minishell
-# socket --creat -p 4563
+# exec -c "/usr/bin/bash" {"minishell",NULL}
 ls
 norminette
 find . -name '*.c' | xargs cat | grep ms -A2 -B2
