@@ -6,7 +6,7 @@
 /*   By: gaeudes <gaeudes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:22:57 by malfwa            #+#    #+#             */
-/*   Updated: 2025/07/11 20:35:42 by gaeudes          ###   ########.fr       */
+/*   Updated: 2025/07/20 15:11:35 by gaeudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ int	ge_strcmp(char *s1, char *s2)
 char	*ft_substrjoin_with_slash(char *path, char *exe, size_t len)
 {
 	const uint32_t	insert_slash = (len != 0);
-	const size_t	len_exe = ge_strlen(exe);
+	const size_t	len_exe = ft_strlen(exe);
 	char			*res;
 
-	if (len > ge_strlen(path))
-		len = ge_strlen(path);
+	if (len > ft_strlen(path))
+		len = ft_strlen(path);
 	res = malloc((len_exe + len + insert_slash + 1) * sizeof(char));
 	if (!res)
 		return (0);
